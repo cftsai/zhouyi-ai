@@ -23,7 +23,7 @@
 
 ```bash
 # 克隆项目
-git clone https://github.com/your-username/zhouyi-ai.git
+git clone https://github.com/Alyosha28/zhouyi-ai.git
 cd zhouyi-ai
 
 # 启动前端服务
