@@ -252,6 +252,7 @@ export interface ZhouyiHexagram {
   name: string;
   meaning: string;
   lines?: HexagramLine[];
+  changingLines?: number[];
 }
 
 export interface HexagramLine {

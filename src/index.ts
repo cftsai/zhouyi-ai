@@ -7,3 +7,4 @@ export * from './liuyao';
 export * from './fate';
 export * from './interpretation';
 export * from './extensions';
+export * from './rag';
