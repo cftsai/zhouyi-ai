@@ -7,7 +7,7 @@ export interface InterpretationTemplate {
 }
 
 export interface InterpretationResult {
-  originalResult: any;
+  originalResult: unknown;
   interpretation: string;
   templateId: string;
   language: string;
@@ -16,7 +16,7 @@ export interface InterpretationResult {
 }
 
 export interface IInterpreter {
-  interpret(result: any, templateId?: string, language?: string, useAIEnhancement?: boolean): Promise<InterpretationResult>;
+  interpret(result: unknown, templateId?: string, language?: string, useAIEnhancement?: boolean): Promise<InterpretationResult>;
   addTemplate(template: InterpretationTemplate): void;
   getTemplates(language?: string): InterpretationTemplate[];
   setDefaultLanguage(language: string): void;
@@ -30,17 +30,17 @@ export interface PredictionModel {
   description: string;
   version: string;
   author: string;
-  predict(data: any): Promise<PredictionResult>;
+  predict(data: unknown): Promise<PredictionResult>;
   getMetadata(): ModelMetadata;
 }
 
 export interface PredictionResult {
   modelId: string;
-  input: any;
-  output: any;
+  input: unknown;
+  output: unknown;
   confidence: number;
   timestamp: Date;
-  details?: any;
+  details?: unknown;
 }
 
 export interface ModelMetadata {
@@ -236,7 +236,7 @@ export interface FortuneResult {
   answer: string;
   method: string;
   timestamp: Date;
-  details?: any;
+  details?: unknown;
 }
 
 export interface FortuneMethod {

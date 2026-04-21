@@ -4,11 +4,16 @@ async function exampleUsage() {
   console.log('DeepSeek API集成示例');
   console.log('======================');
   
-  // 1. 全局设置API密钥
-  const apiKey = 'sk-993b10cd2ea540f6b3f7e8f6901c6d7f';
-  const keyManager = DeepSeekKeyManager.getInstance();
-  keyManager.setApiKey(apiKey);
-  console.log('API密钥已设置');
+  // 1. 全局设置API密钥（从环境变量读取，避免硬编码）
+  const apiKey = process.env.DEEPSEEK_API_KEY || '';
+  if (!apiKey) {
+    console.warn('警告：未设置 DEEPSEEK_API_KEY 环境变量，AI增强功能将不可用');
+    console.warn('请设置环境变量：export DEEPSEEK_API_KEY=your_api_key_here');
+  } else {
+    const keyManager = DeepSeekKeyManager.getInstance();
+    keyManager.setApiKey(apiKey);
+    console.log('API密钥已从环境变量加载');
+  }
   
   // 2. 创建解释器实例
   const interpreter = new Interpreter();

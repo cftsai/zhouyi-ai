@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find D:/zhouyi_ai -type f -name *.py)",
+      "Bash(node:*)",
+      "Bash(ls node_modules/lunar-javascript/*.d.ts)",
+      "Bash(npm install:*)",
+      "Bash(npm test:*)"
+    ]
+  }
+}

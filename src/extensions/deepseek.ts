@@ -30,7 +30,7 @@ export class DeepSeekModel {
     this.apiKey = apiKey;
   }
 
-  async generate(prompt: string, options?: any): Promise<string> {
+  async generate(prompt: string, options?: { temperature?: number; maxTokens?: number; topP?: number }): Promise<string> {
     const response = await fetch(this.baseUrl, {
       method: 'POST',
       headers: {
@@ -102,7 +102,7 @@ export class DeepSeekInterpretationEnhancer {
     this.deepSeekModel = new DeepSeekModel(apiKey);
   }
 
-  async enhanceInterpretation(baseInterpretation: string, context: any): Promise<string> {
+  async enhanceInterpretation(baseInterpretation: string, context: unknown): Promise<string> {
     const prompt = `基于以下周易预测结果和基础解释，生成一个更详细、更专业的解释：\n\n预测结果：${JSON.stringify(context)}\n\n基础解释：${baseInterpretation}\n\n请提供一个全面、深入的解释，包括：\n1. 对结果的详细分析\n2. 可能的影响和建议\n3. 相关的周易原理\n4. 专业的解读视角\n\n输出应该清晰、专业，符合周易预测的传统解读方式。`;
 
     return this.deepSeekModel.generate(prompt);

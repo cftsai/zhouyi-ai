@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
+    "build:browser": "tsc -p tsconfig.browser.json",
     "test": "jest",
     "test:coverage": "jest --coverage"
   },
@@ -13,6 +14,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "lunar-javascript": "^1.7.7",
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {
@@ -23,6 +25,6 @@
     "@types/node-fetch": "^2.6.11",
     "babel-jest": "^30.3.0",
     "jest": "^30.3.0",
-    "typescript": "^6.0.2"
+    "typescript": "^5.4.5"
   }
 }

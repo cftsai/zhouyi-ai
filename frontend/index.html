@@ -1669,8 +1669,7 @@ ${contextInfo}
           console.error('API 错误:', {
             status: response.status,
             statusText: response.statusText,
-            error: errorMsg,
-            apiKey: apiKey ? `${apiKey.slice(0, 7)}...${apiKey.slice(-4)}` : 'empty'
+            error: errorMsg
           });
           throw new Error(`API 请求失败 (${response.status}): ${errorMsg}`);
         }
@@ -1706,7 +1705,7 @@ ${contextInfo}
                   updateChatMessage(aiMessageId, fullText);
                 }
               } catch (e) {
-                // Ignore parse errors
+                console.warn('SSE parse error:', e, data);
               }
             }
           }
@@ -1778,8 +1777,15 @@ ${contextInfo}
       }
     }
 
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
     function formatMarkdown(text) {
-      return text
+      const safe = escapeHtml(text);
+      return safe
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/\*(.*?)\*/g, '<em>$1</em>')
         .replace(/`(.*?)`/g, '<code>$1</code>')

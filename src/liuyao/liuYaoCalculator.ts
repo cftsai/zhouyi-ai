@@ -233,21 +233,32 @@ class LiuYaoCalculator {
     const hexagram = this.hexagrams.find(h => h.number === hexagramNumber);
     if (!hexagram) return null;
 
-    // 直接返回卦象信息，不通过计算
+    // 通过卦序反查上下卦组合
+    const map = this.getHexagramMap();
+    let upperNum = 1;
+    let lowerNum = 1;
+    for (const [key, num] of Object.entries(map)) {
+      if (num === hexagramNumber) {
+        const parts = key.split('-').map(Number);
+        upperNum = parts[0];
+        lowerNum = parts[1];
+        break;
+      }
+    }
+
+    const upperTrigram = this.trigrams[upperNum - 1];
+    const lowerTrigram = this.trigrams[lowerNum - 1];
+    const lowerLines = this.getLinesFromTrigram(lowerTrigram, 1);
+    const upperLines = this.getLinesFromTrigram(upperTrigram, 4);
+    const lines = [...lowerLines, ...upperLines];
+
     return {
-      upperTrigram: '乾',
-      lowerTrigram: '乾',
+      upperTrigram: upperTrigram.name,
+      lowerTrigram: lowerTrigram.name,
       hexagramNumber,
       name: hexagram.name,
       meaning: hexagram.meaning,
-      lines: [
-        { position: 1, isChanging: false, yinYang: 'yang', text: '初九：潜龙勿用' },
-        { position: 2, isChanging: false, yinYang: 'yang', text: '九二：见龙在田，利见大人' },
-        { position: 3, isChanging: false, yinYang: 'yang', text: '九三：君子终日乾乾，夕惕若厉，无咎' },
-        { position: 4, isChanging: false, yinYang: 'yang', text: '九四：或跃在渊，无咎' },
-        { position: 5, isChanging: false, yinYang: 'yang', text: '九五：飞龙在天，利见大人' },
-        { position: 6, isChanging: false, yinYang: 'yang', text: '上九：亢龙有悔' }
-      ],
+      lines,
       changingLines: [],
       transformedHexagram: undefined
     };

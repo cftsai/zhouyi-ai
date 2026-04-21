@@ -29,7 +29,7 @@ export class Interpreter implements IInterpreter {
     this.deepSeekEnhancer = new DeepSeekInterpretationEnhancer(apiKey);
   }
 
-  async interpret(result: any, templateId?: string, language?: string, useAIEnhancement: boolean = false): Promise<InterpretationResult> {
+  async interpret(result: unknown, templateId?: string, language?: string, useAIEnhancement: boolean = false): Promise<InterpretationResult> {
     const targetLanguage = language || this.defaultLanguage;
     let selectedTemplate: InterpretationTemplate | undefined;
 
@@ -49,6 +49,7 @@ export class Interpreter implements IInterpreter {
         interpretation = enhancedInterpretation;
       } catch (error) {
         console.error('DeepSeek enhancement error:', error);
+        interpretation += '\n\n【AI 增强失败：' + (error instanceof Error ? error.message : String(error)) + '】';
       }
     }
 
@@ -86,7 +87,7 @@ export class Interpreter implements IInterpreter {
     return this.defaultLanguage;
   }
 
-  private renderTemplate(template: string, data: any): string {
+  private renderTemplate(template: string, data: unknown): string {
     let result = template;
     const placeholders = template.match(/\{\{([^}]+)\}\}/g) || [];
 
@@ -106,7 +107,7 @@ export class Interpreter implements IInterpreter {
     return result;
   }
 
-  private getValueFromPath(obj: any, path: string): any {
+  private getValueFromPath(obj: unknown, path: string): unknown {
     const keys = path.split('.');
     let value = obj;
 
@@ -114,7 +115,10 @@ export class Interpreter implements IInterpreter {
       if (value === undefined || value === null) {
         return undefined;
       }
-      value = value[key];
+      if (typeof value !== 'object' || value === null) {
+        return undefined;
+      }
+      value = (value as Record<string, unknown>)[key];
     }
 
     return value;

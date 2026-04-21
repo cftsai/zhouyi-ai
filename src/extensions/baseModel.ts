@@ -29,7 +29,7 @@ export abstract class BasePredictionModel implements PredictionModel {
     this.dependencies = dependencies;
   }
 
-  abstract predict(data: any): Promise<PredictionResult>;
+  abstract predict(data: unknown): Promise<PredictionResult>;
 
   getMetadata(): ModelMetadata {
     return {
@@ -44,7 +44,7 @@ export abstract class BasePredictionModel implements PredictionModel {
     };
   }
 
-  protected createPredictionResult(input: any, output: any, confidence: number, details?: any): PredictionResult {
+  protected createPredictionResult(input: unknown, output: unknown, confidence: number, details?: unknown): PredictionResult {
     return {
       modelId: this.id,
       input,
