@@ -1,6 +1,7 @@
 import { HeavenlyStem, EarthlyBranch } from '../interfaces';
+import { Solar, Lunar, EightChar } from 'lunar-javascript';
 
-const heavenlyStems = [
+const heavenlyStems: HeavenlyStem[] = [
   { name: '甲', index: 0 },
   { name: '乙', index: 1 },
   { name: '丙', index: 2 },
@@ -13,7 +14,7 @@ const heavenlyStems = [
   { name: '癸', index: 9 }
 ];
 
-const earthlyBranches = [
+const earthlyBranches: EarthlyBranch[] = [
   { name: '子', index: 0 },
   { name: '丑', index: 1 },
   { name: '寅', index: 2 },
@@ -61,162 +62,56 @@ const nayinTable: Record<string, string> = {
   '庚申': '石榴木', '辛酉': '石榴木', '壬戌': '大海水', '癸亥': '大海水'
 };
 
-interface SolarTerm {
-  name: string;
-  month: number;
-  day: number;
-}
-
-const solarTermsData: Record<number, SolarTerm[]> = {
-  2020: [
-    { name: '小寒', month: 1, day: 6 }, { name: '大寒', month: 1, day: 20 },
-    { name: '立春', month: 2, day: 4 }, { name: '雨水', month: 2, day: 19 },
-    { name: '惊蛰', month: 3, day: 5 }, { name: '春分', month: 3, day: 20 },
-    { name: '清明', month: 4, day: 4 }, { name: '谷雨', month: 4, day: 19 },
-    { name: '立夏', month: 5, day: 5 }, { name: '小满', month: 5, day: 20 },
-    { name: '芒种', month: 6, day: 5 }, { name: '夏至', month: 6, day: 21 },
-    { name: '小暑', month: 7, day: 6 }, { name: '大暑', month: 7, day: 22 },
-    { name: '立秋', month: 8, day: 7 }, { name: '处暑', month: 8, day: 22 },
-    { name: '白露', month: 9, day: 7 }, { name: '秋分', month: 9, day: 22 },
-    { name: '寒露', month: 10, day: 8 }, { name: '霜降', month: 10, day: 23 },
-    { name: '立冬', month: 11, day: 7 }, { name: '小雪', month: 11, day: 22 },
-    { name: '大雪', month: 12, day: 7 }, { name: '冬至', month: 12, day: 21 }
-  ],
-  2021: [
-    { name: '小寒', month: 1, day: 5 }, { name: '大寒', month: 1, day: 20 },
-    { name: '立春', month: 2, day: 3 }, { name: '雨水', month: 2, day: 18 },
-    { name: '惊蛰', month: 3, day: 5 }, { name: '春分', month: 3, day: 20 },
-    { name: '清明', month: 4, day: 4 }, { name: '谷雨', month: 4, day: 20 },
-    { name: '立夏', month: 5, day: 5 }, { name: '小满', month: 5, day: 21 },
-    { name: '芒种', month: 6, day: 5 }, { name: '夏至', month: 6, day: 21 },
-    { name: '小暑', month: 7, day: 7 }, { name: '大暑', month: 7, day: 22 },
-    { name: '立秋', month: 8, day: 7 }, { name: '处暑', month: 8, day: 23 },
-    { name: '白露', month: 9, day: 7 }, { name: '秋分', month: 9, day: 23 },
-    { name: '寒露', month: 10, day: 8 }, { name: '霜降', month: 10, day: 23 },
-    { name: '立冬', month: 11, day: 7 }, { name: '小雪', month: 11, day: 22 },
-    { name: '大雪', month: 12, day: 7 }, { name: '冬至', month: 12, day: 21 }
-  ],
-  2022: [
-    { name: '小寒', month: 1, day: 5 }, { name: '大寒', month: 1, day: 20 },
-    { name: '立春', month: 2, day: 4 }, { name: '雨水', month: 2, day: 19 },
-    { name: '惊蛰', month: 3, day: 5 }, { name: '春分', month: 3, day: 20 },
-    { name: '清明', month: 4, day: 5 }, { name: '谷雨', month: 4, day: 20 },
-    { name: '立夏', month: 5, day: 5 }, { name: '小满', month: 5, day: 21 },
-    { name: '芒种', month: 6, day: 6 }, { name: '夏至', month: 6, day: 21 },
-    { name: '小暑', month: 7, day: 7 }, { name: '大暑', month: 7, day: 23 },
-    { name: '立秋', month: 8, day: 7 }, { name: '处暑', month: 8, day: 23 },
-    { name: '白露', month: 9, day: 7 }, { name: '秋分', month: 9, day: 23 },
-    { name: '寒露', month: 10, day: 8 }, { name: '霜降', month: 10, day: 23 },
-    { name: '立冬', month: 11, day: 7 }, { name: '小雪', month: 11, day: 22 },
-    { name: '大雪', month: 12, day: 7 }, { name: '冬至', month: 12, day: 22 }
-  ],
-  2023: [
-    { name: '小寒', month: 1, day: 5 }, { name: '大寒', month: 1, day: 20 },
-    { name: '立春', month: 2, day: 4 }, { name: '雨水', month: 2, day: 19 },
-    { name: '惊蛰', month: 3, day: 6 }, { name: '春分', month: 3, day: 21 },
-    { name: '清明', month: 4, day: 5 }, { name: '谷雨', month: 4, day: 20 },
-    { name: '立夏', month: 5, day: 6 }, { name: '小满', month: 5, day: 21 },
-    { name: '芒种', month: 6, day: 6 }, { name: '夏至', month: 6, day: 21 },
-    { name: '小暑', month: 7, day: 7 }, { name: '大暑', month: 7, day: 23 },
-    { name: '立秋', month: 8, day: 8 }, { name: '处暑', month: 8, day: 23 },
-    { name: '白露', month: 9, day: 8 }, { name: '秋分', month: 9, day: 23 },
-    { name: '寒露', month: 10, day: 8 }, { name: '霜降', month: 10, day: 24 },
-    { name: '立冬', month: 11, day: 8 }, { name: '小雪', month: 11, day: 22 },
-    { name: '大雪', month: 12, day: 7 }, { name: '冬至', month: 12, day: 22 }
-  ],
-  2024: [
-    { name: '小寒', month: 1, day: 6 }, { name: '大寒', month: 1, day: 20 },
-    { name: '立春', month: 2, day: 4 }, { name: '雨水', month: 2, day: 19 },
-    { name: '惊蛰', month: 3, day: 5 }, { name: '春分', month: 3, day: 20 },
-    { name: '清明', month: 4, day: 4 }, { name: '谷雨', month: 4, day: 19 },
-    { name: '立夏', month: 5, day: 5 }, { name: '小满', month: 5, day: 20 },
-    { name: '芒种', month: 6, day: 5 }, { name: '夏至', month: 6, day: 21 },
-    { name: '小暑', month: 7, day: 6 }, { name: '大暑', month: 7, day: 22 },
-    { name: '立秋', month: 8, day: 7 }, { name: '处暑', month: 8, day: 22 },
-    { name: '白露', month: 9, day: 7 }, { name: '秋分', month: 9, day: 22 },
-    { name: '寒露', month: 10, day: 8 }, { name: '霜降', month: 10, day: 23 },
-    { name: '立冬', month: 11, day: 7 }, { name: '小雪', month: 11, day: 22 },
-    { name: '大雪', month: 12, day: 6 }, { name: '冬至', month: 12, day: 21 }
-  ],
-  2025: [
-    { name: '小寒', month: 1, day: 5 }, { name: '大寒', month: 1, day: 20 },
-    { name: '立春', month: 2, day: 3 }, { name: '雨水', month: 2, day: 18 },
-    { name: '惊蛰', month: 3, day: 5 }, { name: '春分', month: 3, day: 20 },
-    { name: '清明', month: 4, day: 4 }, { name: '谷雨', month: 4, day: 20 },
-    { name: '立夏', month: 5, day: 5 }, { name: '小满', month: 5, day: 21 },
-    { name: '芒种', month: 6, day: 5 }, { name: '夏至', month: 6, day: 21 },
-    { name: '小暑', month: 7, day: 7 }, { name: '大暑', month: 7, day: 22 },
-    { name: '立秋', month: 8, day: 7 }, { name: '处暑', month: 8, day: 23 },
-    { name: '白露', month: 9, day: 7 }, { name: '秋分', month: 9, day: 23 },
-    { name: '寒露', month: 10, day: 8 }, { name: '霜降', month: 10, day: 23 },
-    { name: '立冬', month: 11, day: 7 }, { name: '小雪', month: 11, day: 22 },
-    { name: '大雪', month: 12, day: 7 }, { name: '冬至', month: 12, day: 21 }
-  ],
-  2026: [
-    { name: '小寒', month: 1, day: 5 }, { name: '大寒', month: 1, day: 20 },
-    { name: '立春', month: 2, day: 4 }, { name: '雨水', month: 2, day: 18 },
-    { name: '惊蛰', month: 3, day: 5 }, { name: '春分', month: 3, day: 20 },
-    { name: '清明', month: 4, day: 5 }, { name: '谷雨', month: 4, day: 20 },
-    { name: '立夏', month: 5, day: 5 }, { name: '小满', month: 5, day: 21 },
-    { name: '芒种', month: 6, day: 5 }, { name: '夏至', month: 6, day: 21 },
-    { name: '小暑', month: 7, day: 7 }, { name: '大暑', month: 7, day: 22 },
-    { name: '立秋', month: 8, day: 7 }, { name: '处暑', month: 8, day: 23 },
-    { name: '白露', month: 9, day: 7 }, { name: '秋分', month: 9, day: 23 },
-    { name: '寒露', month: 10, day: 8 }, { name: '霜降', month: 10, day: 23 },
-    { name: '立冬', month: 11, day: 7 }, { name: '小雪', month: 11, day: 22 },
-    { name: '大雪', month: 12, day: 7 }, { name: '冬至', month: 12, day: 21 }
-  ]
+const stemNameToIndex: Record<string, number> = {
+  '甲': 0, '乙': 1, '丙': 2, '丁': 3, '戊': 4,
+  '己': 5, '庚': 6, '辛': 7, '壬': 8, '癸': 9
 };
 
-const jieQiToMonth: Record<string, number> = {
-  '立春': 1, '惊蛰': 2, '清明': 3, '立夏': 4,
-  '芒种': 5, '小暑': 6, '立秋': 7, '白露': 8,
-  '寒露': 9, '立冬': 10, '大雪': 11, '小寒': 12
+const branchNameToIndex: Record<string, number> = {
+  '子': 0, '丑': 1, '寅': 2, '卯': 3, '辰': 4, '巳': 5,
+  '午': 6, '未': 7, '申': 8, '酉': 9, '戌': 10, '亥': 11
 };
 
-function getSolarTermMonth(year: number, month: number, day: number): number {
-  const terms = solarTermsData[year];
-  if (!terms) {
-    return month;
+function stemNameToObject(name: string): HeavenlyStem {
+  const index = stemNameToIndex[name];
+  if (index === undefined) {
+    return heavenlyStems[0];
   }
-  let resultMonth = month;
-  for (let i = terms.length - 1; i >= 0; i--) {
-    const term = terms[i];
-    const termDate = new Date(year, term.month - 1, term.day);
-    const currentDate = new Date(year, month - 1, day);
-    if (currentDate >= termDate && jieQiToMonth[term.name] !== undefined) {
-      resultMonth = jieQiToMonth[term.name];
-      break;
-    }
-  }
-  return resultMonth;
+  return heavenlyStems[index];
 }
 
-function isBeforeLiChun(year: number, month: number, day: number): boolean {
-  const terms = solarTermsData[year];
-  if (!terms) return false;
-  const lichun = terms.find(t => t.name === '立春');
-  if (!lichun) return false;
-  const lichunDate = new Date(year, lichun.month - 1, lichun.day);
-  const currentDate = new Date(year, month - 1, day);
-  return currentDate < lichunDate;
+function branchNameToObject(name: string): EarthlyBranch {
+  const index = branchNameToIndex[name];
+  if (index === undefined) {
+    return earthlyBranches[0];
+  }
+  return earthlyBranches[index];
+}
+
+function getEightChar(year: number, month: number, day: number, hour: number, minute: number = 0, second: number = 0): EightChar {
+  const solar = Solar.fromYmdHms(year, month, day, hour, minute, second);
+  const lunar = solar.getLunar();
+  return lunar.getEightChar();
 }
 
 function getYearStem(year: number): HeavenlyStem {
-  const index = (year - 3) % 10;
-  return heavenlyStems[index < 0 ? index + 10 : index];
+  const index = ((year - 4) % 10 + 10) % 10;
+  return heavenlyStems[index];
 }
 
 function getYearBranch(year: number): EarthlyBranch {
-  const index = (year - 3) % 12;
-  return earthlyBranches[index < 0 ? index + 12 : index];
+  const index = ((year - 4) % 12 + 12) % 12;
+  return earthlyBranches[index];
 }
 
-function getYearStemBranch(year: number, month: number, day: number): { stem: HeavenlyStem; branch: EarthlyBranch } {
-  const actualYear = isBeforeLiChun(year, month, day) ? year - 1 : year;
+function getYearStemBranch(year: number, month: number, day: number, hour: number = 0, minute: number = 0, second: number = 0): { stem: HeavenlyStem; branch: EarthlyBranch } {
+  const eightChar = getEightChar(year, month, day, hour, minute, second);
+  const yearGanZhi = eightChar.getYear();
+  const stemName = yearGanZhi.charAt(0);
+  const branchName = yearGanZhi.charAt(1);
   return {
-    stem: getYearStem(actualYear),
-    branch: getYearBranch(actualYear)
+    stem: stemNameToObject(stemName),
+    branch: branchNameToObject(branchName)
   };
 }
 
@@ -227,41 +122,85 @@ function getMonthBranch(month: number): EarthlyBranch {
 }
 
 function getMonthStem(yearStemIndex: number, month: number): HeavenlyStem {
-  const monthStemIndex = (yearStemIndex % 5 * 2 + month) % 10;
-  return heavenlyStems[monthStemIndex < 0 ? monthStemIndex + 10 : monthStemIndex];
+  const yearStemMod5 = yearStemIndex % 5;
+  const startStemIndex = [2, 4, 6, 8, 0][yearStemMod5];
+  const monthStemIndex = (startStemIndex + (month - 1)) % 10;
+  return heavenlyStems[monthStemIndex];
 }
 
-function getMonthStemBranch(year: number, month: number, day: number): { stem: HeavenlyStem; branch: EarthlyBranch } {
-  const actualYear = isBeforeLiChun(year, month, day) ? year - 1 : year;
-  const yearStem = getYearStem(actualYear);
-  const solarTermMonth = getSolarTermMonth(year, month, day);
-  const monthStem = getMonthStem(yearStem.index, solarTermMonth);
-  const monthBranch = getMonthBranch(solarTermMonth);
-  return { stem: monthStem, branch: monthBranch };
+function getMonthStemBranch(year: number, month: number, day: number, hour: number = 0, minute: number = 0, second: number = 0): { stem: HeavenlyStem; branch: EarthlyBranch } {
+  const eightChar = getEightChar(year, month, day, hour, minute, second);
+  const monthGanZhi = eightChar.getMonth();
+  const stemName = monthGanZhi.charAt(0);
+  const branchName = monthGanZhi.charAt(1);
+  return {
+    stem: stemNameToObject(stemName),
+    branch: branchNameToObject(branchName)
+  };
 }
 
 function getDayStemBranch(year: number, month: number, day: number): { stem: HeavenlyStem; branch: EarthlyBranch } {
-  const baseDate = new Date(2000, 0, 7);
-  const targetDate = new Date(year, month - 1, day);
-  const daysDiff = Math.floor((targetDate.getTime() - baseDate.getTime()) / (24 * 60 * 60 * 1000));
-  const stemIndex = ((daysDiff % 10) + 10) % 10;
-  const branchIndex = ((daysDiff % 12) + 12) % 12;
+  const eightChar = getEightChar(year, month, day, 12, 0, 0);
+  const dayGanZhi = eightChar.getDay();
+  const stemName = dayGanZhi.charAt(0);
+  const branchName = dayGanZhi.charAt(1);
   return {
-    stem: heavenlyStems[stemIndex],
-    branch: earthlyBranches[branchIndex]
+    stem: stemNameToObject(stemName),
+    branch: branchNameToObject(branchName)
   };
 }
 
 function getHourBranch(hour: number): EarthlyBranch {
-  const index = Math.floor(hour / 2) % 12;
+  const adjustedHour = ((hour + 1) % 24);
+  const index = Math.floor(adjustedHour / 2) % 12;
   return earthlyBranches[index];
 }
 
 function getHourStem(dayStem: HeavenlyStem, hour: number): HeavenlyStem {
   const dayStemIndex = dayStem.index;
   const hourBranchIndex = Math.floor(((hour + 1) % 24) / 2);
-  const hourStemIndex = ((dayStemIndex * 2 + hourBranchIndex) % 10 + 10) % 10;
+  const startStemIndex = (dayStemIndex % 5) * 2;
+  const hourStemIndex = (startStemIndex + hourBranchIndex) % 10;
   return heavenlyStems[hourStemIndex];
+}
+
+function getHourStemBranch(dayStem: HeavenlyStem, hour: number, minute: number = 0): { stem: HeavenlyStem; branch: EarthlyBranch } {
+  const adjustedHour = ((hour + 1) % 24);
+  const hourBranchIndex = Math.floor(adjustedHour / 2) % 12;
+  const dayStemIndex = dayStem.index;
+  const startStemIndex = (dayStemIndex % 5) * 2;
+  const hourStemIndex = (startStemIndex + hourBranchIndex) % 10;
+  return {
+    stem: heavenlyStems[hourStemIndex],
+    branch: earthlyBranches[hourBranchIndex]
+  };
+}
+
+function isBeforeLiChun(year: number, month: number, day: number): boolean {
+  try {
+    const eightChar = getEightChar(year, month, day, 0, 0, 0);
+    const yearGanZhi = eightChar.getYear();
+    const yearStemName = yearGanZhi.charAt(0);
+    const expectedStemName = getYearStem(year).name;
+    return yearStemName !== expectedStemName;
+  } catch {
+    return false;
+  }
+}
+
+function getSolarTermMonth(year: number, month: number, day: number): number {
+  try {
+    const eightChar = getEightChar(year, month, day, 0, 0, 0);
+    const monthGanZhi = eightChar.getMonth();
+    const branchName = monthGanZhi.charAt(1);
+    const branchToMonth: Record<string, number> = {
+      '寅': 1, '卯': 2, '辰': 3, '巳': 4, '午': 5, '未': 6,
+      '申': 7, '酉': 8, '戌': 9, '亥': 10, '子': 11, '丑': 12
+    };
+    return branchToMonth[branchName] || month;
+  } catch {
+    return month;
+  }
 }
 
 function getNayin(stemName: string, branchName: string): string {
@@ -280,12 +219,21 @@ function getYinyangOfStem(stemName: string): string {
   return yinyangOfStem[stemName] || '';
 }
 
+const solarTermsData: Record<number, Array<{ name: string; month: number; day: number }>> = {};
+
+const jieQiToMonth: Record<string, number> = {
+  '立春': 1, '惊蛰': 2, '清明': 3, '立夏': 4,
+  '芒种': 5, '小暑': 6, '立秋': 7, '白露': 8,
+  '寒露': 9, '立冬': 10, '大雪': 11, '小寒': 12
+};
+
 export {
   getYearStem, getYearBranch, getYearStemBranch,
   getMonthStem, getMonthBranch, getMonthStemBranch,
-  getDayStemBranch, getHourStem, getHourBranch,
+  getDayStemBranch, getHourStem, getHourBranch, getHourStemBranch,
   getSolarTermMonth, isBeforeLiChun,
   getNayin, getWuxingOfStem, getWuxingOfBranch, getYinyangOfStem,
   heavenlyStems, earthlyBranches,
-  solarTermsData, jieQiToMonth, nayinTable
+  solarTermsData, jieQiToMonth, nayinTable,
+  getEightChar, stemNameToObject, branchNameToObject
 };

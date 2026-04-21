@@ -1,5 +1,6 @@
 import { BaZiInfo, WuXingAnalysis, ShiShenAnalysis, DaYunLiuNianAnalysis, FateAnalysis, ShiShenInfo, DaYun, LiuNian } from '../interfaces';
 import { heavenlyStems, earthlyBranches, getWuxingOfStem, getWuxingOfBranch, getYinyangOfStem } from '../bazi/stemsAndBranches';
+import { Solar } from 'lunar-javascript';
 
 const wuxingMap: Record<string, string> = {
   '甲': '木', '乙': '木', '丙': '火', '丁': '火', '戊': '土',
@@ -250,41 +251,37 @@ function calculateDaYunList(baZiInfo: BaZiInfo, gender: 'male' | 'female'): DaYu
 }
 
 function calculateStartAge(baZiInfo: BaZiInfo, forward: boolean): number {
-  const birthYear = baZiInfo.solarDate.year;
-  const birthMonth = baZiInfo.solarDate.month;
-  const birthDay = baZiInfo.solarDate.day;
+  const { year, month, day, hour, minute, second } = baZiInfo.solarDate;
 
-  const currentYearTerms = require('../bazi/stemsAndBranches').solarTermsData[birthYear] || [];
-  const nextYearTerms = require('../bazi/stemsAndBranches').solarTermsData[birthYear + 1] || [];
+  try {
+    const solar = Solar.fromYmdHms(year, month, day, hour || 0, minute || 0, second || 0);
+    const lunar = solar.getLunar();
 
-  let nearestTermDate: Date | null = null;
-  const birthDate = new Date(birthYear, birthMonth - 1, birthDay);
-
-  const allTerms = [...currentYearTerms, ...nextYearTerms];
-  if (forward) {
-    for (const term of allTerms) {
-      const termDate = new Date(term.month <= birthMonth && term === allTerms[allTerms.length - 1] ? birthYear + 1 : birthYear, term.month - 1, term.day);
-      if (termDate > birthDate) {
-        nearestTermDate = termDate;
-        break;
+    if (forward) {
+      const nextJieQi = lunar.getNextJie();
+      if (nextJieQi) {
+        const nextSolar = nextJieQi.getSolar();
+        const birthDate = new Date(year, month - 1, day);
+        const nextDate = new Date(nextSolar.getYear(), nextSolar.getMonth() - 1, nextSolar.getDay());
+        const diffDays = Math.floor((nextDate.getTime() - birthDate.getTime()) / (24 * 60 * 60 * 1000));
+        const startAge = Math.round(Math.abs(diffDays) / 3);
+        return Math.max(1, Math.min(startAge, 10));
+      }
+    } else {
+      const prevJieQi = lunar.getPrevJie();
+      if (prevJieQi) {
+        const prevSolar = prevJieQi.getSolar();
+        const birthDate = new Date(year, month - 1, day);
+        const prevDate = new Date(prevSolar.getYear(), prevSolar.getMonth() - 1, prevSolar.getDay());
+        const diffDays = Math.floor((birthDate.getTime() - prevDate.getTime()) / (24 * 60 * 60 * 1000));
+        const startAge = Math.round(Math.abs(diffDays) / 3);
+        return Math.max(1, Math.min(startAge, 10));
       }
     }
-  } else {
-    for (let i = allTerms.length - 1; i >= 0; i--) {
-      const term = allTerms[i];
-      const termDate = new Date(term.month >= birthMonth ? birthYear - 1 : birthYear, term.month - 1, term.day);
-      if (termDate < birthDate) {
-        nearestTermDate = termDate;
-        break;
-      }
-    }
+  } catch {
   }
 
-  if (!nearestTermDate) return 3;
-
-  const diffDays = Math.abs(Math.floor((nearestTermDate.getTime() - birthDate.getTime()) / (24 * 60 * 60 * 1000)));
-  const startAge = Math.round(diffDays / 3);
-  return Math.max(1, Math.min(startAge, 10));
+  return 3;
 }
 
 function evaluateDaYunLuck(stemName: string, branchName: string, baZiInfo: BaZiInfo): 'good' | 'medium' | 'bad' {
