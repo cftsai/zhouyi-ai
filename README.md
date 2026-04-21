@@ -63,13 +63,13 @@ npx http-server frontend -p 8080 -c-1
 
 ## 🛠️ 技术栈
 
-| 技术 | 用途 |
-|------|------|
-| TypeScript | 核心算法实现 |
-| HTML/CSS/JS | 前端界面 |
-| Node.js | 运行环境 |
-| DeepSeek API | AI智能解读 |
-| Jest | 单元测试 |
+| 技术         | 用途         |
+| ------------ | ------------ |
+| TypeScript   | 核心算法实现 |
+| HTML/CSS/JS  | 前端界面     |
+| Node.js      | 运行环境     |
+| DeepSeek API | AI智能解读   |
+| Jest         | 单元测试     |
 
 ## 🚀 快速开始
 
@@ -104,13 +104,13 @@ npx http-server frontend -p 8080 -c-1
 
 ## 📖 核心模块说明
 
-| 模块 | 说明 |
-|------|------|
-| FortuneTeller | 周易64卦占卜核心 |
-| BaZiCalculator | 四柱八字排盘 |
-| LiuYaoCalculator | 六爻起卦解卦 |
-| FateAnalyzer | 五行命理分析 |
-| DeepSeek | AI 扩展接口 |
+| 模块             | 说明             |
+| ---------------- | ---------------- |
+| FortuneTeller    | 周易64卦占卜核心 |
+| BaZiCalculator   | 四柱八字排盘     |
+| LiuYaoCalculator | 六爻起卦解卦     |
+| FateAnalyzer     | 五行命理分析     |
+| DeepSeek         | AI 扩展接口      |
 
 ## 📝 开发指南
 
@@ -145,5 +145,5 @@ npm test -- core.test.js
 ---
 
 <p align="center">
-  <em>"代码写得好，卦象自然准。"</em>
+  <em>"反者道之动，弱者道之用。"</em>
 </p>

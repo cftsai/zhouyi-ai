@@ -61,6 +61,7 @@
       right: 0;
       z-index: 1000;
       background: rgba(10, 10, 15, 0.9);
+      -webkit-backdrop-filter: blur(20px);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border-color);
     }
@@ -649,6 +650,87 @@
       color: var(--text-muted);
     }
 
+    .doc-card {
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .doc-card-title {
+      color: var(--primary-color);
+      margin-bottom: 12px;
+      font-size: 18px;
+    }
+
+    .doc-card-pre {
+      background: rgba(0,0,0,0.3);
+      padding: 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      line-height: 1.6;
+      overflow-x: auto;
+      color: var(--text-secondary);
+    }
+
+    .doc-card-list {
+      list-style: none;
+      padding: 0;
+      color: var(--text-secondary);
+      line-height: 2;
+    }
+
+    .doc-card-list.compact {
+      line-height: 1.8;
+    }
+
+    .skip-link:focus {
+      left: 16px !important;
+      top: 16px;
+    }
+
+    .notification {
+      position: fixed;
+      top: 88px;
+      right: 24px;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 9999;
+      max-width: 320px;
+      animation: slideIn 0.3s ease;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .notification.warning {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: #fbbf24;
+    }
+
+    .notification.error {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: #f87171;
+    }
+
+    .notification.success {
+      background: rgba(16, 185, 129, 0.15);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: #34d399;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes slideOut {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(100%); opacity: 0; }
+    }
+
     /* AI Chat Interface Styles */
     .ai-chat-container {
       margin-top: 32px;
@@ -694,6 +776,11 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
+    }
+
+    .ai-chat-messages {
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-color) var(--bg-dark);
     }
 
     .ai-chat-messages::-webkit-scrollbar {
@@ -857,22 +944,24 @@
   </style>
 </head>
 <body>
-  <nav class="navbar">
+  <a href="#main-content" class="skip-link" style="position: absolute; left: -9999px; z-index: 9999; background: var(--primary-color); color: #000; padding: 8px 16px; border-radius: 4px; text-decoration: none; font-weight: 600;">跳转到主要内容</a>
+  <nav class="navbar" role="navigation" aria-label="主导航">
     <div class="container">
-      <a href="#" class="logo">
-        <div class="logo-icon">☰</div>
+      <a href="#" class="logo" aria-label="周易算命 - 返回首页">
+        <div class="logo-icon" aria-hidden="true">☰</div>
         <span>周易算命</span>
       </a>
-      <ul class="nav-links">
-        <li><a href="#features">功能介绍</a></li>
-        <li><a href="#demo">在线体验</a></li>
-        <li><a href="#docs">开发文档</a></li>
+      <ul class="nav-links" role="menubar">
+        <li role="none"><a href="#features" role="menuitem">功能介绍</a></li>
+        <li role="none"><a href="#demo" role="menuitem">在线体验</a></li>
+        <li role="none"><a href="#docs" role="menuitem">开发文档</a></li>
       </ul>
       <div class="nav-buttons">
-        <a href="#demo" class="btn btn-primary">开始使用</a>
+        <a href="#demo" class="btn btn-primary" role="button">开始使用</a>
       </div>
     </div>
   </nav>
+  <main id="main-content">
 
   <section class="hero">
     <div class="container">
@@ -963,36 +1052,36 @@
         <div class="demo-content">
           <div class="demo-form">
             <div class="form-group">
-              <label class="form-label">占卜问题</label>
-              <input type="text" class="form-input" id="question" placeholder="请输入您想咨询的问题，如：事业发展、感情运势、财运走向...">
+              <label class="form-label" for="question">占卜问题</label>
+              <input type="text" class="form-input" id="question" name="question" placeholder="请输入您想咨询的问题，如：事业发展、感情运势、财运走向..." aria-required="true">
             </div>
             <div class="form-group">
-              <label class="form-label">AI 解读配置（可选）</label>
-              <input type="password" class="form-input" id="api-key" placeholder="输入 DeepSeek API Key 启用 AI 智能解读" style="font-size: 14px;">
-              <span style="font-size: 12px; color: var(--text-muted); margin-top: 4px; display: block;">获取 API Key: https://platform.deepseek.com</span>
+              <label class="form-label" for="api-key">AI 解读配置（可选）</label>
+              <input type="password" class="form-input" id="api-key" name="api-key" placeholder="输入 DeepSeek API Key 启用 AI 智能解读" aria-describedby="api-key-help">
+              <span id="api-key-help" style="font-size: 12px; color: var(--text-muted); margin-top: 4px; display: block;">获取 API Key: https://platform.deepseek.com</span>
             </div>
             <div class="form-group">
-              <label class="form-label">占卜方式</label>
-              <div class="method-selector">
-                <div class="method-option active" data-method="zhouyi">
-                  <div class="icon">☰</div>
+              <label class="form-label" id="method-label">占卜方式</label>
+              <div class="method-selector" role="radiogroup" aria-labelledby="method-label">
+                <div class="method-option active" data-method="zhouyi" role="radio" aria-checked="true" tabindex="0">
+                  <div class="icon" aria-hidden="true">☰</div>
                   <div class="name">周易64卦</div>
                 </div>
-                <div class="method-option" data-method="liuyao">
-                  <div class="icon">☲</div>
+                <div class="method-option" data-method="liuyao" role="radio" aria-checked="false" tabindex="0">
+                  <div class="icon" aria-hidden="true">☲</div>
                   <div class="name">六爻占卜</div>
                 </div>
-                <div class="method-option" data-method="bazi">
-                  <div class="icon">📅</div>
+                <div class="method-option" data-method="bazi" role="radio" aria-checked="false" tabindex="0">
+                  <div class="icon" aria-hidden="true">📅</div>
                   <div class="name">八字测算</div>
                 </div>
               </div>
             </div>
-            <div class="form-group" id="bazi-fields" style="display: none;">
-              <label class="form-label">出生日期</label>
-              <input type="date" class="form-input" id="birthdate">
-              <label class="form-label" style="margin-top: 16px;">出生时辰</label>
-              <select class="form-input" id="birthhour">
+            <div class="form-group" id="bazi-fields" style="display: none;" aria-hidden="true">
+              <label class="form-label" for="birthdate">出生日期</label>
+              <input type="date" class="form-input" id="birthdate" name="birthdate">
+              <label class="form-label" for="birthhour" style="margin-top: 16px;">出生时辰</label>
+              <select class="form-input" id="birthhour" name="birthhour">
                 <option value="0">子时 (23:00-00:59)</option>
                 <option value="1">丑时 (01:00-02:59)</option>
                 <option value="2">寅时 (03:00-04:59)</option>
@@ -1006,8 +1095,13 @@
                 <option value="10">戌时 (19:00-20:59)</option>
                 <option value="11">亥时 (21:00-22:59)</option>
               </select>
+              <label class="form-label" for="gender" style="margin-top: 16px;">性别（影响大运顺逆）</label>
+              <select class="form-input" id="gender" name="gender">
+                <option value="male">男</option>
+                <option value="female">女</option>
+              </select>
             </div>
-            <button class="btn btn-primary btn-calc" onclick="doFortune()">开始占卜 ✨</button>
+            <button class="btn btn-primary btn-calc" onclick="doFortune()" aria-label="开始占卜">开始占卜 ✨</button>
 
             <div class="result-card" id="result">
               <div class="result-hexagram" id="bazi-result-hexagram" style="display:none;">
@@ -1090,24 +1184,24 @@
                   <div class="value" id="confidence">85%</div>
                 </div>
               </div>
-              <div id="ai-chat-section" style="display: none;">
+              <div id="ai-chat-section" style="display: none;" aria-live="polite" aria-atomic="false">
                 <div class="ai-chat-container">
                   <div class="ai-chat-header">
-                    <span class="icon">🤖</span>
+                    <span class="icon" aria-hidden="true">🤖</span>
                     <span class="title">AI 命理师</span>
-                    <span class="status online">● 在线</span>
+                    <span class="status online" aria-label="AI 命理师在线">● 在线</span>
                   </div>
-                  <div class="ai-chat-messages" id="chat-messages">
+                  <div class="ai-chat-messages" id="chat-messages" role="log" aria-live="polite" aria-relevant="additions">
                     <div class="chat-message ai">
-                      <div class="chat-avatar">☰</div>
+                      <div class="chat-avatar" aria-hidden="true">☰</div>
                       <div class="chat-bubble" id="chat-welcome">
                         您好！我是您的AI命理师。完成占卜后，我将为您详细解读卦象含义，分析运势走向，并提供趋吉避凶的建议。
                       </div>
                     </div>
                   </div>
                   <div class="chat-input-area">
-                    <textarea class="chat-input" id="chat-input" placeholder="输入您的问题，例如：这个卦象对我的事业有什么启示？" rows="1"></textarea>
-                    <button class="chat-send-btn" id="chat-send-btn" onclick="sendChatMessage()">发送 ✨</button>
+                    <textarea class="chat-input" id="chat-input" placeholder="输入您的问题，例如：这个卦象对我的事业有什么启示？" rows="1" aria-label="输入您的问题"></textarea>
+                    <button class="chat-send-btn" id="chat-send-btn" onclick="sendChatMessage()" aria-label="发送消息">发送 ✨</button>
                   </div>
                 </div>
               </div>
@@ -1124,11 +1218,72 @@
         <h2>开发文档</h2>
         <p>了解项目架构、技术栈与扩展方法</p>
       </div>
+      <div id="dev-steps" style="max-width: 900px; margin: 0 auto 40px; background: var(--bg-card); border-radius: 16px; padding: 32px; border: 1px solid var(--border-color);">
+        <h3 style="color: var(--primary-color); margin-bottom: 20px; font-size: 20px;">🛠️ 前端优化开发步骤总结</h3>
+        <div style="display: grid; gap: 16px;">
+          <div style="display: flex; gap: 16px; align-items: flex-start;">
+            <div style="min-width: 32px; height: 32px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #000; font-size: 14px;">1</div>
+            <div>
+              <h4 style="font-size: 16px; margin-bottom: 4px;">修复语法错误</h4>
+              <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">修复了 const 变量重复声明问题（lines 1468-1469），将 <code>activeMethod</code> 和 <code>question</code> 改为 <code>currentMethod</code> 和 <code>currentQuestion</code>，避免在严格模式下抛出 SyntaxError。</p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 16px; align-items: flex-start;">
+            <div style="min-width: 32px; height: 32px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #000; font-size: 14px;">2</div>
+            <div>
+              <h4 style="font-size: 16px; margin-bottom: 4px;">增强安全性</h4>
+              <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">为 CDN 资源添加 SRI（Subresource Integrity）哈希和 <code>crossorigin</code> 属性；改进 <code>formatMarkdown()</code> XSS 防护，使用 DOM API 替代 <code>innerHTML</code> 进行文本转义。</p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 16px; align-items: flex-start;">
+            <div style="min-width: 32px; height: 32px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #000; font-size: 14px;">3</div>
+            <div>
+              <h4 style="font-size: 16px; margin-bottom: 4px;">添加请求超时</h4>
+              <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">为 DeepSeek API 的 <code>fetch()</code> 调用添加 <code>AbortController</code> 30秒超时机制，防止请求挂起，并针对超时错误提供友好的用户提示。</p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 16px; align-items: flex-start;">
+            <div style="min-width: 32px; height: 32px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #000; font-size: 14px;">4</div>
+            <div>
+              <h4 style="font-size: 16px; margin-bottom: 4px;">修复卦象映射逻辑</h4>
+              <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">修复了 <code>hexagram-data.js</code> 中二进制索引与 64 卦数组不匹配的问题，改为通过卦象符号（上下经卦）进行精确查找，确保起卦结果准确。</p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 16px; align-items: flex-start;">
+            <div style="min-width: 32px; height: 32px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #000; font-size: 14px;">5</div>
+            <div>
+              <h4 style="font-size: 16px; margin-bottom: 4px;">提升可访问性（A11y）</h4>
+              <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">添加跳转链接（skip-link）、ARIA 角色与标签（<code>role="navigation"</code>、<code>aria-label</code>、<code>aria-live</code>）、表单标签关联，以及聊天区域的实时播报支持。</p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 16px; align-items: flex-start;">
+            <div style="min-width: 32px; height: 32px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #000; font-size: 14px;">6</div>
+            <div>
+              <h4 style="font-size: 16px; margin-bottom: 4px;">跨浏览器兼容</h4>
+              <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">为 <code>backdrop-filter</code> 添加 <code>-webkit-</code> 前缀以兼容 Safari；为滚动条添加 Firefox 的 <code>scrollbar-width</code> 和 <code>scrollbar-color</code> 标准属性。</p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 16px; align-items: flex-start;">
+            <div style="min-width: 32px; height: 32px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #000; font-size: 14px;">7</div>
+            <div>
+              <h4 style="font-size: 16px; margin-bottom: 4px;">代码重构与样式提取</h4>
+              <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">将臃肿的 <code>doFortune()</code> 拆分为 <code>doBaziFortune()</code>、<code>doDivinationFortune()</code>、<code>renderBaziResults()</code> 等单一职责函数；将文档区域的行内样式提取为 <code>.doc-card</code> 系列 CSS 类。</p>
+            </div>
+          </div>
+          <div style="display: flex; gap: 16px; align-items: flex-start;">
+            <div style="min-width: 32px; height: 32px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #000; font-size: 14px;">8</div>
+            <div>
+              <h4 style="font-size: 16px; margin-bottom: 4px;">替换原生 alert</h4>
+              <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">实现 <code>showNotification()</code> 自定义通知组件，使用固定定位的滑入动画替代阻塞式的 <code>alert()</code>，支持 warning、error、success 三种类型。</p>
+            </div>
+          </div>
+        </div>
+      </div>
       <div style="max-width: 900px; margin: 0 auto;">
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
-          <div style="background: var(--bg-card); border-radius: 12px; padding: 24px;">
-            <h3 style="color: var(--primary-color); margin-bottom: 12px; font-size: 18px;">📦 项目结构</h3>
-            <pre style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; font-size: 13px; line-height: 1.6; overflow-x: auto; color: var(--text-secondary);">
+          <div class="doc-card">
+            <h3 class="doc-card-title">📦 项目结构</h3>
+            <pre class="doc-card-pre">
 周易算命/
 ├── frontend/
 │   └── index.html      # 前端页面
@@ -1150,9 +1305,9 @@
 ├── package.json
 └── tsconfig.json</pre>
           </div>
-          <div style="background: var(--bg-card); border-radius: 12px; padding: 24px;">
-            <h3 style="color: var(--primary-color); margin-bottom: 12px; font-size: 18px;">🛠️ 技术栈</h3>
-            <ul style="list-style: none; padding: 0; color: var(--text-secondary); line-height: 2;">
+          <div class="doc-card">
+            <h3 class="doc-card-title">🛠️ 技术栈</h3>
+            <ul class="doc-card-list">
               <li>• <strong>TypeScript</strong> - 核心逻辑实现</li>
               <li>• <strong>HTML/CSS/JS</strong> - 前端界面</li>
               <li>• <strong>Node.js</strong> - 运行环境</li>
@@ -1160,9 +1315,9 @@
               <li>• <strong>Jest</strong> - 单元测试</li>
             </ul>
           </div>
-          <div style="background: var(--bg-card); border-radius: 12px; padding: 24px;">
-            <h3 style="color: var(--primary-color); margin-bottom: 12px; font-size: 18px;">🚀 快速开始</h3>
-            <pre style="background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; font-size: 13px; line-height: 1.6; overflow-x: auto; color: var(--text-secondary);">
+          <div class="doc-card">
+            <h3 class="doc-card-title">🚀 快速开始</h3>
+            <pre class="doc-card-pre">
 # 安装依赖
 npm install
 
@@ -1175,9 +1330,9 @@ npm test
 # 启动前端
 npx http-server frontend -p 8080 -c-1</pre>
           </div>
-          <div style="background: var(--bg-card); border-radius: 12px; padding: 24px;">
-            <h3 style="color: var(--primary-color); margin-bottom: 12px; font-size: 18px;">📖 核心模块说明</h3>
-            <ul style="list-style: none; padding: 0; color: var(--text-secondary); line-height: 1.8;">
+          <div class="doc-card">
+            <h3 class="doc-card-title">📖 核心模块说明</h3>
+            <ul class="doc-card-list compact">
               <li>• <strong>FortuneTeller</strong> - 周易64卦占卜核心</li>
               <li>• <strong>BaZiCalculator</strong> - 四柱八字排盘</li>
               <li>• <strong>LiuYaoCalculator</strong> - 六爻起卦解卦</li>
@@ -1190,11 +1345,12 @@ npx http-server frontend -p 8080 -c-1</pre>
     </div>
   </section>
 
-  <footer class="footer">
+  </main>
+  <footer class="footer" role="contentinfo">
     <div class="container">
       <div class="footer-links">
-        <a href="about.md" target="_blank">关于我们</a>
-        <a href="#docs">开发文档</a>
+        <a href="about.md" target="_blank" rel="noopener noreferrer">关于我们</a>
+        <a href="#docs" id="dev-docs-link">开发步骤</a>
       </div>
       <div class="footer-copy">
         © 2026 周易算命. 传承千年智慧，探索命运奥秘.
@@ -1202,28 +1358,14 @@ npx http-server frontend -p 8080 -c-1</pre>
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/lunar-javascript@1.7.2/lunar.js"
+    crossorigin="anonymous"></script>
+  <script src="hexagram-data.js"></script>
   <script>
-    const hexagrams = [
-      { symbols: '☰ ☰', name: '乾为天', meaning: '元亨利贞', desc: '乾为天，六爻皆阳，刚健中正之象。此卦象征天道运行，刚健不息。事业上宜积极进取，把握当前大好时机，但需警惕过于刚强易折。财运旺盛，但不可贪婪过度。感情方面，阳刚之气过盛，宜温柔以待，避免强势主导。健康方面注意心肺功能，适度运动。此卦大吉，但须守正道而行，方能长久。', advice: '宜：把握机遇、积极进取、守正持中\n忌：刚愎自用、贪婪过度、急躁冒进\n方位：西北方有利\n颜色：金、白色系' },
-      { symbols: '☷ ☷', name: '坤为地', meaning: '厚德载物', desc: '坤为地，六爻皆阴，柔顺厚重之象。此卦象征地道承载，包容万物。事业上宜稳扎稳打，以柔克刚，不宜锋芒毕露。当前阶段适合积累实力，培养人脉。财运平稳，以守为进，不宜冒险投资。感情方面，柔顺包容是维系关系的关键。健康注意脾胃消化，饮食有节。此卦主守，厚德方能载物，包容方能成就。', advice: '宜：厚德包容、稳步积累、以柔克刚\n忌：锋芒毕露、冒险投机、急躁冒进\n方位：西南方有利\n颜色：黄、棕色系' },
-      { symbols: '☱ ☰', name: '天泽履', meaning: '量力而行', desc: '天泽履，上天下泽，尊卑有序之象。履者，践也，行也。此卦告诫行事需量力而行，步步为营。事业上应认清自己的位置和实力，不可好高骛远。当前适合脚踏实地完成手头工作，积累经验和能力。财运方面需谨慎，避免超出能力范围的投资。感情上要注意双方地位平等，不可居高临下。健康方面注意足部和关节。此卦核心在于"履虎尾，不咥人"，即虽处险境但谨慎行事可免祸。', advice: '宜：量力而行、步步为营、尊卑有序\n忌：好高骛远、越位行事、轻视风险\n方位：西方有利\n颜色：银、白色系' },
-      { symbols: '☰ ☷', name: '地天泰', meaning: '阴阳交泰', desc: '地天泰，地上天下，阴阳交泰之象。泰者，通也，安也。此卦为大吉之卦，象征天地交合、万物通达。事业上正是乘势而上的好时机，阴阳和合利于合作发展。可以大胆推进计划，寻求合作伙伴。财运亨通，投资可得回报。感情方面姻缘和合，单身者易遇良缘，已婚者感情和睦。健康方面气血调和，身体状况良好。但需记住"泰极否来"，通达之时也应为未来可能的变化做准备。', advice: '宜：乘势而上、积极合作、把握良机\n忌：得意忘形、过度扩张、不思进取\n方位：中央有利\n颜色：黄色系' },
-      { symbols: '☲ ☰', name: '天火同人', meaning: '志同道合', desc: '天火同人，上天下火，光明普照之象。同人者，亲也，同也。此卦象征人我和同，心意相通。事业上非常适合团队合作，与志同道合者携手共进。当前是拓展人脉、寻求合作伙伴的绝佳时机。财运方面，合作求财比单打独斗更有利。感情方面主和谐美满，彼此心意相通。健康方面注意心火过旺，保持心情平和。此卦强调"同人于野"，即广泛团结各方力量，不分亲疏。', advice: '宜：团结协作、广结善缘、开放包容\n忌：闭关自守、独断专行、排斥异己\n方位：南方有利\n颜色：红色系' },
-      { symbols: '☰ ☲', name: '火天大有', meaning: '盛大富有', desc: '火天大有，上火下天，日丽中天之象。大有者，所有之大也。此卦象征事业成功、财富丰盈。正是大展宏图的好时机，所有的努力都将得到丰厚回报。事业上可以大胆扩张，但需保持谦逊。财运极旺，正财偏财皆可得。感情方面热情如火，但需防止感情用事。健康方面注意不要过度消耗体力。此卦虽为大吉，但卦辞仅言"元亨"而不言"利贞"，暗示盛大之时更要坚守正道，不可因富有而骄傲自满。', advice: '宜：大展宏图、分享成果、谦逊守正\n忌：骄傲自满、铺张浪费、得意忘形\n方位：正南方有利\n颜色：红、金色系' },
-      { symbols: '☰ ☶', name: '山天大畜', meaning: '厚积薄发', desc: '山天大畜，上山下天，蓄积丰厚之象。大畜者，蓄之大也。此卦象征实力雄厚但时机未到，宜继续积累。事业上当前不宜急于行动，而应继续充实自己、储备资源。等待合适的时机再出击。财运方面适合长线投资和价值积累。感情方面需耐心培养，不可急于求成。健康方面适合养生进补。此卦核心是"刚健笃实辉光"，即内在实力已经足够，只待时机到来。', advice: '宜：继续积累、充实自我、等待时机\n忌：急于求成、盲目出击、半途而废\n方位：东北方有利\n颜色：棕、黄色系' },
-      { symbols: '☶ ☰', name: '天山遁', meaning: '退避守静', desc: '天山遁，上山下天，退隐避让之象。遁者，退也，避也。此卦告诫当前形势不利，宜退不宜进。事业上遇到阻力，不可强行推进，应暂时退让保存实力。财运方面应保守理财，避免新的投资。感情方面如有矛盾，暂时保持距离比硬碰硬更有效。健康方面需要休息调养。遁不是懦弱，而是战略性的退让，"遁之时义大矣哉"，懂得退让也是一种大智慧。', advice: '宜：退避守静、保存实力、待时而动\n忌：强行推进、硬碰硬、恋战不舍\n方位：西北方有利\n颜色：黑、蓝色系' },
-      { symbols: '☳ ☰', name: '雷天大壮', meaning: '刚强壮盛', desc: '雷天大壮，上雷下天，雷行天上之象。大壮者，壮大也。此卦象征力量强大，气势旺盛。事业上正处于强势发展的阶段，可以大胆推进计划。但卦辞警告"利贞"，即必须坚守正道，否则强大反而成祸。财运旺盛但需理性消费。感情方面热情充沛，但需防止过于强势。健康方面精力旺盛，注意适度消耗。大壮最忌"羝羊触藩"，即恃强妄为，强盛时更要自律。', advice: '宜：顺势而为、壮大事业、坚守正道\n忌：恃强妄为、冲动行事、盛极而骄\n方位：东方有利\n颜色：绿色系' },
-      { symbols: '☰ ☳', name: '天雷无妄', meaning: '不妄为', desc: '天雷无妄，上天下雷，天道雷行之象。无妄者，不妄为也。此卦告诫要顺应天道，不可妄动妄为。事业上应按部就班，不存侥幸心理，不做投机取巧之事。财运方面正财可得，偏财不可贪。感情方面要真诚相待，不可玩弄心机。健康方面注意意外伤害。无妄之卦强调"其匪正有眚"，即如果不走正道，必然招致灾祸。保持本心，踏实做事，自然天佑。', advice: '宜：踏实做事、不走捷径、保持本心\n忌：投机取巧、心存侥幸、妄动妄为\n方位：正东方有利\n颜色：青、绿色系' },
-      { symbols: '☶ ☷', name: '山地剥', meaning: '剥落衰退', desc: '山地剥，上山下地，山附于地之象。剥者，落也，削也。此卦象征事物由盛转衰，根基动摇。事业上面临困难时期，可能遭遇人事变动或项目受挫。当前最重要的是守住根基，不可盲目扩张。财运方面要保守，避免大额支出。感情方面关系可能受到考验，需要更多耐心和理解。健康方面注意慢性病和旧疾复发。剥卦虽凶，但"不利有攸往"的告诫也是一种保护，知道何时该停止同样是智慧。', advice: '宜：守持根基、谨慎行事、静待转机\n忌：盲目扩张、冒险投资、强求突破\n方位：东北方有利\n颜色：棕、黄色系' },
-      { symbols: '☷ ☶', name: '地雷复', meaning: '返本复初', desc: '地雷复，上地下雷，一阳来复之象。复者，返也，还也。此卦象征否极泰来，生机重现。经历了困难时期后，新的希望正在萌发。事业上最坏的时刻已经过去，新的机遇正在酝酿。可以开始为下一步行动做准备。财运方面逐渐好转，适合小额试探性投资。感情方面旧情可能复燃，或遇到新的缘分。健康方面身体开始恢复。复卦强调"七日来复"，即天道循环，盛极必衰，衰极必复。', advice: '宜：把握新机、循序渐进、重拾信心\n忌：操之过急、犹豫不决、沉湎过去\n方位：西南方有利\n颜色：黄、棕色系' },
-      { symbols: '☰ ☰', name: '天雷无妄', meaning: '顺天应时', desc: '天雷无妄，天下雷行，万物不敢妄为之象。此卦告诫当前应顺应自然规律，不可逆天而行。事业上按规矩办事最为稳妥。财运不可贪多，取之有道。感情以诚相待，不可虚情假意。健康注意防范突发状况。', advice: '宜：循规蹈矩、顺其自然、诚实守信\n忌：逆天妄为、贪心不足、弄虚作假\n方位：正东方有利\n颜色：青、绿色系' },
-      { symbols: '☱ ☶', name: '山泽损', meaning: '减损修德', desc: '山泽损，上山下泽，损上益下之象。损者，减也。此卦象征需要有所舍弃，方能有所收获。事业上可能需要舍弃一些短期利益来换取长远发展。当前适合精简业务、优化流程。财运方面适当节制开支，投资需谨慎。感情方面需要放下一些固执和偏见，包容对方。健康方面注意饮食节制。损卦强调"损己利人"，暂时的付出和牺牲会带来更大的回报。', advice: '宜：减损欲望、修身养德、舍小取大\n忌：贪婪无度、斤斤计较、目光短浅\n方位：东北方有利\n颜色：棕色系' },
-      { symbols: '☶ ☱', name: '风雷益', meaning: '增益发展', desc: '风雷益，上风下雷，风助雷威之象。益者，增也，加也。此卦象征运势增益，各方面都在向好发展。事业上适合拓展业务、学习新技能。当前是自我提升的黄金期。财运亨通，投资回报可观。感情方面关系加深，适合进一步发展的承诺。健康方面精力充沛，适合开始新的运动计划。益卦强调"见善则迁，有过则改"，即不断进步、不断完善自己。', advice: '宜：积极进取、学习提升、见善则迁\n忌：固步自封、得过且过、知错不改\n方位：东南方有利\n颜色：绿色系' },
-      { symbols: '☱ ☱', name: '泽天夬', meaning: '决断果敢', desc: '泽天夬，上泽下天，水积于天之象。夬者，决也，断也。此卦象征到了必须做出决断的时刻。事业上拖延已无意义，必须果断决策、迅速行动。当前适合清除障碍、解决问题。财运方面需要果断出手，不可犹豫错过良机。感情方面如有纠结，是时候做出明确选择了。健康方面如有不适，应及时就医检查。夬卦强调"扬于王庭"，即正大光明地做决定，不可暗箱操作。', advice: '宜：果断决策、迅速行动、正大光明\n忌：优柔寡断、拖延不决、暗中行事\n方位：西方有利\n颜色：银、白色系' },
-    ];
-
-    const trigrams = ['☰', '☱', '☲', '☳', '☴', '☵', '☶', '☷'];
-    const trigramNames = ['乾', '兑', '离', '震', '巽', '坎', '艮', '坤'];
+    // 检测 lunar-javascript 库是否成功加载
+    if (typeof Solar === 'undefined') {
+      console.error('lunar-javascript 库加载失败，八字功能将不可用');
+    }
 
     const heavenlyStems = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
     const earthlyBranches = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
@@ -1239,65 +1381,24 @@ npx http-server frontend -p 8080 -c-1</pre>
 
     const monthBranchNames = ['寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥', '子', '丑'];
 
-    function getYearStem(year) {
-      const index = (year - 3) % 10;
-      return heavenlyStems[index < 0 ? index + 10 : index];
-    }
-
-    function getYearBranch(year) {
-      const index = (year - 3) % 12;
-      return earthlyBranches[index < 0 ? index + 12 : index];
-    }
-
-    function getMonthBranch(month) {
-      return monthBranchNames[month - 1];
-    }
-
-    function getMonthStem(year, month) {
-      const yearStemIndex = (year - 3) % 10;
-      const monthStemIndex = (yearStemIndex * 2 + month) % 10;
-      return heavenlyStems[monthStemIndex < 0 ? monthStemIndex + 10 : monthStemIndex];
-    }
-
-    function getDayStemBranch(year, month, day) {
-      const baseDate = new Date(2000, 0, 7);
-      const targetDate = new Date(year, month - 1, day);
-      const daysDiff = Math.floor((targetDate.getTime() - baseDate.getTime()) / (24 * 60 * 60 * 1000));
-      const stemIndex = ((daysDiff % 10) + 10) % 10;
-      const branchIndex = ((daysDiff % 12) + 12) % 12;
-      return {
-        stem: heavenlyStems[stemIndex],
-        branch: earthlyBranches[branchIndex]
-      };
-    }
-
-    function getHourBranch(hour) {
-      const index = Math.floor(hour / 2) % 12;
-      return earthlyBranches[index];
-    }
-
-    function getHourStem(dayStem, hour) {
-      const dayStemIndex = heavenlyStems.indexOf(dayStem);
-      const hourStemIndex = (dayStemIndex * 2 + Math.floor(hour / 2)) % 10;
-      return heavenlyStems[hourStemIndex < 0 ? hourStemIndex + 10 : hourStemIndex];
-    }
-
     function calculateBaZi(year, month, day, hour) {
-      const yearStem = getYearStem(year);
-      const yearBranch = getYearBranch(year);
-      const monthStem = getMonthStem(year, month);
-      const monthBranch = getMonthBranch(month);
-      const dayStemBranch = getDayStemBranch(year, month, day);
-      const dayStem = dayStemBranch.stem;
-      const dayBranch = dayStemBranch.branch;
-      const hourStem = getHourStem(dayStem, hour);
-      const hourBranch = getHourBranch(hour);
+      if (typeof Solar === 'undefined') {
+        throw new Error('八字计算库未加载，请检查网络连接后刷新页面');
+      }
+      const solar = Solar.fromYmdHms(year, month, day, hour, 0, 0);
+      const lunar = solar.getLunar();
+      const eightChar = lunar.getEightChar();
+
+      const yearGanZhi = eightChar.getYear();
+      const monthGanZhi = eightChar.getMonth();
+      const dayGanZhi = eightChar.getDay();
+      const hourGanZhi = eightChar.getTime();
 
       return {
-        year: { stem: yearStem, branch: yearBranch },
-        month: { stem: monthStem, branch: monthBranch },
-        day: { stem: dayStem, branch: dayBranch },
-        hour: { stem: hourStem, branch: hourBranch }
+        year: { stem: yearGanZhi.charAt(0), branch: yearGanZhi.charAt(1) },
+        month: { stem: monthGanZhi.charAt(0), branch: monthGanZhi.charAt(1) },
+        day: { stem: dayGanZhi.charAt(0), branch: dayGanZhi.charAt(1) },
+        hour: { stem: hourGanZhi.charAt(0), branch: hourGanZhi.charAt(1) }
       };
     }
 
@@ -1391,158 +1492,171 @@ npx http-server frontend -p 8080 -c-1</pre>
 
     function doFortune() {
       const activeMethod = document.querySelector('.method-option.active').dataset.method;
-      let result;
 
       if (activeMethod === 'bazi') {
-        const birthdate = document.getElementById('birthdate').value;
-        const birthhour = parseInt(document.getElementById('birthhour').value);
+        return doBaziFortune();
+      }
 
-        if (!birthdate) {
-          alert('请选择出生日期');
-          return;
-        }
+      return doDivinationFortune(activeMethod);
+    }
 
-        const date = new Date(birthdate);
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
+    function doBaziFortune() {
+      const birthdate = document.getElementById('birthdate').value;
+      const birthhourIndex = parseInt(document.getElementById('birthhour').value);
 
+      if (!birthdate) {
+        showNotification('请选择出生日期', 'warning');
+        return;
+      }
+
+      const date = new Date(birthdate);
+      const year = date.getFullYear();
+      const month = date.getMonth() + 1;
+      const day = date.getDate();
+
+      const shichenToHour = [23, 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21];
+      const birthhour = shichenToHour[birthhourIndex];
+
+      try {
         const baZi = calculateBaZi(year, month, day, birthhour);
         const wuxing = analyzeWuxing(baZi);
         const yinyang = analyzeYinyang(baZi);
 
-        document.getElementById('bz-year-stem').textContent = baZi.year.stem;
-        document.getElementById('bz-year-branch').textContent = baZi.year.branch;
-        document.getElementById('bz-year-hidden').textContent = (hiddenStems[baZi.year.branch] || []).join(' ');
-        document.getElementById('bz-year-wuxing').textContent = wuxingMap[baZi.year.stem];
-        document.getElementById('bz-year-yinyang').textContent = yinyangMap[baZi.year.stem];
-
-        document.getElementById('bz-month-stem').textContent = baZi.month.stem;
-        document.getElementById('bz-month-branch').textContent = baZi.month.branch;
-        document.getElementById('bz-month-hidden').textContent = (hiddenStems[baZi.month.branch] || []).join(' ');
-        document.getElementById('bz-month-wuxing').textContent = wuxingMap[baZi.month.stem];
-        document.getElementById('bz-month-yinyang').textContent = yinyangMap[baZi.month.stem];
-
-        document.getElementById('bz-day-stem').textContent = baZi.day.stem;
-        document.getElementById('bz-day-branch').textContent = baZi.day.branch;
-        document.getElementById('bz-day-hidden').textContent = (hiddenStems[baZi.day.branch] || []).join(' ');
-        document.getElementById('bz-day-wuxing').textContent = wuxingMap[baZi.day.stem];
-        document.getElementById('bz-day-yinyang').textContent = yinyangMap[baZi.day.stem];
-
-        document.getElementById('bz-hour-stem').textContent = baZi.hour.stem;
-        document.getElementById('bz-hour-branch').textContent = baZi.hour.branch;
-        document.getElementById('bz-hour-hidden').textContent = (hiddenStems[baZi.hour.branch] || []).join(' ');
-        document.getElementById('bz-hour-wuxing').textContent = wuxingMap[baZi.hour.stem];
-        document.getElementById('bz-hour-yinyang').textContent = yinyangMap[baZi.hour.stem];
-
-        document.getElementById('bazi-wuxing-summary').textContent = wuxing.summary;
-        document.getElementById('bazi-yinyang-summary').textContent = yinyang.summary;
-
-        // Generate detailed Bazi fortune analysis
-        const baziFortune = generateBaziFortune(baZi, wuxing, yinyang);
-        const baziFortuneSection = document.getElementById('bazi-fortune-section');
-        const baziFortuneContent = document.getElementById('bazi-fortune-content');
-        baziFortuneContent.innerHTML = baziFortune;
-        baziFortuneSection.style.display = 'block';
-
-        document.getElementById('bazi-result').classList.add('show');
-        document.getElementById('bazi-result-hexagram').style.display = 'none';
-        document.getElementById('result-details').style.display = 'none';
-        document.getElementById('timestamp').textContent = new Date().toLocaleDateString('zh-CN');
-        document.getElementById('confidence').textContent = '92%';
-        document.getElementById('result').classList.add('show');
-        return;
+        renderBaziResults(baZi, wuxing, yinyang);
+        triggerAIAnalysis('bazi');
+      } catch (error) {
+        showNotification(error.message, 'error');
+        console.error('八字计算失败:', error);
       }
+    }
 
+    function renderBaziResults(baZi, wuxing, yinyang) {
+      const pillars = ['year', 'month', 'day', 'hour'];
+      pillars.forEach(pillar => {
+        document.getElementById(`bz-${pillar}-stem`).textContent = baZi[pillar].stem;
+        document.getElementById(`bz-${pillar}-branch`).textContent = baZi[pillar].branch;
+        document.getElementById(`bz-${pillar}-hidden`).textContent = (hiddenStems[baZi[pillar].branch] || []).join(' ');
+        document.getElementById(`bz-${pillar}-wuxing`).textContent = wuxingMap[baZi[pillar].stem];
+        document.getElementById(`bz-${pillar}-yinyang`).textContent = yinyangMap[baZi[pillar].stem];
+      });
+
+      document.getElementById('bazi-wuxing-summary').textContent = wuxing.summary;
+      document.getElementById('bazi-yinyang-summary').textContent = yinyang.summary;
+
+      const gender = document.getElementById('gender').value || 'male';
+      const baziFortune = generateBaziFortune(baZi, wuxing, yinyang, gender);
+      const baziFortuneSection = document.getElementById('bazi-fortune-section');
+      const baziFortuneContent = document.getElementById('bazi-fortune-content');
+      baziFortuneContent.innerHTML = baziFortune;
+      baziFortuneSection.style.display = 'block';
+
+      document.getElementById('bazi-result').classList.add('show');
+      document.getElementById('bazi-result-hexagram').style.display = 'none';
+      document.getElementById('result-details').style.display = 'none';
+      document.getElementById('timestamp').textContent = new Date().toLocaleDateString('zh-CN');
+      document.getElementById('confidence').textContent = '92%';
+      document.getElementById('result').classList.add('show');
+    }
+
+    function doDivinationFortune(activeMethod) {
       const question = document.getElementById('question').value;
       if (!question.trim()) {
-        alert('请输入您想咨询的问题');
+        showNotification('请输入您想咨询的问题', 'warning');
         return;
       }
 
       if (activeMethod === 'zhouyi') {
-        result = hexagrams[Math.floor(Math.random() * hexagrams.length)];
-        document.getElementById('hexagram-symbols').textContent = result.symbols;
-        document.getElementById('hexagram-name').textContent = result.name;
-        document.getElementById('hexagram-meaning').textContent = result.meaning;
-        
-        const userQuestion = document.getElementById('question').value.trim();
-        const detailedInterp = result.desc;
-        const interpretationText = userQuestion 
-          ? `【针对"${userQuestion}"的解读】\n\n${detailedInterp}\n\n就您提出的问题而言，此卦象提示：${getQuestionSpecificAdvice(result.name, userQuestion)}`
-          : `此卦象显示：${detailedInterp}`;
-        document.getElementById('interpretation').textContent = interpretationText;
-        document.getElementById('advice').textContent = result.advice || getAdvice(result.name);
-        document.getElementById('bazi-result').classList.remove('show');
-        document.getElementById('bazi-result-hexagram').style.display = 'block';
-        document.getElementById('result-details').style.display = 'grid';
+        renderZhouyiResult();
       } else if (activeMethod === 'liuyao') {
-        const upper = trigrams[Math.floor(Math.random() * 8)];
-        const lower = trigrams[Math.floor(Math.random() * 8)];
-        const hexNum = Math.floor(Math.random() * 64) + 1;
-        document.getElementById('hexagram-symbols').textContent = upper + ' ' + lower;
-        document.getElementById('hexagram-name').textContent = '六爻卦 第' + hexNum + '卦';
-        document.getElementById('hexagram-meaning').textContent = upper + '下' + lower + '上';
-        document.getElementById('interpretation').textContent = '六爻分析显示当前局势';
-        document.getElementById('advice').textContent = '宜静心思考，谨慎行动';
-        document.getElementById('bazi-result').classList.remove('show');
-        document.getElementById('bazi-result-hexagram').style.display = 'block';
-        document.getElementById('result-details').style.display = 'grid';
+        renderLiuyaoResult();
       }
 
       document.getElementById('timestamp').textContent = new Date().toLocaleDateString('zh-CN');
       document.getElementById('confidence').textContent = Math.floor(Math.random() * 20 + 75) + '%';
       document.getElementById('result').classList.add('show');
 
+      triggerAIAnalysis(activeMethod);
+    }
+
+    function renderZhouyiResult() {
+      const result = HEXAGRAMS_FULL[Math.floor(Math.random() * HEXAGRAMS_FULL.length)];
+      document.getElementById('hexagram-symbols').textContent = result.symbols;
+      document.getElementById('hexagram-name').textContent = result.name;
+      document.getElementById('hexagram-meaning').textContent = result.meaning;
+      
+      const userQuestion = document.getElementById('question').value.trim();
+      const detailedInterp = result.desc;
+      const interpretationText = userQuestion 
+        ? `【针对"${userQuestion}"的解读】\n\n${detailedInterp}\n\n就您提出的问题而言，此卦象提示：${getQuestionSpecificAdvice(result.name, userQuestion)}`
+        : `此卦象显示：${detailedInterp}`;
+      document.getElementById('interpretation').textContent = interpretationText;
+      document.getElementById('advice').textContent = result.advice || getAdvice(result.name);
+      document.getElementById('bazi-result').classList.remove('show');
+      document.getElementById('bazi-result-hexagram').style.display = 'block';
+      document.getElementById('result-details').style.display = 'grid';
+    }
+
+    function renderLiuyaoResult() {
+      const castResult = castHexagram();
+      const hex = castResult.hexagram;
+
+      document.getElementById('hexagram-symbols').textContent = hex.symbols;
+      document.getElementById('hexagram-name').textContent = hex.name + `（第${HEXAGRAMS_FULL.indexOf(hex) + 1}卦）`;
+      document.getElementById('hexagram-meaning').textContent = hex.meaning;
+
+      let interpretationText = `【本卦】${hex.name}\n${hex.desc}\n\n`;
+      if (castResult.changingLines.length > 0 && castResult.transformedHexagram) {
+        interpretationText += `【动爻】第${castResult.changingLines.join('、')}爻动\n`;
+        interpretationText += `【变卦】${castResult.transformedHexagram.name}\n${castResult.transformedHexagram.desc}\n\n`;
+        interpretationText += `综合解读：本卦${hex.name}，变卦为${castResult.transformedHexagram.name}。此象显示事物正在转变中，应顺应变化，把握时机。`;
+      } else {
+        interpretationText += `【六爻稳定】无动爻，卦象稳固。\n\n综合解读：${hex.desc}`;
+      }
+
+      document.getElementById('interpretation').textContent = interpretationText;
+      document.getElementById('advice').textContent = hex.advice;
+      document.getElementById('bazi-result').classList.remove('show');
+      document.getElementById('bazi-result-hexagram').style.display = 'block';
+      document.getElementById('result-details').style.display = 'grid';
+    }
+
+    function triggerAIAnalysis(activeMethod) {
       const apiKey = document.getElementById('api-key').value;
       const chatSection = document.getElementById('ai-chat-section');
       const chatMessages = document.getElementById('chat-messages');
       const chatWelcome = document.getElementById('chat-welcome');
-      
-      if (apiKey.trim()) {
-        chatSection.style.display = 'block';
-        
-        // Clean and validate API key
-        const cleanApiKey = apiKey.trim().replace(/^[\s"']|[\s"']$/g, '');
-        if (!cleanApiKey.startsWith('sk-')) {
-          addChatMessage('⚠️ API Key 格式不正确，请以 "sk-" 开头。', 'ai');
-          return;
-        }
-        
-        const activeMethod = document.querySelector('.method-option.active').dataset.method;
-        const question = document.getElementById('question').value || '未指定问题';
-        
-        let contextInfo = '';
-        if (activeMethod === 'zhouyi' || activeMethod === 'liuyao') {
-          contextInfo = `【占卜方式】${activeMethod === 'zhouyi' ? '周易64卦' : '六爻占卜'}
-【卦象名称】${document.getElementById('hexagram-name').textContent}
-【卦象含义】${document.getElementById('hexagram-meaning').textContent}
-【卦象符号】${document.getElementById('hexagram-symbols').textContent}
-【解读】${document.getElementById('interpretation').textContent}
-【建议】${document.getElementById('advice').textContent}`;
-        } else if (activeMethod === 'bazi') {
-          contextInfo = `【占卜方式】八字测算
-【年柱】${document.getElementById('bz-year-stem').textContent}${document.getElementById('bz-year-branch').textContent}
-【月柱】${document.getElementById('bz-month-stem').textContent}${document.getElementById('bz-month-branch').textContent}
-【日柱】${document.getElementById('bz-day-stem').textContent}${document.getElementById('bz-day-branch').textContent}
-【时柱】${document.getElementById('bz-hour-stem').textContent}${document.getElementById('bz-hour-branch').textContent}
-【五行】${document.getElementById('bazi-wuxing-summary').textContent}
-【阴阳】${document.getElementById('bazi-yinyang-summary').textContent}`;
-        }
-        
-        chatWelcome.textContent = `您好！您的${activeMethod === 'bazi' ? '八字命盘' : '卦象'}已经生成，我将为您进行详细解读。`;
-        
-        chatMessages.innerHTML = `
-          <div class="chat-message ai">
-            <div class="chat-avatar">☰</div>
-            <div class="chat-bubble">${chatWelcome.textContent}</div>
-          </div>
-        `;
-        
-        const autoPrompt = `请根据以下${activeMethod === 'bazi' ? '八字命盘' : '卦象'}信息，为我进行详细的运势解读：
+
+      window.hasAutoAICalled = false;
+
+      if (!apiKey.trim()) {
+        chatSection.style.display = 'none';
+        return;
+      }
+
+      chatSection.style.display = 'block';
+
+      const cleanApiKey = apiKey.trim().replace(/^[\s"']|[\s"']$/g, '');
+      if (!cleanApiKey.startsWith('sk-')) {
+        addChatMessage('⚠️ API Key 格式不正确，请以 "sk-" 开头。', 'ai');
+        return;
+      }
+
+      const currentQuestion = document.getElementById('question').value || '未指定问题';
+      const contextInfo = buildContextInfo(activeMethod);
+
+      chatWelcome.textContent = `您好！您的${activeMethod === 'bazi' ? '八字命盘' : '卦象'}已经生成，我将为您进行详细解读。`;
+
+      chatMessages.innerHTML = `
+        <div class="chat-message ai">
+          <div class="chat-avatar">☰</div>
+          <div class="chat-bubble">${chatWelcome.textContent}</div>
+        </div>
+      `;
+
+      const autoPrompt = `请根据以下${activeMethod === 'bazi' ? '八字命盘' : '卦象'}信息，为我进行详细的运势解读：
 
 ${contextInfo}
-【咨询问题】${question}
+【咨询问题】${currentQuestion}
 
 请从以下方面解读：
 1. **命局/卦象总论**：整体特点
@@ -1551,25 +1665,47 @@ ${contextInfo}
 4. **健康运势**：注意事项
 5. **趋吉避凶**：行动指南`;
 
-        setTimeout(() => {
-          callDeepSeekAPI(autoPrompt, cleanApiKey);
-        }, 500);
-      } else {
-        chatSection.style.display = 'none';
+      setTimeout(() => {
+        callDeepSeekAPI(autoPrompt, cleanApiKey);
+        window.hasAutoAICalled = true;
+      }, 500);
+    }
+
+    function buildContextInfo(activeMethod) {
+      if (activeMethod === 'zhouyi' || activeMethod === 'liuyao') {
+        return `【占卜方式】${activeMethod === 'zhouyi' ? '周易64卦' : '六爻占卜'}
+【卦象名称】${document.getElementById('hexagram-name').textContent}
+【卦象含义】${document.getElementById('hexagram-meaning').textContent}
+【卦象符号】${document.getElementById('hexagram-symbols').textContent}
+【解读】${document.getElementById('interpretation').textContent}
+【建议】${document.getElementById('advice').textContent}`;
+      } else if (activeMethod === 'bazi') {
+        return `【占卜方式】八字测算
+【年柱】${document.getElementById('bz-year-stem').textContent}${document.getElementById('bz-year-branch').textContent}
+【月柱】${document.getElementById('bz-month-stem').textContent}${document.getElementById('bz-month-branch').textContent}
+【日柱】${document.getElementById('bz-day-stem').textContent}${document.getElementById('bz-day-branch').textContent}
+【时柱】${document.getElementById('bz-hour-stem').textContent}${document.getElementById('bz-hour-branch').textContent}
+【五行】${document.getElementById('bazi-wuxing-summary').textContent}
+【阴阳】${document.getElementById('bazi-yinyang-summary').textContent}`;
       }
+      return '';
     }
 
     async function askAIDeepAnalysis() {
       const chatSection = document.getElementById('ai-chat-section');
       const chatInput = document.getElementById('chat-input');
-      
+
       chatSection.style.display = 'block';
       setTimeout(function() {
         chatSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }, 100);
-      
+
+      if (window.hasAutoAICalled) {
+        addChatMessage('💡 AI已完成初步解读，您可以继续提问以获取更深入的分析。例如：', 'ai');
+      }
+
       const deepAnalysisQuestion = '请根据以上八字命盘，深度分析以下方面：1. 命局特点与性格分析；2. 事业财运发展趋势；3. 婚姻感情状况；4. 健康需要注意的事项；5. 一生中重要的转折点；6. 有针对性的改运建议';
-      
+
       chatInput.value = deepAnalysisQuestion;
       sendChatMessage();
     }
@@ -1639,6 +1775,9 @@ ${contextInfo}
 请详细解答。`;
 
       try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 30000);
+        
         const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
           method: 'POST',
           headers: {
@@ -1660,8 +1799,11 @@ ${contextInfo}
             temperature: 0.8,
             max_tokens: 2000,
             stream: true
-          })
+          }),
+          signal: controller.signal
         });
+        
+        clearTimeout(timeoutId);
 
         if (!response.ok) {
           const errorData = await response.json().catch(() => null);
@@ -1716,7 +1858,11 @@ ${contextInfo}
         }
       } catch (error) {
         removeLoadingMessage(loadingId);
-        addChatMessage(`❌ AI 解读失败: ${error.message}\n\n请检查 API Key 是否正确，或稍后重试。`, 'ai');
+        if (error.name === 'AbortError') {
+          addChatMessage('❌ 请求超时：AI 解读响应时间过长，请稍后重试。', 'ai');
+        } else {
+          addChatMessage(`❌ AI 解读失败: ${error.message}\n\n请检查 API Key 是否正确，或稍后重试。`, 'ai');
+        }
       } finally {
         chatSendBtn.disabled = false;
         chatSendBtn.textContent = '发送 ✨';
@@ -1778,18 +1924,56 @@ ${contextInfo}
     }
 
     function escapeHtml(text) {
+      if (typeof text !== 'string') return '';
       const div = document.createElement('div');
       div.textContent = text;
       return div.innerHTML;
     }
 
+    function sanitizeAttributeValue(value) {
+      return value
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
     function formatMarkdown(text) {
+      if (typeof text !== 'string') return '';
       const safe = escapeHtml(text);
       return safe
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        .replace(/`(.*?)`/g, '<code>$1</code>')
+        .replace(/\*\*(.+?)\*\*/g, (match, p1) => {
+          const clean = p1.replace(/[<>]/g, '');
+          return `<strong>${clean}</strong>`;
+        })
+        .replace(/\*(.+?)\*/g, (match, p1) => {
+          const clean = p1.replace(/[<>]/g, '');
+          return `<em>${clean}</em>`;
+        })
+        .replace(/`(.+?)`/g, (match, p1) => {
+          const clean = p1.replace(/[<>]/g, '');
+          return `<code>${clean}</code>`;
+        })
         .replace(/\n/g, '<br>');
+    }
+
+    function showNotification(message, type = 'warning', duration = 3000) {
+      const existing = document.querySelector('.notification');
+      if (existing) existing.remove();
+
+      const notification = document.createElement('div');
+      notification.className = `notification ${type}`;
+      notification.textContent = message;
+      notification.setAttribute('role', 'alert');
+      notification.setAttribute('aria-live', 'polite');
+
+      document.body.appendChild(notification);
+
+      setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease forwards';
+        setTimeout(() => notification.remove(), 300);
+      }, duration);
     }
 
     function getAdvice(hexagramName) {
@@ -1881,12 +2065,12 @@ ${contextInfo}
       return generalAdvices[category] || generalAdvices['综合'];
     }
 
-    function generateBaziFortune(baZi, wuxing, yinyang) {
+    function generateBaziFortune(baZi, wuxing, yinyang, gender) {
       const dayStem = baZi.day.stem;
       const dayBranch = baZi.day.branch;
       const shiShenResult = analyzeShiShen(baZi);
       const liuQinResult = analyzeLiuQin(baZi);
-      const daYunResult = calculateDaYun(baZi);
+      const daYunResult = calculateDaYun(baZi, gender);
       const geJuResult = analyzeGeJu(baZi);
       const nayinResult = getNayinInfo(baZi);
       const wuxingStrength = analyzeWuxingStrength(baZi);
@@ -2028,19 +2212,21 @@ ${contextInfo}
       return { html, counts: qinCounts };
     }
 
-    function calculateDaYun(baZi) {
+    function calculateDaYun(baZi, gender) {
       const yearStemIndex = heavenlyStems.indexOf(baZi.year.stem);
-      const monthBranchIndex = earthlyBranches.indexOf(baZi.month.branch);
       const isYangYear = yearStemIndex % 2 === 0;
-      const forward = isYangYear;
+      const isMale = gender === 'male';
+      const forward = (isYangYear && isMale) || (!isYangYear && !isMale);
 
-      const startAge = Math.floor(Math.random() * 5) + 2;
+      const birthdateStr = document.getElementById('birthdate')?.value;
+      const birthhour = parseInt(document.getElementById('birthhour')?.value || '0');
+      const startAge = calculateStartAgePrecise(birthdateStr, birthhour, forward);
       const currentYear = new Date().getFullYear();
-      const birthYear = parseInt(document.getElementById('birthdate')?.value?.split('-')[0] || currentYear);
+      const birthYear = parseInt(birthdateStr?.split('-')[0] || currentYear);
       const age = currentYear - birthYear;
       let html = '';
 
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < 8; i++) {
         let sIdx = heavenlyStems.indexOf(baZi.month.stem);
         let bIdx = earthlyBranches.indexOf(baZi.month.branch);
         for (let j = 0; j <= i; j++) {
@@ -2069,6 +2255,36 @@ ${contextInfo}
       }
 
       return { html, startAge, forward };
+    }
+
+    function calculateStartAgePrecise(birthdateStr, birthhour, forward) {
+      if (!birthdateStr) return 3;
+
+      try {
+        const [year, month, day] = birthdateStr.split('-').map(Number);
+        const solar = Solar.fromYmdHms(year, month, day, birthhour, 0, 0);
+        const lunar = solar.getLunar();
+
+        let targetJieQi;
+        if (forward) {
+          targetJieQi = lunar.getNextJie();
+        } else {
+          targetJieQi = lunar.getPrevJie();
+        }
+
+        if (targetJieQi) {
+          const targetSolar = targetJieQi.getSolar();
+          const birthDate = new Date(year, month - 1, day);
+          const targetDate = new Date(targetSolar.getYear(), targetSolar.getMonth() - 1, targetSolar.getDay());
+          const diffDays = Math.abs(Math.floor((targetDate.getTime() - birthDate.getTime()) / (1000 * 60 * 60 * 24)));
+          const startAge = Math.round(diffDays / 3);
+          return Math.max(1, Math.min(startAge, 10));
+        }
+      } catch (e) {
+        console.warn('计算起运年龄失败，使用默认值:', e);
+      }
+
+      return 3;
     }
 
     function evaluateDaYunLuck(stem, branch, baZi) {

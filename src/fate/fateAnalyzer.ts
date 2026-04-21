@@ -150,6 +150,7 @@ export function analyzeShiShen(baZiInfo: BaZiInfo): ShiShenAnalysis {
   const dayStem = baZi.day.stem.name;
   const shiShenList: ShiShenInfo[] = [];
 
+  // 十神分析基于日干与其他三柱天干的关系，日干本身不计算十神
   const positions = ['year', 'month', 'hour'] as const;
   positions.forEach(position => {
     const stem = baZi[position].stem.name;
