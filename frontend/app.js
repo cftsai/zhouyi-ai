@@ -7,7 +7,19 @@ import { initChat, updateChatWelcome } from './modules/ai-chat.js';
 let activeMethod = 'zhouyi';
 window._activeMethod = activeMethod;
 
-document.addEventListener('DOMContentLoaded', () => {
+console.log('Checking DOM ready state:', document.readyState);
+
+// Check if DOM is already ready (common with module scripts that are deferred)
+if (document.readyState === 'loading') {
+  console.log('DOM still loading, waiting for DOMContentLoaded');
+  document.addEventListener('DOMContentLoaded', initAll);
+} else {
+  console.log('DOM already loaded, initializing now');
+  initAll();
+}
+
+function initAll() {
+  console.log('Initializing app!');
   initTheme();
   initHistoryPanel();
   initChat();
@@ -15,7 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initCalcButton();
   initShareButtons();
   initAutoResizeTextarea();
-});
+  console.log('App initialization complete!');
+  window.doFortune = doFortune;
+}
 
 function initMethodSelector() {
   const options = document.querySelectorAll('.method-option');

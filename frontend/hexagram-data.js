@@ -1,5 +1,5 @@
 // 完整的64卦数据
-const HEXAGRAMS_FULL = [
+window.HEXAGRAMS_FULL = [
   { symbols: '☰ ☰', name: '乾为天', meaning: '元亨利贞', desc: '乾为天，六爻皆阳，刚健中正之象。此卦象征天道运行，刚健不息。事业上宜积极进取，把握当前大好时机，但需警惕过于刚强易折。财运旺盛，但不可贪婪过度。感情方面，阳刚之气过盛，宜温柔以待，避免强势主导。健康方面注意心肺功能，适度运动。此卦大吉，但须守正道而行，方能长久。', advice: '宜：把握机遇、积极进取、守正持中\n忌：刚愎自用、贪婪过度、急躁冒进\n方位：西北方有利\n颜色：金、白色系' },
   { symbols: '☷ ☷', name: '坤为地', meaning: '元亨，利牝马之贞', desc: '坤为地，六爻皆阴，柔顺厚重之象。此卦象征地道承载，包容万物。事业上宜稳扎稳打，以柔克刚，不宜锋芒毕露。当前阶段适合积累实力，培养人脉。财运平稳，以守为进，不宜冒险投资。感情方面，柔顺包容是维系关系的关键。健康注意脾胃消化，饮食有节。此卦主守，厚德方能载物，包容方能成就。', advice: '宜：厚德包容、稳步积累、以柔克刚\n忌：锋芒毕露、冒险投机、急躁冒进\n方位：西南方有利\n颜色：黄、棕色系' },
   { symbols: '☳ ☷', name: '水雷屯', meaning: '元亨利贞，勿用有攸往', desc: '水雷屯，上坎下震，草木初生之象。屯者，难也，万物初生，艰难困苦。事业初创时期，困难重重，宜耐心积累，不可急进。财运初期不稳定，需谨慎理财。感情方面可能遇到阻碍，需要更多时间和耐心。健康方面注意肾脏和胆部。屯卦强调"勿用有攸往"，即当前不宜轻举妄动，应等待时机成熟。', advice: '宜：耐心等待、积累实力、稳步前行\n忌：急于求成、盲目行动、贪功冒进\n方位：北方有利\n颜色：黑、蓝色系' },
@@ -66,10 +66,10 @@ const HEXAGRAMS_FULL = [
   { symbols: '☵ ☲', name: '火水未济', meaning: '亨小狐汔济濡其尾', desc: '火水未济，上离下坎，火水不交之象。未济者，未成也，尚未完成。事业仍在进行中，尚未达成目标，还需努力。财运方面投入尚未完全回收。感情方面还在发展中。未济卦虽然代表未完成，但也意味着还有机会和希望。', advice: '宜：继续努力、保持信心、总结经验\n忌：轻言放弃、灰心丧气、重复错误\n方位：南方有利\n颜色：红、蓝色系' }
 ];
 
-const trigramSymbols = ['☰', '☱', '☲', '☳', '☴', '☵', '☶', '☷'];
-const trigramNames = ['乾', '兑', '离', '震', '巽', '坎', '艮', '坤'];
+window.trigramSymbols = ['☰', '☱', '☲', '☳', '☴', '☵', '☶', '☷'];
+window.trigramNames = ['乾', '兑', '离', '震', '巽', '坎', '艮', '坤'];
 
-function castHexagram() {
+window.castHexagram = function() {
   const lines = [];
   for (let i = 0; i < 6; i++) {
     const coins = [
@@ -90,10 +90,10 @@ function castHexagram() {
   const upperIndex = parseInt(upperBinary, 2);
   const lowerIndex = parseInt(lowerBinary, 2);
 
-  const hexagram = HEXAGRAMS_FULL.find(h => {
+  const hexagram = window.HEXAGRAMS_FULL.find(h => {
     const parts = h.symbols.split(' ');
-    return parts[0] === trigramSymbols[upperIndex] && parts[1] === trigramSymbols[lowerIndex];
-  }) || HEXAGRAMS_FULL[0];
+    return parts[0] === window.trigramSymbols[upperIndex] && parts[1] === window.trigramSymbols[lowerIndex];
+  }) || window.HEXAGRAMS_FULL[0];
 
   const changingLines = lines.filter(l => l.isChanging).map(l => l.position);
 
@@ -108,18 +108,18 @@ function castHexagram() {
     const transLower = transformedLines.slice(3).map(l => l.isYang ? '1' : '0').join('');
     const transUpperIdx = parseInt(transUpper, 2);
     const transLowerIdx = parseInt(transLower, 2);
-    transformedHexagram = HEXAGRAMS_FULL.find(h => {
+    transformedHexagram = window.HEXAGRAMS_FULL.find(h => {
       const parts = h.symbols.split(' ');
-      return parts[0] === trigramSymbols[transUpperIdx] && parts[1] === trigramSymbols[transLowerIdx];
+      return parts[0] === window.trigramSymbols[transUpperIdx] && parts[1] === window.trigramSymbols[transLowerIdx];
     }) || null;
   }
 
   return {
     hexagram,
-    upperTrigram: trigramSymbols[upperIndex],
-    lowerTrigram: trigramSymbols[lowerIndex],
-    upperName: trigramNames[upperIndex],
-    lowerName: trigramNames[lowerIndex],
+    upperTrigram: window.trigramSymbols[upperIndex],
+    lowerTrigram: window.trigramSymbols[lowerIndex],
+    upperName: window.trigramNames[upperIndex],
+    lowerName: window.trigramNames[lowerIndex],
     changingLines,
     transformedHexagram,
     lines

@@ -43,10 +43,10 @@ export function renderHexagramSVG(lines, changingLines = [], size = 200) {
 }
 
 export function renderZhouyiResult() {
-  const result = HEXAGRAMS_FULL[Math.floor(Math.random() * HEXAGRAMS_FULL.length)];
+  const result = window.HEXAGRAMS_FULL[Math.floor(Math.random() * window.HEXAGRAMS_FULL.length)];
   const lines = result.symbols.split(' ');
-  const upperTrigram = trigramSymbols.indexOf(lines[0]);
-  const lowerTrigram = trigramSymbols.indexOf(lines[1]);
+  const upperTrigram = window.trigramSymbols.indexOf(lines[0]);
+  const lowerTrigram = window.trigramSymbols.indexOf(lines[1]);
 
   const lineArray = [];
   for (let i = 0; i < 3; i++) lineArray.push((upperTrigram >> (2 - i)) & 1);
@@ -73,7 +73,7 @@ export function renderZhouyiResult() {
 }
 
 export function renderLiuyaoResult() {
-  const castResult = castHexagram();
+  const castResult = window.castHexagram();
   const hex = castResult.hexagram;
 
   const lineArray = castResult.lines.map(l => l.isYang);
