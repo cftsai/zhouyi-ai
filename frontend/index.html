@@ -4,951 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>周易算命 - 传统智慧与现代科技的融合</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    :root {
-      --primary-color: #f5c518;
-      --primary-dark: #d4a800;
-      --bg-dark: #0a0a0f;
-      --bg-card: #12121a;
-      --bg-card-hover: #1a1a25;
-      --text-primary: #ffffff;
-      --text-secondary: #a0a0b0;
-      --text-muted: #606070;
-      --border-color: #2a2a3a;
-      --gradient-gold: linear-gradient(135deg, #f5c518 0%, #ffd700 50%, #f5c518 100%);
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-      background-color: var(--bg-dark);
-      background-image: url('wenwang_yijing_ink.jpg');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      color: var(--text-primary);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(10, 10, 15, 0.75);
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      background: rgba(10, 10, 15, 0.9);
-      -webkit-backdrop-filter: blur(20px);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .navbar .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 72px;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--text-primary);
-      text-decoration: none;
-    }
-
-    .logo-icon {
-      width: 40px;
-      height: 40px;
-      background: var(--gradient-gold);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 32px;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-size: 15px;
-      transition: color 0.3s;
-    }
-
-    .nav-links a:hover {
-      color: var(--primary-color);
-    }
-
-    .nav-buttons {
-      display: flex;
-      gap: 12px;
-    }
-
-    .btn {
-      padding: 10px 24px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s;
-      border: none;
-      text-decoration: none;
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 1px solid var(--border-color);
-      color: var(--text-primary);
-    }
-
-    .btn-outline:hover {
-      border-color: var(--primary-color);
-      color: var(--primary-color);
-    }
-
-    .btn-primary {
-      background: var(--gradient-gold);
-      color: #000;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(245, 197, 24, 0.3);
-    }
-
-    .hero {
-      padding: 160px 0 100px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 800px;
-      height: 800px;
-      background: radial-gradient(circle, rgba(245, 197, 24, 0.1) 0%, transparent 60%);
-      pointer-events: none;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      background: rgba(245, 197, 24, 0.1);
-      border: 1px solid rgba(245, 197, 24, 0.3);
-      border-radius: 100px;
-      font-size: 14px;
-      color: var(--primary-color);
-      margin-bottom: 24px;
-    }
-
-    .hero h1 {
-      font-size: 64px;
-      font-weight: 800;
-      line-height: 1.2;
-      margin-bottom: 24px;
-    }
-
-    .hero h1 span {
-      background: var(--gradient-gold);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero-desc {
-      font-size: 20px;
-      color: var(--text-secondary);
-      max-width: 600px;
-      margin: 0 auto 40px;
-    }
-
-    .hero-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      margin-bottom: 60px;
-    }
-
-    .hero-stats {
-      display: flex;
-      justify-content: center;
-      gap: 80px;
-    }
-
-    .stat-item {
-      text-align: center;
-    }
-
-    .stat-value {
-      font-size: 48px;
-      font-weight: 700;
-      color: var(--primary-color);
-    }
-
-    .stat-label {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-top: 8px;
-    }
-
-    .features {
-      padding: 100px 0;
-    }
-
-    .section-header {
-      text-align: center;
-      margin-bottom: 60px;
-    }
-
-    .section-header h2 {
-      font-size: 42px;
-      font-weight: 700;
-      margin-bottom: 16px;
-    }
-
-    .section-header p {
-      font-size: 18px;
-      color: var(--text-secondary);
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-
-    .feature-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 32px;
-      transition: all 0.3s;
-    }
-
-    .feature-card:hover {
-      background: var(--bg-card-hover);
-      border-color: rgba(245, 197, 24, 0.3);
-      transform: translateY(-4px);
-    }
-
-    .feature-icon {
-      width: 56px;
-      height: 56px;
-      background: rgba(245, 197, 24, 0.1);
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      margin-bottom: 20px;
-    }
-
-    .feature-card h3 {
-      font-size: 20px;
-      font-weight: 600;
-      margin-bottom: 12px;
-    }
-
-    .feature-card p {
-      font-size: 15px;
-      color: var(--text-secondary);
-      line-height: 1.7;
-    }
-
-    .demo-section {
-      padding: 100px 0;
-      background: linear-gradient(180deg, var(--bg-dark) 0%, var(--bg-card) 50%, var(--bg-dark) 100%);
-    }
-
-    .demo-container {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 24px;
-      overflow: hidden;
-    }
-
-    .demo-header {
-      display: flex;
-      border-bottom: 1px solid var(--border-color);
-      padding: 16px 24px;
-      gap: 8px;
-    }
-
-    .demo-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-    }
-
-    .demo-dot.red { background: #ff5f57; }
-    .demo-dot.yellow { background: #ffbd2e; }
-    .demo-dot.green { background: #28ca41; }
-
-    .demo-content {
-      padding: 48px;
-    }
-
-    .demo-form {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .form-group {
-      margin-bottom: 24px;
-    }
-
-    .form-label {
-      display: block;
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--text-secondary);
-      margin-bottom: 8px;
-    }
-
-    .form-input {
-      width: 100%;
-      padding: 14px 18px;
-      background: var(--bg-dark);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      font-size: 16px;
-      color: var(--text-primary);
-      transition: border-color 0.3s;
-    }
-
-    .form-input:focus {
-      outline: none;
-      border-color: var(--primary-color);
-    }
-
-    .form-input::placeholder {
-      color: var(--text-muted);
-    }
-
-    .method-selector {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-
-    .method-option {
-      padding: 16px;
-      background: var(--bg-dark);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-
-    .method-option:hover {
-      border-color: var(--primary-color);
-    }
-
-    .method-option.active {
-      border-color: var(--primary-color);
-      background: rgba(245, 197, 24, 0.1);
-    }
-
-    .method-option .icon {
-      font-size: 32px;
-      margin-bottom: 8px;
-    }
-
-    .method-option .name {
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    .btn-calc {
-      width: 100%;
-      padding: 16px;
-      font-size: 16px;
-      font-weight: 600;
-    }
-
-    .result-card {
-      margin-top: 32px;
-      padding: 24px;
-      background: var(--bg-dark);
-      border-radius: 12px;
-      display: none;
-    }
-
-    .result-card.show {
-      display: block;
-    }
-
-    .result-hexagram {
-      text-align: center;
-      padding: 24px;
-      background: rgba(245, 197, 24, 0.05);
-      border-radius: 12px;
-      margin-bottom: 20px;
-    }
-
-    .hexagram-symbols {
-      font-size: 48px;
-      letter-spacing: 16px;
-      margin-bottom: 16px;
-    }
-
-    .hexagram-name {
-      font-size: 24px;
-      font-weight: 600;
-      color: var(--primary-color);
-      margin-bottom: 8px;
-    }
-
-    .hexagram-meaning {
-      font-size: 16px;
-      color: var(--text-secondary);
-    }
-
-    .result-details {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-    }
-
-    .result-item {
-      padding: 12px 16px;
-      background: var(--bg-card);
-      border-radius: 8px;
-    }
-
-    .result-item .label {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-
-    .result-item .value {
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    .pricing {
-      padding: 100px 0;
-    }
-
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-
-    .pricing-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 20px;
-      padding: 40px 32px;
-      text-align: center;
-      transition: all 0.3s;
-    }
-
-    .pricing-card:hover {
-      transform: translateY(-4px);
-    }
-
-    .pricing-card.featured {
-      border-color: var(--primary-color);
-      position: relative;
-    }
-
-    .pricing-card.featured::before {
-      content: '推荐';
-      position: absolute;
-      top: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 4px 16px;
-      background: var(--gradient-gold);
-      border-radius: 100px;
-      font-size: 12px;
-      font-weight: 600;
-      color: #000;
-    }
-
-    .pricing-name {
-      font-size: 20px;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    .pricing-price {
-      font-size: 48px;
-      font-weight: 700;
-      color: var(--primary-color);
-      margin-bottom: 8px;
-    }
-
-    .pricing-price span {
-      font-size: 16px;
-      font-weight: 400;
-      color: var(--text-muted);
-    }
-
-    .pricing-desc {
-      font-size: 14px;
-      color: var(--text-secondary);
-      margin-bottom: 24px;
-    }
-
-    .pricing-features {
-      list-style: none;
-      text-align: left;
-      margin-bottom: 32px;
-    }
-
-    .pricing-features li {
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border-color);
-      font-size: 14px;
-      color: var(--text-secondary);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .pricing-features li::before {
-      content: '✓';
-      color: var(--primary-color);
-    }
-
-    .btn-pricing {
-      width: 100%;
-    }
-
-    .bazi-result {
-      display: none;
-    }
-
-    .bazi-result.show {
-      display: block;
-    }
-
-    .bazi-table {
-      background: var(--bg-dark);
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid var(--border-color);
-    }
-
-    .bazi-row {
-      display: grid;
-      grid-template-columns: 80px repeat(5, 1fr);
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .bazi-row:last-child {
-      border-bottom: none;
-    }
-
-    .bazi-header {
-      background: rgba(245, 197, 24, 0.1);
-      font-weight: 600;
-    }
-
-    .bazi-cell {
-      padding: 14px 12px;
-      text-align: center;
-      font-size: 15px;
-      border-right: 1px solid var(--border-color);
-    }
-
-    .bazi-cell:last-child {
-      border-right: none;
-    }
-
-    .bazi-pillar {
-      font-weight: 600;
-      color: var(--primary-color);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .bazi-analysis {
-      background: var(--bg-dark);
-      border-radius: 12px;
-      padding: 20px;
-      margin-top: 20px;
-      border: 1px solid var(--border-color);
-    }
-
-    .bazi-analysis p {
-      font-size: 14px;
-      color: var(--text-secondary);
-      margin-bottom: 8px;
-    }
-
-    .footer {
-      padding: 60px 0;
-      border-top: 1px solid var(--border-color);
-      text-align: center;
-    }
-
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 32px;
-      margin-bottom: 24px;
-    }
-
-    .footer-links a {
-      color: var(--text-secondary);
-      text-decoration: none;
-      font-size: 14px;
-    }
-
-    .footer-links a:hover {
-      color: var(--primary-color);
-    }
-
-    .footer-copy {
-      font-size: 14px;
-      color: var(--text-muted);
-    }
-
-    .doc-card {
-      background: var(--bg-card);
-      border-radius: 12px;
-      padding: 24px;
-    }
-
-    .doc-card-title {
-      color: var(--primary-color);
-      margin-bottom: 12px;
-      font-size: 18px;
-    }
-
-    .doc-card-pre {
-      background: rgba(0,0,0,0.3);
-      padding: 16px;
-      border-radius: 8px;
-      font-size: 13px;
-      line-height: 1.6;
-      overflow-x: auto;
-      color: var(--text-secondary);
-    }
-
-    .doc-card-list {
-      list-style: none;
-      padding: 0;
-      color: var(--text-secondary);
-      line-height: 2;
-    }
-
-    .doc-card-list.compact {
-      line-height: 1.8;
-    }
-
-    .skip-link:focus {
-      left: 16px !important;
-      top: 16px;
-    }
-
-    .notification {
-      position: fixed;
-      top: 88px;
-      right: 24px;
-      padding: 12px 20px;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 500;
-      z-index: 9999;
-      max-width: 320px;
-      animation: slideIn 0.3s ease;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-
-    .notification.warning {
-      background: rgba(245, 158, 11, 0.15);
-      border: 1px solid rgba(245, 158, 11, 0.4);
-      color: #fbbf24;
-    }
-
-    .notification.error {
-      background: rgba(239, 68, 68, 0.15);
-      border: 1px solid rgba(239, 68, 68, 0.4);
-      color: #f87171;
-    }
-
-    .notification.success {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid rgba(16, 185, 129, 0.4);
-      color: #34d399;
-    }
-
-    @keyframes slideIn {
-      from { transform: translateX(100%); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-
-    @keyframes slideOut {
-      from { transform: translateX(0); opacity: 1; }
-      to { transform: translateX(100%); opacity: 0; }
-    }
-
-    /* AI Chat Interface Styles */
-    .ai-chat-container {
-      margin-top: 32px;
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      overflow: hidden;
-      background: var(--bg-card);
-    }
-
-    .ai-chat-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 16px 20px;
-      background: rgba(245, 197, 24, 0.05);
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .ai-chat-header .icon {
-      font-size: 24px;
-    }
-
-    .ai-chat-header .title {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--primary-color);
-    }
-
-    .ai-chat-header .status {
-      margin-left: auto;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .ai-chat-header .status.online {
-      color: #28ca41;
-    }
-
-    .ai-chat-messages {
-      height: 400px;
-      overflow-y: auto;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .ai-chat-messages {
-      scrollbar-width: thin;
-      scrollbar-color: var(--border-color) var(--bg-dark);
-    }
-
-    .ai-chat-messages::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .ai-chat-messages::-webkit-scrollbar-track {
-      background: var(--bg-dark);
-    }
-
-    .ai-chat-messages::-webkit-scrollbar-thumb {
-      background: var(--border-color);
-      border-radius: 3px;
-    }
-
-    .chat-message {
-      display: flex;
-      gap: 12px;
-      max-width: 85%;
-    }
-
-    .chat-message.ai {
-      align-self: flex-start;
-    }
-
-    .chat-message.user {
-      align-self: flex-end;
-      flex-direction: row-reverse;
-    }
-
-    .chat-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      flex-shrink: 0;
-    }
-
-    .chat-message.ai .chat-avatar {
-      background: rgba(245, 197, 24, 0.2);
-    }
-
-    .chat-message.user .chat-avatar {
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .chat-bubble {
-      padding: 12px 16px;
-      border-radius: 12px;
-      font-size: 14px;
-      line-height: 1.7;
-      word-break: break-word;
-    }
-
-    .chat-message.ai .chat-bubble {
-      background: var(--bg-dark);
-      color: var(--text-secondary);
-      border-top-left-radius: 4px;
-    }
-
-    .chat-message.user .chat-bubble {
-      background: rgba(245, 197, 24, 0.15);
-      color: var(--text-primary);
-      border-top-right-radius: 4px;
-    }
-
-    .chat-bubble pre {
-      margin: 8px 0;
-      padding: 12px;
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 8px;
-      overflow-x: auto;
-      font-size: 13px;
-    }
-
-    .chat-input-area {
-      display: flex;
-      gap: 12px;
-      padding: 16px 20px;
-      border-top: 1px solid var(--border-color);
-      background: var(--bg-card);
-    }
-
-    .chat-input {
-      flex: 1;
-      padding: 12px 16px;
-      background: var(--bg-dark);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      font-size: 14px;
-      color: var(--text-primary);
-      resize: none;
-      min-height: 44px;
-      max-height: 120px;
-      font-family: inherit;
-    }
-
-    .chat-input:focus {
-      outline: none;
-      border-color: var(--primary-color);
-    }
-
-    .chat-input::placeholder {
-      color: var(--text-muted);
-    }
-
-    .chat-send-btn {
-      padding: 12px 24px;
-      background: var(--gradient-gold);
-      color: #000;
-      border: none;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      white-space: nowrap;
-    }
-
-    .chat-send-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(245, 197, 24, 0.3);
-    }
-
-    .chat-send-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-
-    .typing-indicator {
-      display: flex;
-      gap: 4px;
-      padding: 8px 0;
-    }
-
-    .typing-indicator span {
-      width: 8px;
-      height: 8px;
-      background: var(--text-muted);
-      border-radius: 50%;
-      animation: typing 1.4s infinite;
-    }
-
-    .typing-indicator span:nth-child(2) {
-      animation-delay: 0.2s;
-    }
-
-    .typing-indicator span:nth-child(3) {
-      animation-delay: 0.4s;
-    }
-
-    @keyframes typing {
-      0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-      30% { transform: translateY(-8px); opacity: 1; }
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/lunar-javascript@1.7.2/lunar.js" crossorigin="anonymous"></script>
+  <script src="hexagram-data.js"></script>
 </head>
 <body>
-  <a href="#main-content" class="skip-link" style="position: absolute; left: -9999px; z-index: 9999; background: var(--primary-color); color: #000; padding: 8px 16px; border-radius: 4px; text-decoration: none; font-weight: 600;">跳转到主要内容</a>
+  <a href="#main-content" class="skip-link">跳转到主要内容</a>
+
   <nav class="navbar" role="navigation" aria-label="主导航">
     <div class="container">
       <a href="#" class="logo" aria-label="周易算命 - 返回首页">
-        <div class="logo-icon" aria-hidden="true">☰</div>
+        <div class="logo-icon" aria-hidden="true">易</div>
         <span>周易算命</span>
       </a>
       <ul class="nav-links" role="menubar">
@@ -956,252 +22,262 @@
         <li role="none"><a href="#demo" role="menuitem">在线体验</a></li>
         <li role="none"><a href="#docs" role="menuitem">开发文档</a></li>
       </ul>
-      <div class="nav-buttons">
-        <a href="#demo" class="btn btn-primary" role="button">开始使用</a>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="切换主题" title="切换主题">
+          <span id="theme-icon">&#9728;</span>
+        </button>
+        <button class="btn btn-primary" id="history-btn" aria-label="历史记录">历史记录</button>
       </div>
     </div>
   </nav>
+
   <main id="main-content">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-badge">
+          <span>◈</span>
+          <span>传统智慧 · 现代科技</span>
+        </div>
+        <h1>探索命运的奥秘<br><span class="accent">传承千年智慧</span></h1>
+        <p class="hero-desc">基于传统周易原理，结合现代算法，为您提供八字测算、六爻占卜、命运分析等专业服务</p>
+        <div class="hero-buttons">
+          <a href="#demo" class="btn btn-primary">免费体验</a>
+          <a href="#docs" class="btn btn-outline">查看文档</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-value">64</div>
+            <div class="stat-label">六十四卦</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">10</div>
+            <div class="stat-label">天干地支</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">5</div>
+            <div class="stat-label">五行元素</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">∞</div>
+            <div class="stat-label">命运可能</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  <section class="hero">
-    <div class="container">
-      <div class="hero-badge">
-        <span>✦</span>
-        <span>传统智慧 · 现代科技</span>
+    <section class="features" id="features">
+      <div class="container">
+        <div class="section-header">
+          <h2>核心功能</h2>
+          <p>多种占卜方式，全方位解读命运</p>
+          <div class="divider"></div>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">&#128197;</div>
+            <h3>八字测算</h3>
+            <p>根据出生年月日时，分析命局五行、十神、大运流年，揭示人生运势走向</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">&#9776;</div>
+            <h3>六爻占卜</h3>
+            <p>通过硬币掷筊起卦，结合八卦六爻体系，解答具体问题的吉凶祸福</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">&#9772;</div>
+            <h3>周易64卦</h3>
+            <p>基于传统周易64卦象，解读卦辞爻辞，洞悉事物发展规律</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">&#9878;</div>
+            <h3>五行分析</h3>
+            <p>分析命局五行强弱、生克关系，指导职业选择与生活方位</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">&#128200;</div>
+            <h3>大运流年</h3>
+            <p>预测人生各阶段运势，把握机遇、规避风险</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">&#128302;</div>
+            <h3>AI智能解读</h3>
+            <p>结合DeepSeek大模型，提供更深入、更专业的命运分析</p>
+          </div>
+        </div>
       </div>
-      <h1>探索命运的奥秘<br><span>传承千年智慧</span></h1>
-      <p class="hero-desc">基于传统周易原理，结合现代算法，为您提供八字测算、六爻占卜、命运分析等专业服务</p>
-      <div class="hero-buttons">
-        <a href="#demo" class="btn btn-primary">免费体验</a>
-        <a href="#docs" class="btn btn-outline">查看文档</a>
-      </div>
-      <div class="hero-stats">
-        <div class="stat-item">
-          <div class="stat-value">64</div>
-          <div class="stat-label">六十四卦</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value">10</div>
-          <div class="stat-label">天干地支</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value">5</div>
-          <div class="stat-label">五行元素</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-value">∞</div>
-          <div class="stat-label">命运可能</div>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="features" id="features">
-    <div class="container">
-      <div class="section-header">
-        <h2>核心功能</h2>
-        <p>多种占卜方式，全方位解读命运</p>
-      </div>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">📅</div>
-          <h3>八字测算</h3>
-          <p>根据出生年月日时，分析命局五行、十神、大运流年，揭示人生运势走向</p>
+    <section class="demo-section" id="demo">
+      <div class="container">
+        <div class="section-header">
+          <h2>在线体验</h2>
+          <p>短时间内得到一次结果就不需要再试了，多则不准。</p>
+          <div class="divider"></div>
         </div>
-        <div class="feature-card">
-          <div class="feature-icon">☰</div>
-          <h3>六爻占卜</h3>
-          <p>通过硬币掷筊起卦，结合八卦六爻体系，解答具体问题的吉凶祸福</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🜃</div>
-          <h3>周易64卦</h3>
-          <p>基于传统周易64卦象，解读卦辞爻辞，洞悉事物发展规律</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">⚖️</div>
-          <h3>五行分析</h3>
-          <p>分析命局五行强弱、生克关系，指导职业选择与生活方位</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">📈</div>
-          <h3>大运流年</h3>
-          <p>预测人生各阶段运势，把握机遇、规避风险</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon">🔮</div>
-          <h3>AI智能解读</h3>
-          <p>结合DeepSeek大模型，提供更深入、更专业的命运分析</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="demo-section" id="demo">
-    <div class="container">
-      <div class="section-header">
-        <h2>在线体验</h2>
-        <p>短时间内得到一次结果就不需要再试了，多则不准。</p>
-      </div>
-      <div class="demo-container">
-        <div class="demo-header">
-          <div class="demo-dot red"></div>
-          <div class="demo-dot yellow"></div>
-          <div class="demo-dot green"></div>
-        </div>
-        <div class="demo-content">
-          <div class="demo-form">
-            <div class="form-group">
-              <label class="form-label" for="question">占卜问题</label>
-              <input type="text" class="form-input" id="question" name="question" placeholder="请输入您想咨询的问题，如：事业发展、感情运势、财运走向..." aria-required="true">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="api-key">AI 解读配置（可选）</label>
-              <input type="password" class="form-input" id="api-key" name="api-key" placeholder="输入 DeepSeek API Key 启用 AI 智能解读" aria-describedby="api-key-help">
-              <span id="api-key-help" style="font-size: 12px; color: var(--text-muted); margin-top: 4px; display: block;">获取 API Key: https://platform.deepseek.com</span>
-            </div>
-            <div class="form-group">
-              <label class="form-label" id="method-label">占卜方式</label>
-              <div class="method-selector" role="radiogroup" aria-labelledby="method-label">
-                <div class="method-option active" data-method="zhouyi" role="radio" aria-checked="true" tabindex="0">
-                  <div class="icon" aria-hidden="true">☰</div>
-                  <div class="name">周易64卦</div>
-                </div>
-                <div class="method-option" data-method="liuyao" role="radio" aria-checked="false" tabindex="0">
-                  <div class="icon" aria-hidden="true">☲</div>
-                  <div class="name">六爻占卜</div>
-                </div>
-                <div class="method-option" data-method="bazi" role="radio" aria-checked="false" tabindex="0">
-                  <div class="icon" aria-hidden="true">📅</div>
-                  <div class="name">八字测算</div>
-                </div>
+        <div class="demo-container">
+          <div class="demo-header">
+            <div class="demo-dot red"></div>
+            <div class="demo-dot yellow"></div>
+            <div class="demo-dot green"></div>
+          </div>
+          <div class="demo-content">
+            <div class="demo-form">
+              <div class="form-group">
+                <label class="form-label" for="question">占卜问题</label>
+                <input type="text" class="form-input" id="question" name="question" placeholder="请输入您想咨询的问题，如：事业发展、感情运势、财运走向..." aria-required="true">
               </div>
-            </div>
-            <div class="form-group" id="bazi-fields" style="display: none;" aria-hidden="true">
-              <label class="form-label" for="birthdate">出生日期</label>
-              <input type="date" class="form-input" id="birthdate" name="birthdate">
-              <label class="form-label" for="birthhour" style="margin-top: 16px;">出生时辰</label>
-              <select class="form-input" id="birthhour" name="birthhour">
-                <option value="0">子时 (23:00-00:59)</option>
-                <option value="1">丑时 (01:00-02:59)</option>
-                <option value="2">寅时 (03:00-04:59)</option>
-                <option value="3">卯时 (05:00-06:59)</option>
-                <option value="4">辰时 (07:00-08:59)</option>
-                <option value="5">巳时 (09:00-10:59)</option>
-                <option value="6">午时 (11:00-12:59)</option>
-                <option value="7">未时 (13:00-14:59)</option>
-                <option value="8">申时 (15:00-16:59)</option>
-                <option value="9">酉时 (17:00-18:59)</option>
-                <option value="10">戌时 (19:00-20:59)</option>
-                <option value="11">亥时 (21:00-22:59)</option>
-              </select>
-              <label class="form-label" for="gender" style="margin-top: 16px;">性别（影响大运顺逆）</label>
-              <select class="form-input" id="gender" name="gender">
-                <option value="male">男</option>
-                <option value="female">女</option>
-              </select>
-            </div>
-            <button class="btn btn-primary btn-calc" onclick="doFortune()" aria-label="开始占卜">开始占卜 ✨</button>
-
-            <div class="result-card" id="result">
-              <div class="result-hexagram" id="bazi-result-hexagram" style="display:none;">
-                <div class="hexagram-symbols" id="hexagram-symbols">☰ ☷</div>
-                <div class="hexagram-name" id="hexagram-name">天泽履</div>
-                <div class="hexagram-meaning" id="hexagram-meaning">元亨利贞，见险而止</div>
+              <div class="form-group">
+                <label class="form-label" for="api-key">AI 解读配置（可选）</label>
+                <input type="password" class="form-input" id="api-key" name="api-key" placeholder="输入 DeepSeek API Key 启用 AI 智能解读" aria-describedby="api-key-help">
+                <span class="form-hint" id="api-key-help">获取 API Key: https://platform.deepseek.com</span>
               </div>
-              <div class="bazi-result" id="bazi-result">
-                <h3 style="text-align:center; color: var(--primary-color); margin-bottom: 24px; font-size: 24px;">四柱八字命盘</h3>
-                <div class="bazi-table">
-                  <div class="bazi-row bazi-header">
-                    <div class="bazi-cell">四柱</div>
-                    <div class="bazi-cell">天干</div>
-                    <div class="bazi-cell">地支</div>
-                    <div class="bazi-cell">藏干</div>
-                    <div class="bazi-cell">五行</div>
-                    <div class="bazi-cell">阴阳</div>
+              <div class="form-group">
+                <label class="form-label" id="method-label">占卜方式</label>
+                <div class="method-selector" role="radiogroup" aria-labelledby="method-label">
+                  <div class="method-option active" data-method="zhouyi" role="radio" aria-checked="true" tabindex="0">
+                    <div class="icon" aria-hidden="true">&#9776;</div>
+                    <div class="name">周易64卦</div>
                   </div>
-                  <div class="bazi-row">
-                    <div class="bazi-cell bazi-pillar">年柱</div>
-                    <div class="bazi-cell" id="bz-year-stem">-</div>
-                    <div class="bazi-cell" id="bz-year-branch">-</div>
-                    <div class="bazi-cell" id="bz-year-hidden">-</div>
-                    <div class="bazi-cell" id="bz-year-wuxing">-</div>
-                    <div class="bazi-cell" id="bz-year-yinyang">-</div>
+                  <div class="method-option" data-method="liuyao" role="radio" aria-checked="false" tabindex="0">
+                    <div class="icon" aria-hidden="true">&#9772;</div>
+                    <div class="name">六爻占卜</div>
                   </div>
-                  <div class="bazi-row">
-                    <div class="bazi-cell bazi-pillar">月柱</div>
-                    <div class="bazi-cell" id="bz-month-stem">-</div>
-                    <div class="bazi-cell" id="bz-month-branch">-</div>
-                    <div class="bazi-cell" id="bz-month-hidden">-</div>
-                    <div class="bazi-cell" id="bz-month-wuxing">-</div>
-                    <div class="bazi-cell" id="bz-month-yinyang">-</div>
-                  </div>
-                  <div class="bazi-row">
-                    <div class="bazi-cell bazi-pillar">日柱</div>
-                    <div class="bazi-cell" id="bz-day-stem">-</div>
-                    <div class="bazi-cell" id="bz-day-branch">-</div>
-                    <div class="bazi-cell" id="bz-day-hidden">-</div>
-                    <div class="bazi-cell" id="bz-day-wuxing">-</div>
-                    <div class="bazi-cell" id="bz-day-yinyang">-</div>
-                  </div>
-                  <div class="bazi-row">
-                    <div class="bazi-cell bazi-pillar">时柱</div>
-                    <div class="bazi-cell" id="bz-hour-stem">-</div>
-                    <div class="bazi-cell" id="bz-hour-branch">-</div>
-                    <div class="bazi-cell" id="bz-hour-hidden">-</div>
-                    <div class="bazi-cell" id="bz-hour-wuxing">-</div>
-                    <div class="bazi-cell" id="bz-hour-yinyang">-</div>
-                  </div>
-                </div>
-                <div class="bazi-analysis" id="bazi-analysis">
-                  <h4 style="color: var(--primary-color); margin: 20px 0 12px;">命局分析</h4>
-                  <p id="bazi-wuxing-summary">-</p>
-                  <p id="bazi-yinyang-summary">-</p>
-                  <div id="bazi-fortune-section" style="margin-top: 20px; display: none;">
-                    <h4 style="color: var(--primary-color); margin-bottom: 12px;">运势解读</h4>
-                    <div id="bazi-fortune-content" style="font-size: 14px; line-height: 1.8; color: var(--text-secondary);"></div>
-                    <button onclick="askAIDeepAnalysis()" style="margin-top: 16px; padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; width: 100%; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);">
-                      🤖 AI深度解读此八字
-                    </button>
+                  <div class="method-option" data-method="bazi" role="radio" aria-checked="false" tabindex="0">
+                    <div class="icon" aria-hidden="true">&#128197;</div>
+                    <div class="name">八字测算</div>
                   </div>
                 </div>
               </div>
-              <div class="result-details" id="result-details">
-                <div class="result-item">
-                  <div class="label">卦象解读</div>
-                  <div class="value" id="interpretation">此卦象显示您当前运势平稳...</div>
-                </div>
-                <div class="result-item">
-                  <div class="label">建议方向</div>
-                  <div class="value" id="advice">宜守成忌冒险，稳扎稳打</div>
-                </div>
-                <div class="result-item">
-                  <div class="label">占卜时间</div>
-                  <div class="value" id="timestamp">2026年4月17日</div>
-                </div>
-                <div class="result-item">
-                  <div class="label">置信度</div>
-                  <div class="value" id="confidence">85%</div>
-                </div>
+              <div class="form-group" id="bazi-fields" style="display: none;" aria-hidden="true">
+                <label class="form-label" for="birthdate">出生日期</label>
+                <input type="date" class="form-input" id="birthdate" name="birthdate">
+                <label class="form-label" for="birthhour" style="margin-top: 16px;">出生时辰</label>
+                <select class="form-input" id="birthhour" name="birthhour">
+                  <option value="0">子时 (23:00-00:59)</option>
+                  <option value="1">丑时 (01:00-02:59)</option>
+                  <option value="2">寅时 (03:00-04:59)</option>
+                  <option value="3">卯时 (05:00-06:59)</option>
+                  <option value="4">辰时 (07:00-08:59)</option>
+                  <option value="5">巳时 (09:00-10:59)</option>
+                  <option value="6">午时 (11:00-12:59)</option>
+                  <option value="7">未时 (13:00-14:59)</option>
+                  <option value="8">申时 (15:00-16:59)</option>
+                  <option value="9">酉时 (17:00-18:59)</option>
+                  <option value="10">戌时 (19:00-20:59)</option>
+                  <option value="11">亥时 (21:00-22:59)</option>
+                </select>
+                <label class="form-label" for="gender" style="margin-top: 16px;">性别（影响大运顺逆）</label>
+                <select class="form-input" id="gender" name="gender">
+                  <option value="male">男</option>
+                  <option value="female">女</option>
+                </select>
               </div>
-              <div id="ai-chat-section" style="display: none;" aria-live="polite" aria-atomic="false">
-                <div class="ai-chat-container">
-                  <div class="ai-chat-header">
-                    <span class="icon" aria-hidden="true">🤖</span>
-                    <span class="title">AI 命理师</span>
-                    <span class="status online" aria-label="AI 命理师在线">● 在线</span>
-                  </div>
-                  <div class="ai-chat-messages" id="chat-messages" role="log" aria-live="polite" aria-relevant="additions">
-                    <div class="chat-message ai">
-                      <div class="chat-avatar" aria-hidden="true">☰</div>
-                      <div class="chat-bubble" id="chat-welcome">
-                        您好！我是您的AI命理师。完成占卜后，我将为您详细解读卦象含义，分析运势走向，并提供趋吉避凶的建议。
-                      </div>
+              <button class="btn btn-primary btn-calc" id="calc-btn" aria-label="开始占卜">开始占卜 ◈</button>
+
+              <div class="result-card" id="result">
+                <div class="result-hexagram" id="bazi-result-hexagram" style="display:none;">
+                  <div class="hexagram-svg" id="hexagram-svg"></div>
+                  <div class="hexagram-name" id="hexagram-name">天泽履</div>
+                  <div class="hexagram-meaning" id="hexagram-meaning">元亨利贞，见险而止</div>
+                </div>
+                <div class="bazi-result" id="bazi-result">
+                  <h3 style="text-align:center; color: var(--color-cinnabar); margin-bottom: 24px; font-size: 24px; font-family: var(--font-display);">四柱八字命盘</h3>
+                  <div class="bazi-table">
+                    <div class="bazi-row bazi-header">
+                      <div class="bazi-cell">四柱</div>
+                      <div class="bazi-cell">天干</div>
+                      <div class="bazi-cell">地支</div>
+                      <div class="bazi-cell">藏干</div>
+                      <div class="bazi-cell">五行</div>
+                      <div class="bazi-cell">阴阳</div>
+                    </div>
+                    <div class="bazi-row">
+                      <div class="bazi-cell bazi-pillar">年柱</div>
+                      <div class="bazi-cell" id="bz-year-stem">-</div>
+                      <div class="bazi-cell" id="bz-year-branch">-</div>
+                      <div class="bazi-cell" id="bz-year-hidden">-</div>
+                      <div class="bazi-cell" id="bz-year-wuxing">-</div>
+                      <div class="bazi-cell" id="bz-year-yinyang">-</div>
+                    </div>
+                    <div class="bazi-row">
+                      <div class="bazi-cell bazi-pillar">月柱</div>
+                      <div class="bazi-cell" id="bz-month-stem">-</div>
+                      <div class="bazi-cell" id="bz-month-branch">-</div>
+                      <div class="bazi-cell" id="bz-month-hidden">-</div>
+                      <div class="bazi-cell" id="bz-month-wuxing">-</div>
+                      <div class="bazi-cell" id="bz-month-yinyang">-</div>
+                    </div>
+                    <div class="bazi-row">
+                      <div class="bazi-cell bazi-pillar">日柱</div>
+                      <div class="bazi-cell" id="bz-day-stem">-</div>
+                      <div class="bazi-cell" id="bz-day-branch">-</div>
+                      <div class="bazi-cell" id="bz-day-hidden">-</div>
+                      <div class="bazi-cell" id="bz-day-wuxing">-</div>
+                      <div class="bazi-cell" id="bz-day-yinyang">-</div>
+                    </div>
+                    <div class="bazi-row">
+                      <div class="bazi-cell bazi-pillar">时柱</div>
+                      <div class="bazi-cell" id="bz-hour-stem">-</div>
+                      <div class="bazi-cell" id="bz-hour-branch">-</div>
+                      <div class="bazi-cell" id="bz-hour-hidden">-</div>
+                      <div class="bazi-cell" id="bz-hour-wuxing">-</div>
+                      <div class="bazi-cell" id="bz-hour-yinyang">-</div>
                     </div>
                   </div>
-                  <div class="chat-input-area">
-                    <textarea class="chat-input" id="chat-input" placeholder="输入您的问题，例如：这个卦象对我的事业有什么启示？" rows="1" aria-label="输入您的问题"></textarea>
-                    <button class="chat-send-btn" id="chat-send-btn" onclick="sendChatMessage()" aria-label="发送消息">发送 ✨</button>
+                  <div class="bazi-analysis" id="bazi-analysis">
+                    <h4>命局分析</h4>
+                    <p id="bazi-wuxing-summary">-</p>
+                    <p id="bazi-yinyang-summary">-</p>
+                    <div id="bazi-fortune-section" style="margin-top: 20px; display: none;">
+                      <h4>运势解读</h4>
+                      <div id="bazi-fortune-content" style="font-size: 14px; line-height: 1.8; color: var(--color-ink-light);"></div>
+                      <button id="ai-deep-analysis-btn" class="btn btn-primary" style="margin-top: 16px; width: 100%;">
+                        🤖 AI深度解读此八字
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="result-details" id="result-details">
+                  <div class="result-item">
+                    <div class="label">卦象解读</div>
+                    <div class="value" id="interpretation">此卦象显示您当前运势平稳...</div>
+                  </div>
+                  <div class="result-item">
+                    <div class="label">建议方向</div>
+                    <div class="value" id="advice">宜守成忌冒险，稳扎稳打</div>
+                  </div>
+                  <div class="result-item">
+                    <div class="label">占卜时间</div>
+                    <div class="value" id="timestamp">2026年4月17日</div>
+                  </div>
+                  <div class="result-item">
+                    <div class="label">置信度</div>
+                    <div class="value" id="confidence">85%</div>
+                  </div>
+                </div>
+                <div class="share-actions" id="share-actions" style="display: none;">
+                  <button class="share-btn" id="share-text-btn">📋 复制文本</button>
+                  <button class="share-btn" id="share-image-btn">🖼️ 保存图片</button>
+                </div>
+                <div id="ai-chat-section" style="display: none;" aria-live="polite" aria-atomic="false">
+                  <div class="ai-chat-container">
+                    <div class="ai-chat-header">
+                      <span class="icon" aria-hidden="true">🤖</span>
+                      <span class="title">AI 命理师</span>
+                      <span class="status online" aria-label="AI 命理师在线">● 在线</span>
+                    </div>
+                    <div class="ai-chat-messages" id="chat-messages" role="log" aria-live="polite" aria-relevant="additions">
+                      <div class="chat-message ai">
+                        <div class="chat-avatar" aria-hidden="true">易</div>
+                        <div class="chat-bubble" id="chat-welcome">
+                          您好！我是您的AI命理师。完成占卜后，我将为您详细解读卦象含义，分析运势走向，并提供趋吉避凶的建议。
+                        </div>
+                      </div>
+                    </div>
+                    <div class="chat-input-area">
+                      <textarea class="chat-input" id="chat-input" placeholder="输入您的问题，例如：这个卦象对我的事业有什么启示？" rows="1" aria-label="输入您的问题"></textarea>
+                      <button class="chat-send-btn" id="chat-send-btn" aria-label="发送消息">发送 ◈</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1209,115 +285,49 @@
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="docs" id="docs" style="background: var(--bg-dark); padding: 80px 0;">
-    <div class="container">
-      <div class="section-header">
-        <h2>开发文档</h2>
-        <p>了解项目架构、技术栈与扩展方法</p>
-      </div>
-      <div id="dev-steps" style="max-width: 900px; margin: 0 auto 40px; background: var(--bg-card); border-radius: 16px; padding: 32px; border: 1px solid var(--border-color);">
-        <h3 style="color: var(--primary-color); margin-bottom: 20px; font-size: 20px;">🛠️ 前端优化开发步骤总结</h3>
-        <div style="display: grid; gap: 16px;">
-          <div style="display: flex; gap: 16px; align-items: flex-start;">
-            <div style="min-width: 32px; height: 32px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #000; font-size: 14px;">1</div>
-            <div>
-              <h4 style="font-size: 16px; margin-bottom: 4px;">修复语法错误</h4>
-              <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">修复了 const 变量重复声明问题（lines 1468-1469），将 <code>activeMethod</code> 和 <code>question</code> 改为 <code>currentMethod</code> 和 <code>currentQuestion</code>，避免在严格模式下抛出 SyntaxError。</p>
-            </div>
-          </div>
-          <div style="display: flex; gap: 16px; align-items: flex-start;">
-            <div style="min-width: 32px; height: 32px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #000; font-size: 14px;">2</div>
-            <div>
-              <h4 style="font-size: 16px; margin-bottom: 4px;">增强安全性</h4>
-              <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">为 CDN 资源添加 SRI（Subresource Integrity）哈希和 <code>crossorigin</code> 属性；改进 <code>formatMarkdown()</code> XSS 防护，使用 DOM API 替代 <code>innerHTML</code> 进行文本转义。</p>
-            </div>
-          </div>
-          <div style="display: flex; gap: 16px; align-items: flex-start;">
-            <div style="min-width: 32px; height: 32px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #000; font-size: 14px;">3</div>
-            <div>
-              <h4 style="font-size: 16px; margin-bottom: 4px;">添加请求超时</h4>
-              <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">为 DeepSeek API 的 <code>fetch()</code> 调用添加 <code>AbortController</code> 30秒超时机制，防止请求挂起，并针对超时错误提供友好的用户提示。</p>
-            </div>
-          </div>
-          <div style="display: flex; gap: 16px; align-items: flex-start;">
-            <div style="min-width: 32px; height: 32px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #000; font-size: 14px;">4</div>
-            <div>
-              <h4 style="font-size: 16px; margin-bottom: 4px;">修复卦象映射逻辑</h4>
-              <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">修复了 <code>hexagram-data.js</code> 中二进制索引与 64 卦数组不匹配的问题，改为通过卦象符号（上下经卦）进行精确查找，确保起卦结果准确。</p>
-            </div>
-          </div>
-          <div style="display: flex; gap: 16px; align-items: flex-start;">
-            <div style="min-width: 32px; height: 32px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #000; font-size: 14px;">5</div>
-            <div>
-              <h4 style="font-size: 16px; margin-bottom: 4px;">提升可访问性（A11y）</h4>
-              <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">添加跳转链接（skip-link）、ARIA 角色与标签（<code>role="navigation"</code>、<code>aria-label</code>、<code>aria-live</code>）、表单标签关联，以及聊天区域的实时播报支持。</p>
-            </div>
-          </div>
-          <div style="display: flex; gap: 16px; align-items: flex-start;">
-            <div style="min-width: 32px; height: 32px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #000; font-size: 14px;">6</div>
-            <div>
-              <h4 style="font-size: 16px; margin-bottom: 4px;">跨浏览器兼容</h4>
-              <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">为 <code>backdrop-filter</code> 添加 <code>-webkit-</code> 前缀以兼容 Safari；为滚动条添加 Firefox 的 <code>scrollbar-width</code> 和 <code>scrollbar-color</code> 标准属性。</p>
-            </div>
-          </div>
-          <div style="display: flex; gap: 16px; align-items: flex-start;">
-            <div style="min-width: 32px; height: 32px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #000; font-size: 14px;">7</div>
-            <div>
-              <h4 style="font-size: 16px; margin-bottom: 4px;">代码重构与样式提取</h4>
-              <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">将臃肿的 <code>doFortune()</code> 拆分为 <code>doBaziFortune()</code>、<code>doDivinationFortune()</code>、<code>renderBaziResults()</code> 等单一职责函数；将文档区域的行内样式提取为 <code>.doc-card</code> 系列 CSS 类。</p>
-            </div>
-          </div>
-          <div style="display: flex; gap: 16px; align-items: flex-start;">
-            <div style="min-width: 32px; height: 32px; background: var(--gradient-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #000; font-size: 14px;">8</div>
-            <div>
-              <h4 style="font-size: 16px; margin-bottom: 4px;">替换原生 alert</h4>
-              <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.6;">实现 <code>showNotification()</code> 自定义通知组件，使用固定定位的滑入动画替代阻塞式的 <code>alert()</code>，支持 warning、error、success 三种类型。</p>
-            </div>
-          </div>
+    <section class="docs-section" id="docs">
+      <div class="container">
+        <div class="section-header">
+          <h2>开发文档</h2>
+          <p>了解项目架构、技术栈与扩展方法</p>
+          <div class="divider"></div>
         </div>
-      </div>
-      <div style="max-width: 900px; margin: 0 auto;">
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
-          <div class="doc-card">
-            <h3 class="doc-card-title">📦 项目结构</h3>
-            <pre class="doc-card-pre">
+        <div style="max-width: 900px; margin: 0 auto;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+            <div class="doc-card">
+              <h3 class="doc-card-title">📦 项目结构</h3>
+              <pre class="doc-card-pre">
 周易算命/
 ├── frontend/
-│   └── index.html      # 前端页面
+│   ├── index.html
+│   ├── styles.css
+│   ├── app.js
+│   └── modules/
 ├── src/
-│   ├── core/           # 核心算法
-│   │   ├── FortuneTeller.ts
-│   │   └── ZhouyiMethod.ts
-│   ├── bazi/           # 八字模块
-│   │   ├── baZiCalculator.ts
-│   │   ├── stemsAndBranches.ts
-│   │   └── lunarConverter.ts
-│   ├── liuyao/         # 六爻模块
-│   │   └── liuYaoCalculator.ts
-│   ├── fate/           # 命理分析
-│   │   └── fateAnalyzer.ts
-│   └── extensions/     # AI扩展
-│       └── deepseek.ts
-├── core.test.js        # 测试文件
+│   ├── core/
+│   ├── bazi/
+│   ├── liuyao/
+│   ├── fate/
+│   └── extensions/
+├── core.test.js
 ├── package.json
 └── tsconfig.json</pre>
-          </div>
-          <div class="doc-card">
-            <h3 class="doc-card-title">🛠️ 技术栈</h3>
-            <ul class="doc-card-list">
-              <li>• <strong>TypeScript</strong> - 核心逻辑实现</li>
-              <li>• <strong>HTML/CSS/JS</strong> - 前端界面</li>
-              <li>• <strong>Node.js</strong> - 运行环境</li>
-              <li>• <strong>DeepSeek API</strong> - AI 智能解读</li>
-              <li>• <strong>Jest</strong> - 单元测试</li>
-            </ul>
-          </div>
-          <div class="doc-card">
-            <h3 class="doc-card-title">🚀 快速开始</h3>
-            <pre class="doc-card-pre">
+            </div>
+            <div class="doc-card">
+              <h3 class="doc-card-title">🛠️ 技术栈</h3>
+              <ul class="doc-card-list">
+                <li><strong>TypeScript</strong> - 核心逻辑实现</li>
+                <li><strong>HTML/CSS/JS</strong> - 前端界面</li>
+                <li><strong>Node.js</strong> - 运行环境</li>
+                <li><strong>DeepSeek API</strong> - AI 智能解读</li>
+                <li><strong>Jest</strong> - 单元测试</li>
+              </ul>
+            </div>
+            <div class="doc-card">
+              <h3 class="doc-card-title">🚀 快速开始</h3>
+              <pre class="doc-card-pre">
 # 安装依赖
 npm install
 
@@ -1329,28 +339,29 @@ npm test
 
 # 启动前端
 npx http-server frontend -p 8080 -c-1</pre>
-          </div>
-          <div class="doc-card">
-            <h3 class="doc-card-title">📖 核心模块说明</h3>
-            <ul class="doc-card-list compact">
-              <li>• <strong>FortuneTeller</strong> - 周易64卦占卜核心</li>
-              <li>• <strong>BaZiCalculator</strong> - 四柱八字排盘</li>
-              <li>• <strong>LiuYaoCalculator</strong> - 六爻起卦解卦</li>
-              <li>• <strong>FateAnalyzer</strong> - 五行命理分析</li>
-              <li>• <strong>DeepSeek</strong> - AI 扩展接口</li>
-            </ul>
+            </div>
+            <div class="doc-card">
+              <h3 class="doc-card-title">📖 核心模块说明</h3>
+              <ul class="doc-card-list compact">
+                <li><strong>FortuneTeller</strong> - 周易64卦占卜核心</li>
+                <li><strong>BaZiCalculator</strong> - 四柱八字排盘</li>
+                <li><strong>LiuYaoCalculator</strong> - 六爻起卦解卦</li>
+                <li><strong>FateAnalyzer</strong> - 五行命理分析</li>
+                <li><strong>DeepSeek</strong> - AI 扩展接口</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
-
+    </section>
   </main>
+
   <footer class="footer" role="contentinfo">
     <div class="container">
       <div class="footer-links">
         <a href="about.md" target="_blank" rel="noopener noreferrer">关于我们</a>
-        <a href="#docs" id="dev-docs-link">开发步骤</a>
+        <a href="CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">贡献指南</a>
+        <a href="LICENSE" target="_blank" rel="noopener noreferrer">开源协议</a>
       </div>
       <div class="footer-copy">
         © 2026 周易算命. 传承千年智慧，探索命运奥秘.
@@ -1358,1146 +369,21 @@ npx http-server frontend -p 8080 -c-1</pre>
     </div>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/lunar-javascript@1.7.2/lunar.js"
-    crossorigin="anonymous"></script>
-  <script src="hexagram-data.js"></script>
-  <script>
-    // 检测 lunar-javascript 库是否成功加载
-    if (typeof Solar === 'undefined') {
-      console.error('lunar-javascript 库加载失败，八字功能将不可用');
-    }
-
-    const heavenlyStems = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
-    const earthlyBranches = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
-
-    const wuxingMap = { '甲': '木', '乙': '木', '丙': '火', '丁': '火', '戊': '土', '己': '土', '庚': '金', '辛': '金', '壬': '水', '癸': '水' };
-    const yinyangMap = { '甲': '阳', '乙': '阴', '丙': '阳', '丁': '阴', '戊': '阳', '己': '阴', '庚': '阳', '辛': '阴', '壬': '阳', '癸': '阴' };
-
-    const hiddenStems = {
-      '子': ['癸'], '丑': ['己', '癸', '辛'], '寅': ['甲', '丙', '戊'], '卯': ['乙'],
-      '辰': ['戊', '乙', '癸'], '巳': ['丙', '庚', '戊'], '午': ['丁', '己'], '未': ['己', '丁', '乙'],
-      '申': ['庚', '壬', '戊'], '酉': ['辛'], '戌': ['戊', '辛', '丁'], '亥': ['壬', '甲']
-    };
-
-    const monthBranchNames = ['寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥', '子', '丑'];
-
-    function calculateBaZi(year, month, day, hour) {
-      if (typeof Solar === 'undefined') {
-        throw new Error('八字计算库未加载，请检查网络连接后刷新页面');
-      }
-      const solar = Solar.fromYmdHms(year, month, day, hour, 0, 0);
-      const lunar = solar.getLunar();
-      const eightChar = lunar.getEightChar();
-
-      const yearGanZhi = eightChar.getYear();
-      const monthGanZhi = eightChar.getMonth();
-      const dayGanZhi = eightChar.getDay();
-      const hourGanZhi = eightChar.getTime();
-
-      return {
-        year: { stem: yearGanZhi.charAt(0), branch: yearGanZhi.charAt(1) },
-        month: { stem: monthGanZhi.charAt(0), branch: monthGanZhi.charAt(1) },
-        day: { stem: dayGanZhi.charAt(0), branch: dayGanZhi.charAt(1) },
-        hour: { stem: hourGanZhi.charAt(0), branch: hourGanZhi.charAt(1) }
-      };
-    }
-
-    function analyzeWuxing(baZi) {
-      const counts = { '木': 0, '火': 0, '土': 0, '金': 0, '水': 0 };
-      const pillars = [baZi.year, baZi.month, baZi.day, baZi.hour];
-      const hiddenAll = [];
-
-      pillars.forEach(p => {
-        const stem = p.stem;
-        const branch = p.branch;
-        counts[wuxingMap[stem]]++;
-        hiddenAll.push(...(hiddenStems[branch] || []));
-      });
-
-      hiddenAll.forEach(h => {
-        if (wuxingMap[h]) counts[wuxingMap[h]]++;
-      });
-
-      const total = Object.values(counts).reduce((a, b) => a + b, 0);
-      const percentages = {};
-      for (const [k, v] of Object.entries(counts)) {
-        percentages[k] = Math.round((v / total) * 100);
-      }
-
-      const strongest = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
-      const weakest = Object.entries(counts).sort((a, b) => a[1] - b[1])[0][0];
-
-      return {
-        counts,
-        percentages,
-        strongest,
-        weakest,
-        summary: `五行分布：木${percentages.木}% 火${percentages.火}% 土${percentages.土}% 金${percentages.金}% 水${percentages.水}%。${strongest}气最旺，${weakest}气最弱。`
-      };
-    }
-
-    function analyzeYinyang(baZi) {
-      let yang = 0, yin = 0;
-      const pillars = [baZi.year, baZi.month, baZi.day, baZi.hour];
-      const allStems = [];
-      const allBranches = [];
-
-      pillars.forEach(p => {
-        allStems.push(p.stem);
-        allBranches.push(p.branch);
-      });
-
-      allStems.forEach(s => {
-        if (yinyangMap[s] === '阳') yang++;
-        else yin++;
-      });
-
-      allBranches.forEach(b => {
-        const branchIndex = earthlyBranches.indexOf(b);
-        if (branchIndex % 2 === 0) yang++;
-        else yin++;
-      });
-
-      const ratio = yang > yin ? '偏阳' : yang < yin ? '偏阴' : '平衡';
-      return {
-        yang, yin,
-        summary: `阴阳分布：阳${yang}个，阴${yin}个。命局${ratio}，${yang > yin ? '性格外向，积极进取' : yin > yang ? '性格内敛，沉稳细腻' : '阴阳平衡，性格中和'}。`
-      };
-    }
-
-    document.querySelectorAll('.method-option').forEach(option => {
-      option.addEventListener('click', function() {
-        document.querySelectorAll('.method-option').forEach(o => o.classList.remove('active'));
-        this.classList.add('active');
-
-        const method = this.dataset.method;
-        const baziFields = document.getElementById('bazi-fields');
-        const baziResult = document.getElementById('bazi-result');
-        const baziResultHexagram = document.getElementById('bazi-result-hexagram');
-        const resultDetails = document.getElementById('result-details');
-
-        if (method === 'bazi') {
-          baziFields.style.display = 'block';
-          if (baziResult) baziResult.classList.add('show');
-          if (baziResultHexagram) baziResultHexagram.style.display = 'none';
-          if (resultDetails) resultDetails.style.display = 'none';
-        } else {
-          baziFields.style.display = 'none';
-          if (baziResult) baziResult.classList.remove('show');
-          if (baziResultHexagram) baziResultHexagram.style.display = 'block';
-          if (resultDetails) resultDetails.style.display = 'grid';
-        }
-      });
-    });
-
-    function doFortune() {
-      const activeMethod = document.querySelector('.method-option.active').dataset.method;
-
-      if (activeMethod === 'bazi') {
-        return doBaziFortune();
-      }
-
-      return doDivinationFortune(activeMethod);
-    }
-
-    function doBaziFortune() {
-      const birthdate = document.getElementById('birthdate').value;
-      const birthhourIndex = parseInt(document.getElementById('birthhour').value);
-
-      if (!birthdate) {
-        showNotification('请选择出生日期', 'warning');
-        return;
-      }
-
-      const date = new Date(birthdate);
-      const year = date.getFullYear();
-      const month = date.getMonth() + 1;
-      const day = date.getDate();
-
-      const shichenToHour = [23, 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21];
-      const birthhour = shichenToHour[birthhourIndex];
-
-      try {
-        const baZi = calculateBaZi(year, month, day, birthhour);
-        const wuxing = analyzeWuxing(baZi);
-        const yinyang = analyzeYinyang(baZi);
-
-        renderBaziResults(baZi, wuxing, yinyang);
-        triggerAIAnalysis('bazi');
-      } catch (error) {
-        showNotification(error.message, 'error');
-        console.error('八字计算失败:', error);
-      }
-    }
-
-    function renderBaziResults(baZi, wuxing, yinyang) {
-      const pillars = ['year', 'month', 'day', 'hour'];
-      pillars.forEach(pillar => {
-        document.getElementById(`bz-${pillar}-stem`).textContent = baZi[pillar].stem;
-        document.getElementById(`bz-${pillar}-branch`).textContent = baZi[pillar].branch;
-        document.getElementById(`bz-${pillar}-hidden`).textContent = (hiddenStems[baZi[pillar].branch] || []).join(' ');
-        document.getElementById(`bz-${pillar}-wuxing`).textContent = wuxingMap[baZi[pillar].stem];
-        document.getElementById(`bz-${pillar}-yinyang`).textContent = yinyangMap[baZi[pillar].stem];
-      });
-
-      document.getElementById('bazi-wuxing-summary').textContent = wuxing.summary;
-      document.getElementById('bazi-yinyang-summary').textContent = yinyang.summary;
-
-      const gender = document.getElementById('gender').value || 'male';
-      const baziFortune = generateBaziFortune(baZi, wuxing, yinyang, gender);
-      const baziFortuneSection = document.getElementById('bazi-fortune-section');
-      const baziFortuneContent = document.getElementById('bazi-fortune-content');
-      baziFortuneContent.innerHTML = baziFortune;
-      baziFortuneSection.style.display = 'block';
-
-      document.getElementById('bazi-result').classList.add('show');
-      document.getElementById('bazi-result-hexagram').style.display = 'none';
-      document.getElementById('result-details').style.display = 'none';
-      document.getElementById('timestamp').textContent = new Date().toLocaleDateString('zh-CN');
-      document.getElementById('confidence').textContent = '92%';
-      document.getElementById('result').classList.add('show');
-    }
-
-    function doDivinationFortune(activeMethod) {
-      const question = document.getElementById('question').value;
-      if (!question.trim()) {
-        showNotification('请输入您想咨询的问题', 'warning');
-        return;
-      }
-
-      if (activeMethod === 'zhouyi') {
-        renderZhouyiResult();
-      } else if (activeMethod === 'liuyao') {
-        renderLiuyaoResult();
-      }
-
-      document.getElementById('timestamp').textContent = new Date().toLocaleDateString('zh-CN');
-      document.getElementById('confidence').textContent = Math.floor(Math.random() * 20 + 75) + '%';
-      document.getElementById('result').classList.add('show');
-
-      triggerAIAnalysis(activeMethod);
-    }
-
-    function renderZhouyiResult() {
-      const result = HEXAGRAMS_FULL[Math.floor(Math.random() * HEXAGRAMS_FULL.length)];
-      document.getElementById('hexagram-symbols').textContent = result.symbols;
-      document.getElementById('hexagram-name').textContent = result.name;
-      document.getElementById('hexagram-meaning').textContent = result.meaning;
-      
-      const userQuestion = document.getElementById('question').value.trim();
-      const detailedInterp = result.desc;
-      const interpretationText = userQuestion 
-        ? `【针对"${userQuestion}"的解读】\n\n${detailedInterp}\n\n就您提出的问题而言，此卦象提示：${getQuestionSpecificAdvice(result.name, userQuestion)}`
-        : `此卦象显示：${detailedInterp}`;
-      document.getElementById('interpretation').textContent = interpretationText;
-      document.getElementById('advice').textContent = result.advice || getAdvice(result.name);
-      document.getElementById('bazi-result').classList.remove('show');
-      document.getElementById('bazi-result-hexagram').style.display = 'block';
-      document.getElementById('result-details').style.display = 'grid';
-    }
-
-    function renderLiuyaoResult() {
-      const castResult = castHexagram();
-      const hex = castResult.hexagram;
-
-      document.getElementById('hexagram-symbols').textContent = hex.symbols;
-      document.getElementById('hexagram-name').textContent = hex.name + `（第${HEXAGRAMS_FULL.indexOf(hex) + 1}卦）`;
-      document.getElementById('hexagram-meaning').textContent = hex.meaning;
-
-      let interpretationText = `【本卦】${hex.name}\n${hex.desc}\n\n`;
-      if (castResult.changingLines.length > 0 && castResult.transformedHexagram) {
-        interpretationText += `【动爻】第${castResult.changingLines.join('、')}爻动\n`;
-        interpretationText += `【变卦】${castResult.transformedHexagram.name}\n${castResult.transformedHexagram.desc}\n\n`;
-        interpretationText += `综合解读：本卦${hex.name}，变卦为${castResult.transformedHexagram.name}。此象显示事物正在转变中，应顺应变化，把握时机。`;
-      } else {
-        interpretationText += `【六爻稳定】无动爻，卦象稳固。\n\n综合解读：${hex.desc}`;
-      }
-
-      document.getElementById('interpretation').textContent = interpretationText;
-      document.getElementById('advice').textContent = hex.advice;
-      document.getElementById('bazi-result').classList.remove('show');
-      document.getElementById('bazi-result-hexagram').style.display = 'block';
-      document.getElementById('result-details').style.display = 'grid';
-    }
-
-    function triggerAIAnalysis(activeMethod) {
-      const apiKey = document.getElementById('api-key').value;
-      const chatSection = document.getElementById('ai-chat-section');
-      const chatMessages = document.getElementById('chat-messages');
-      const chatWelcome = document.getElementById('chat-welcome');
-
-      window.hasAutoAICalled = false;
-
-      if (!apiKey.trim()) {
-        chatSection.style.display = 'none';
-        return;
-      }
-
-      chatSection.style.display = 'block';
-
-      const cleanApiKey = apiKey.trim().replace(/^[\s"']|[\s"']$/g, '');
-      if (!cleanApiKey.startsWith('sk-')) {
-        addChatMessage('⚠️ API Key 格式不正确，请以 "sk-" 开头。', 'ai');
-        return;
-      }
-
-      const currentQuestion = document.getElementById('question').value || '未指定问题';
-      const contextInfo = buildContextInfo(activeMethod);
-
-      chatWelcome.textContent = `您好！您的${activeMethod === 'bazi' ? '八字命盘' : '卦象'}已经生成，我将为您进行详细解读。`;
-
-      chatMessages.innerHTML = `
-        <div class="chat-message ai">
-          <div class="chat-avatar">☰</div>
-          <div class="chat-bubble">${chatWelcome.textContent}</div>
-        </div>
-      `;
-
-      const autoPrompt = `请根据以下${activeMethod === 'bazi' ? '八字命盘' : '卦象'}信息，为我进行详细的运势解读：
-
-${contextInfo}
-【咨询问题】${currentQuestion}
-
-请从以下方面解读：
-1. **命局/卦象总论**：整体特点
-2. **事业财运**：发展建议
-3. **感情婚姻**：运势分析
-4. **健康运势**：注意事项
-5. **趋吉避凶**：行动指南`;
-
-      setTimeout(() => {
-        callDeepSeekAPI(autoPrompt, cleanApiKey);
-        window.hasAutoAICalled = true;
-      }, 500);
-    }
-
-    function buildContextInfo(activeMethod) {
-      if (activeMethod === 'zhouyi' || activeMethod === 'liuyao') {
-        return `【占卜方式】${activeMethod === 'zhouyi' ? '周易64卦' : '六爻占卜'}
-【卦象名称】${document.getElementById('hexagram-name').textContent}
-【卦象含义】${document.getElementById('hexagram-meaning').textContent}
-【卦象符号】${document.getElementById('hexagram-symbols').textContent}
-【解读】${document.getElementById('interpretation').textContent}
-【建议】${document.getElementById('advice').textContent}`;
-      } else if (activeMethod === 'bazi') {
-        return `【占卜方式】八字测算
-【年柱】${document.getElementById('bz-year-stem').textContent}${document.getElementById('bz-year-branch').textContent}
-【月柱】${document.getElementById('bz-month-stem').textContent}${document.getElementById('bz-month-branch').textContent}
-【日柱】${document.getElementById('bz-day-stem').textContent}${document.getElementById('bz-day-branch').textContent}
-【时柱】${document.getElementById('bz-hour-stem').textContent}${document.getElementById('bz-hour-branch').textContent}
-【五行】${document.getElementById('bazi-wuxing-summary').textContent}
-【阴阳】${document.getElementById('bazi-yinyang-summary').textContent}`;
-      }
-      return '';
-    }
-
-    async function askAIDeepAnalysis() {
-      const chatSection = document.getElementById('ai-chat-section');
-      const chatInput = document.getElementById('chat-input');
-
-      chatSection.style.display = 'block';
-      setTimeout(function() {
-        chatSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }, 100);
-
-      if (window.hasAutoAICalled) {
-        addChatMessage('💡 AI已完成初步解读，您可以继续提问以获取更深入的分析。例如：', 'ai');
-      }
-
-      const deepAnalysisQuestion = '请根据以上八字命盘，深度分析以下方面：1. 命局特点与性格分析；2. 事业财运发展趋势；3. 婚姻感情状况；4. 健康需要注意的事项；5. 一生中重要的转折点；6. 有针对性的改运建议';
-
-      chatInput.value = deepAnalysisQuestion;
-      sendChatMessage();
-    }
-
-    async function sendChatMessage() {
-      const apiKey = document.getElementById('api-key').value.trim().replace(/^[\s"']|[\s"']$/g, '');
-      const chatInput = document.getElementById('chat-input');
-      const message = chatInput.value.trim();
-      
-      if (!apiKey) {
-        alert('请先输入 DeepSeek API Key');
-        return;
-      }
-      
-      if (!apiKey.startsWith('sk-')) {
-        alert('API Key 格式不正确，请以 "sk-" 开头');
-        return;
-      }
-      
-      if (!message) {
-        return;
-      }
-      
-      chatInput.value = '';
-      chatInput.style.height = 'auto';
-      
-      addChatMessage(message, 'user');
-      await callDeepSeekAPI(message, apiKey);
-    }
-
-    async function callDeepSeekAPI(prompt, apiKey) {
-      const chatMessages = document.getElementById('chat-messages');
-      const chatSendBtn = document.getElementById('chat-send-btn');
-      
-      const loadingId = 'loading-' + Date.now();
-      addLoadingMessage(loadingId);
-      chatSendBtn.disabled = true;
-      chatSendBtn.textContent = '思考中...';
-      
-      const activeMethod = document.querySelector('.method-option.active').dataset.method;
-      
-      let contextInfo = '';
-      if (activeMethod === 'zhouyi' || activeMethod === 'liuyao') {
-        contextInfo = `【占卜方式】${activeMethod === 'zhouyi' ? '周易64卦' : '六爻占卜'}
-【卦象】${document.getElementById('hexagram-name').textContent}
-【含义】${document.getElementById('hexagram-meaning').textContent}
-【符号】${document.getElementById('hexagram-symbols').textContent}`;
-      } else if (activeMethod === 'bazi') {
-        const fortuneContent = document.getElementById('bazi-fortune-content');
-        const fortuneText = fortuneContent ? fortuneContent.textContent || '' : '';
-        contextInfo = `【八字命盘详细分析】
-
-${fortuneText.substring(0, 2000)}
-
-请结合以上详细命理分析，为用户提供专业、深入的运势解读和建议。`;
-      }
-      
-      const systemPrompt = `你是一位精通《周易》、八字命理、六爻占卜的专业命理师。请根据用户的占卜结果和问题，提供专业、详细、通俗易懂的运势解读。回答要有传统文化深度，同时贴近现代生活实际。请用 Markdown 格式组织回答，使用标题、列表、粗体等使回答清晰易读。`;
-      
-      const fullPrompt = `${systemPrompt}
-
-当前用户的占卜信息：
-${contextInfo}
-
-用户问题：${prompt}
-
-请详细解答。`;
-
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 30000);
-        
-        const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${apiKey}`
-          },
-          body: JSON.stringify({
-            model: 'deepseek-chat',
-            messages: [
-              {
-                role: 'system',
-                content: systemPrompt
-              },
-              {
-                role: 'user',
-                content: fullPrompt
-              }
-            ],
-            temperature: 0.8,
-            max_tokens: 2000,
-            stream: true
-          }),
-          signal: controller.signal
-        });
-        
-        clearTimeout(timeoutId);
-
-        if (!response.ok) {
-          const errorData = await response.json().catch(() => null);
-          const errorMsg = errorData?.error?.message || errorData?.message || '未知错误';
-          console.error('API 错误:', {
-            status: response.status,
-            statusText: response.statusText,
-            error: errorMsg
-          });
-          throw new Error(`API 请求失败 (${response.status}): ${errorMsg}`);
-        }
-
-        removeLoadingMessage(loadingId);
-        
-        const aiMessageId = 'ai-msg-' + Date.now();
-        addChatMessage('', 'ai', aiMessageId);
-        
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder();
-        let fullText = '';
-        let buffer = '';
-        
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          
-          buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split('\n');
-          buffer = lines.pop() || '';
-          
-          for (const line of lines) {
-            if (line.startsWith('data: ')) {
-              const data = line.slice(6).trim();
-              if (data === '[DONE]') continue;
-              
-              try {
-                const json = JSON.parse(data);
-                const content = json.choices?.[0]?.delta?.content || '';
-                if (content) {
-                  fullText += content;
-                  updateChatMessage(aiMessageId, fullText);
-                }
-              } catch (e) {
-                console.warn('SSE parse error:', e, data);
-              }
-            }
-          }
-        }
-        
-        if (!fullText) {
-          updateChatMessage(aiMessageId, 'AI 未能生成解读内容，请重试。');
-        }
-      } catch (error) {
-        removeLoadingMessage(loadingId);
-        if (error.name === 'AbortError') {
-          addChatMessage('❌ 请求超时：AI 解读响应时间过长，请稍后重试。', 'ai');
-        } else {
-          addChatMessage(`❌ AI 解读失败: ${error.message}\n\n请检查 API Key 是否正确，或稍后重试。`, 'ai');
-        }
-      } finally {
-        chatSendBtn.disabled = false;
-        chatSendBtn.textContent = '发送 ✨';
-      }
-    }
-
-    function addChatMessage(text, type, id = null) {
-      const chatMessages = document.getElementById('chat-messages');
-      const messageDiv = document.createElement('div');
-      messageDiv.className = `chat-message ${type}`;
-      if (id) messageDiv.id = id;
-      
-      const avatar = type === 'ai' ? '☰' : '👤';
-      messageDiv.innerHTML = `
-        <div class="chat-avatar">${avatar}</div>
-        <div class="chat-bubble">${formatMarkdown(text)}</div>
-      `;
-      
-      chatMessages.appendChild(messageDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    function updateChatMessage(id, text) {
-      const messageDiv = document.getElementById(id);
-      if (messageDiv) {
-        const bubble = messageDiv.querySelector('.chat-bubble');
-        if (bubble) {
-          bubble.innerHTML = formatMarkdown(text);
-          const chatMessages = document.getElementById('chat-messages');
-          chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-      }
-    }
-
-    function addLoadingMessage(id) {
-      const chatMessages = document.getElementById('chat-messages');
-      const loadingDiv = document.createElement('div');
-      loadingDiv.className = 'chat-message ai';
-      loadingDiv.id = id;
-      loadingDiv.innerHTML = `
-        <div class="chat-avatar">☰</div>
-        <div class="chat-bubble">
-          <div class="typing-indicator">
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-      `;
-      chatMessages.appendChild(loadingDiv);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    function removeLoadingMessage(id) {
-      const loadingDiv = document.getElementById(id);
-      if (loadingDiv) {
-        loadingDiv.remove();
-      }
-    }
-
-    function escapeHtml(text) {
-      if (typeof text !== 'string') return '';
-      const div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    }
-
-    function sanitizeAttributeValue(value) {
-      return value
-        .replace(/&/g, '&amp;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;');
-    }
-
-    function formatMarkdown(text) {
-      if (typeof text !== 'string') return '';
-      const safe = escapeHtml(text);
-      return safe
-        .replace(/\*\*(.+?)\*\*/g, (match, p1) => {
-          const clean = p1.replace(/[<>]/g, '');
-          return `<strong>${clean}</strong>`;
-        })
-        .replace(/\*(.+?)\*/g, (match, p1) => {
-          const clean = p1.replace(/[<>]/g, '');
-          return `<em>${clean}</em>`;
-        })
-        .replace(/`(.+?)`/g, (match, p1) => {
-          const clean = p1.replace(/[<>]/g, '');
-          return `<code>${clean}</code>`;
-        })
-        .replace(/\n/g, '<br>');
-    }
-
-    function showNotification(message, type = 'warning', duration = 3000) {
-      const existing = document.querySelector('.notification');
-      if (existing) existing.remove();
-
-      const notification = document.createElement('div');
-      notification.className = `notification ${type}`;
-      notification.textContent = message;
-      notification.setAttribute('role', 'alert');
-      notification.setAttribute('aria-live', 'polite');
-
-      document.body.appendChild(notification);
-
-      setTimeout(() => {
-        notification.style.animation = 'slideOut 0.3s ease forwards';
-        setTimeout(() => notification.remove(), 300);
-      }, duration);
-    }
-
-    function getAdvice(hexagramName) {
-      const advices = {
-        '乾为天': '宜积极进取，把握机遇，但需注意刚过易折',
-        '坤为地': '宜厚德载物，包容含蓄，稳步推进事业',
-        '天泽履': '宜谨慎行事，量力而行，见险而止',
-        '地天泰': '宜把握时机，乘势而上，注意阴阳平衡',
-        '天火同人': '宜广结善缘，协调关系，合伙创业有利',
-        '火天大有': '宜谦逊待人，广纳财富，声名远扬',
-        '山天大畜': '宜蓄势待发，学习提升，储备知识和能力',
-        '天山遁': '宜暂时退守，养精蓄锐，等待更好时机',
-      };
-      return advices[hexagramName] || '运势平稳，顺其自然';
-    }
-
-    function getQuestionSpecificAdvice(hexagramName, question) {
-      const q = question.toLowerCase();
-      
-      const careerKeywords = ['事业', '工作', '职业', '升职', '跳槽', '创业', '办公', '职位', '求职', '面试'];
-      const wealthKeywords = ['财运', '财富', '金钱', '投资', '理财', '赚钱', '破财', '收入', '生意', '经商'];
-      const loveKeywords = ['感情', '婚姻', '恋爱', '桃花', '分手', '复合', '相亲', '对象', '结婚', '离婚', '爱情'];
-      const healthKeywords = ['健康', '身体', '疾病', '养生', '手术', '体检', '平安'];
-      const familyKeywords = ['家庭', '父母', '子女', '孩子', '父母', '婆媳', '亲戚'];
-      const studyKeywords = ['学习', '考试', '升学', '考研', '学业', '成绩', '留学'];
-      
-      let category = '综合';
-      if (careerKeywords.some(k => q.includes(k))) category = '事业';
-      else if (wealthKeywords.some(k => q.includes(k))) category = '财运';
-      else if (loveKeywords.some(k => q.includes(k))) category = '感情';
-      else if (healthKeywords.some(k => q.includes(k))) category = '健康';
-      else if (familyKeywords.some(k => q.includes(k))) category = '家庭';
-      else if (studyKeywords.some(k => q.includes(k))) category = '学业';
-      
-      const advices = {
-        '乾为天': {
-          '事业': '当前事业运势极佳，适合主动出击争取机会。但要注意与同事保持良好关系，不可独断专行。',
-          '财运': '正财运旺盛，可通过努力工作获得可观收入。偏财也可适度参与，但切勿贪心。',
-          '感情': '个人魅力十足，易吸引异性。已有伴侣者应多关心对方，避免大男子主义/强势态度。',
-          '健康': '精力充沛，适合开始健身计划。注意不要过度劳累，保证充足睡眠。',
-          '家庭': '在家中宜以和为贵，不宜将工作压力带回家。多陪伴家人，增进感情。',
-          '学业': '学习状态极佳，适合挑战高难度目标。保持专注，可取得突破性进步。',
-          '综合': '整体运势旺盛，各方面都在向好发展。关键是保持积极向上的态度，同时注意人际关系。',
-        },
-        '坤为地': {
-          '事业': '事业宜稳不宜急，当前适合默默积累实力和经验。不宜锋芒毕露，低调行事最佳。',
-          '财运': '财运平稳，不宜进行高风险投资。稳健理财，积少成多。',
-          '感情': '感情以包容和理解为主，多站在对方角度思考。温柔以待，感情自会升温。',
-          '健康': '注意脾胃消化系统，饮食要有规律。适当运动但不要剧烈。',
-          '家庭': '家庭和睦的关键在于包容和付出。多做家务，关心长辈，家庭氛围会更和谐。',
-          '学业': '学习需要耐心和毅力，不急不躁，循序渐进必有收获。',
-          '综合': '整体运势以稳为主，当前最重要的是打好基础，培养实力，等待时机。',
-        },
-        '地天泰': {
-          '事业': '事业正值上升期，阴阳和合利于合作。可以主动寻求合作伙伴或团队项目。',
-          '财运': '财运亨通，是投资的好时机。但仍需理性分析，不可盲目跟风。',
-          '感情': '感情运势大好，单身者有望遇到心仪对象。已有伴侣者关系会更加融洽。',
-          '健康': '身体状况良好，气血调和。保持良好的生活习惯即可。',
-          '家庭': '家庭和睦，适合全家一起出行或聚会。亲子关系也会更加亲密。',
-          '学业': '学习效率提高，思维活跃。适合参加讨论式学习或团队项目。',
-          '综合': '万事通达的好时期，可以大胆推进各项计划。但也要居安思危，为可能的变化做准备。',
-        },
-        '天泽履': {
-          '事业': '事业上要认清自己的位置，不可越级行事。做好本职工作，积累经验最重要。',
-          '财运': '财运一般，不宜大额投资。量入为出，避免超出能力的消费。',
-          '感情': '感情中要注意平等沟通，不可居高临下。尊重对方的想法和感受。',
-          '健康': '注意足部和关节保护，运动前做好热身。',
-          '家庭': '家庭中要尊重长辈意见，但也要有自己的判断。和谐相处需要双方共同努力。',
-          '学业': '学习要脚踏实地，打好基础再追求更高目标。不可好高骛远。',
-          '综合': '当前最重要的是量力而行，步步为营。虽然进展可能不快，但稳健前行是最好的策略。',
-        },
-      };
-      
-      const hexAdvice = advices[hexagramName];
-      if (hexAdvice && hexAdvice[category]) {
-        return hexAdvice[category];
-      }
-      
-      const generalAdvices = {
-        '事业': '事业方面需要结合当前卦象的启示，审时度势，做出最合适的选择。',
-        '财运': '财运走势与个人决策密切相关，建议谨慎理财，不贪不急。',
-        '感情': '感情生活需要用心经营，真诚沟通是维系关系的关键。',
-        '健康': '健康是根本，建议规律作息，适度运动，保持心情愉悦。',
-        '家庭': '家庭和睦需要每个成员的付出，多沟通、多理解、多包容。',
-        '学业': '学业进步需要恒心和专注，找到适合自己的学习方法很重要。',
-        '综合': '整体而言，顺应卦象的指引，保持积极心态，自然能够趋吉避凶。',
-      };
-      
-      return generalAdvices[category] || generalAdvices['综合'];
-    }
-
-    function generateBaziFortune(baZi, wuxing, yinyang, gender) {
-      const dayStem = baZi.day.stem;
-      const dayBranch = baZi.day.branch;
-      const shiShenResult = analyzeShiShen(baZi);
-      const liuQinResult = analyzeLiuQin(baZi);
-      const daYunResult = calculateDaYun(baZi, gender);
-      const geJuResult = analyzeGeJu(baZi);
-      const nayinResult = getNayinInfo(baZi);
-      const wuxingStrength = analyzeWuxingStrength(baZi);
-
-      return `
-        <div class="ai-fortune-section">
-          <div class="ai-section-card" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1)); border: 1px solid rgba(99, 102, 241, 0.3); border-radius: 12px; padding: 20px; margin-bottom: 16px;">
-            <h4 style="color: #818cf8; margin: 0 0 12px; font-size: 16px;">🔮 命局总览</h4>
-            <p style="margin: 4px 0; font-size: 14px; line-height: 1.8;"><strong>日主：</strong>${dayStem}${dayBranch}（${wuxingMap[dayStem]}${yinyangMap[dayStem]}）</p>
-            <p style="margin: 4px 0; font-size: 14px; line-height: 1.8;"><strong>纳音：</strong>${nayinResult}</p>
-            <p style="margin: 4px 0; font-size: 14px; line-height: 1.8;"><strong>格局：</strong>${geJuResult.name} — ${geJuResult.desc}</p>
-            <p style="margin: 4px 0; font-size: 14px; line-height: 1.8;"><strong>身强身弱：</strong>${wuxingStrength.level}</p>
-            <p style="margin: 4px 0; font-size: 13px; color: var(--text-muted);">${wuxingStrength.explanation}</p>
-          </div>
-
-          <div class="ai-section-card" style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(5, 150, 105, 0.08)); border: 1px solid rgba(16, 185, 129, 0.25); border-radius: 12px; padding: 20px; margin-bottom: 16px;">
-            <h4 style="color: #10b981; margin: 0 0 12px; font-size: 16px;">⚔️ 十神详解</h4>
-            ${shiShenResult.html}
-          </div>
-
-          <div class="ai-section-card" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(217, 119, 6, 0.08)); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 12px; padding: 20px; margin-bottom: 16px;">
-            <h4 style="color: #f59e0b; margin: 0 0 12px; font-size: 16px;">👨‍👩‍👧‍👦 六亲关系</h4>
-            ${liuQinResult.html}
-          </div>
-
-          <div class="ai-section-card" style="background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(220, 38, 38, 0.08)); border: 1px solid rgba(239, 68, 68, 0.25); border-radius: 12px; padding: 20px; margin-bottom: 16px;">
-            <h4 style="color: #ef4444; margin: 0 0 12px; font-size: 16px;">📊 大运流年</h4>
-            ${daYunResult.html}
-          </div>
-
-          <div class="ai-section-card" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(124, 58, 237, 0.08)); border: 1px solid rgba(139, 92, 246, 0.25); border-radius: 12px; padding: 20px; margin-bottom: 16px;">
-            <h4 style="color: #8b5cf6; margin: 0 0 12px; font-size: 16px;">📖 经典引用（RAG知识库）</h4>
-            ${getRagQuotes(baZi)}
-          </div>
-
-          <div class="ai-section-card" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(37, 99, 235, 0.08)); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: 12px; padding: 20px;">
-            <h4 style="color: #3b82f6; margin: 0 0 12px; font-size: 16px;">🎯 综合建议</h4>
-            ${generateComprehensiveAdvice(baZi, shiShenResult, daYunResult, wuxingStrength)}
-          </div>
-        </div>
-      `;
-    }
-
-    const shiShenTable = {
-      '甲': { '甲': '比肩', '乙': '劫财', '丙': '食神', '丁': '伤官', '戊': '偏财', '己': '正财', '庚': '七杀', '辛': '正官', '壬': '偏印', '癸': '正印' },
-      '乙': { '甲': '劫财', '乙': '比肩', '丙': '伤官', '丁': '食神', '戊': '正财', '己': '偏财', '庚': '正官', '辛': '七杀', '壬': '正印', '癸': '偏印' },
-      '丙': { '甲': '偏印', '乙': '正印', '丙': '比肩', '丁': '劫财', '戊': '食神', '己': '伤官', '庚': '偏财', '辛': '正财', '壬': '七杀', '癸': '正官' },
-      '丁': { '甲': '正印', '乙': '偏印', '丙': '劫财', '丁': '比肩', '戊': '伤官', '己': '食神', '庚': '正财', '辛': '偏财', '壬': '正官', '癸': '七杀' },
-      '戊': { '甲': '七杀', '乙': '正官', '丙': '偏印', '丁': '正印', '戊': '比肩', '己': '劫财', '庚': '食神', '辛': '伤官', '壬': '偏财', '癸': '正财' },
-      '己': { '甲': '正官', '乙': '七杀', '丙': '正印', '丁': '偏印', '戊': '劫财', '己': '比肩', '庚': '伤官', '辛': '食神', '壬': '正财', '癸': '偏财' },
-      '庚': { '甲': '偏财', '乙': '正财', '丙': '七杀', '丁': '正官', '戊': '偏印', '己': '正印', '庚': '比肩', '辛': '劫财', '壬': '食神', '癸': '伤官' },
-      '辛': { '甲': '正财', '乙': '偏财', '丙': '正官', '丁': '七杀', '戊': '正印', '己': '偏印', '庚': '劫财', '辛': '比肩', '壬': '伤官', '癸': '食神' },
-      '壬': { '甲': '食神', '乙': '伤官', '丙': '偏财', '丁': '正财', '戊': '七杀', '己': '正官', '庚': '偏印', '辛': '正印', '壬': '比肩', '癸': '劫财' },
-      '癸': { '甲': '伤官', '乙': '食神', '丙': '正财', '丁': '偏财', '戊': '正官', '己': '七杀', '庚': '正印', '辛': '偏印', '壬': '劫财', '癸': '比肩' }
-    };
-
-    const liuQinMap = { '比肩': '兄弟', '劫财': '兄弟', '食神': '子孙', '伤官': '子孙', '偏财': '妻财', '正财': '妻财', '七杀': '官鬼', '正官': '官鬼', '偏印': '父母', '正印': '父母' };
-
-    const shiShenMeanings = {
-      '比肩': { desc: '同类同气，独立自主，有竞争心', good: '自信果断，独立性强', bad: '固执己见，争强好胜' },
-      '劫财': { desc: '同类异气，慷慨大方，耗财争利', good: '热情豪爽，人缘广', bad: '财来财去，易破财' },
-      '食神': { desc: '我生之阳，温和多才，口福佳', good: '聪明有才华，善饮食', bad: '懒散享乐，缺乏进取' },
-      '伤官': { desc: '我生之阴，聪明傲慢，才华横溢', good: '创造力强，表达力佳', bad: '恃才傲物，易招是非' },
-      '偏财': { desc: '我克之阳，意外之财，慷慨大方', good: '善于经营，交际广', bad: '挥霍无度，感情多变' },
-      '正财': { desc: '我克之阴，勤劳节俭，正当之财', good: '踏实可靠，理财稳健', bad: '过于保守，缺乏魄力' },
-      '七杀': { desc: '克我之阳，刚烈果断，威严有力', good: '有魄力胆识，能成大事', bad: '偏激冲动，易遭灾祸' },
-      '正官': { desc: '克我之阴，端正严肃，管理才能', good: '循规蹈矩，仕途有望', bad: '过于拘谨，缺乏创新' },
-      '偏印': { desc: '生我之阳，机敏多疑，偏才异能', good: '思维独特，有创意', bad: '孤僻多疑，枭神夺食' },
-      '正印': { desc: '生我之阴，仁慈宽厚，学业有成', good: '聪明好学，受人尊重', bad: '依赖性强，缺乏独立' }
-    };
-
-    function analyzeShiShen(baZi) {
-      const dayStem = baZi.day.stem;
-      const table = shiShenTable[dayStem];
-      const positions = ['年柱', '月柱', '日柱', '时柱'];
-      const pillars = [baZi.year, baZi.month, baZi.day, baZi.hour];
-      let html = '';
-      const counts = {};
-      const details = [];
-
-      pillars.forEach((p, i) => {
-        const ss = table[p.stem];
-        const meaning = shiShenMeanings[ss] || {};
-        counts[ss] = (counts[ss] || 0) + 1;
-        details.push({ position: positions[i], stem: p.stem, branch: p.branch, shiShen: ss, meaning });
-        html += `<div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px dashed rgba(255,255,255,0.1);">
-          <span><strong>${positions[i]}</strong> ${p.stem}${p.branch}</span>
-          <span style="color:#10b981;font-weight:600;">${ss}</span>
-          <span style="font-size:12px;color:var(--text-muted);">${meaning.desc || ''}</span>
-        </div>`;
-      });
-
-      const sortedCounts = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-      const dominant = sortedCounts.slice(0, 3).map(([name]) => name);
-      html += `<div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.15);">
-        <span style="font-size:13px;color:var(--text-muted);">主导十神：</span>
-        <span style="font-weight:600;color:#fbbf24;">${dominant.join('、')}</span>
-      </div>`;
-
-      return { html, counts, dominant, details };
-    }
-
-    function analyzeLiuQin(baZi) {
-      const dayStem = baZi.day.stem;
-      const table = shiShenTable[dayStem];
-      const pillars = [baZi.year, baZi.month, baZi.day, baZi.hour];
-      const qinCounts = {};
-
-      pillars.forEach(p => {
-        const ss = table[p.stem];
-        const qin = liuQinMap[ss];
-        if (qin) qinCounts[qin] = (qinCounts[qin] || 0) + 1;
-      });
-
-      const qinNames = ['父母', '兄弟', '妻财', '子女', '官鬼'];
-      const qinIcons = { '父母': '👴', '兄弟': '👫', '妻财': '💰', '子女': '👶', '官鬼': '⚖️' };
-      const qinAdvice = {
-        '父母': '父母爻旺则长辈安康、学业有成；弱则需注意与长辈关系',
-        '兄弟': '兄弟爻旺则朋友众多但易耗财；弱则人脉不足',
-        '妻财': '妻财爻旺则财运亨通、婚姻美满；弱则财运不稳',
-        '子女': '子女爻旺则子女孝顺、福气深厚；弱则子息缘薄',
-        '官鬼': '官鬼爻旺则事业有成、丈夫得力；弱则事业波折'
-      };
-
-      let html = '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;">';
-      qinNames.forEach(qin => {
-        const count = qinCounts[qin] || 0;
-        const barWidth = Math.min(count * 30, 100);
-        html += `<div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:10px;text-align:center;">
-          <div style="font-size:20px;margin-bottom:4px;">${qinIcons[qin]}</div>
-          <div style="font-weight:600;font-size:14px;">${qin}</div>
-          <div style="background:rgba(245,158,11,0.3);border-radius:4px;height:6px;margin:6px 0;overflow:hidden;">
-            <div style="width:${barWidth}%;height:100%;background:linear-gradient(90deg,#f59e0b,#fbbf24);border-radius:4px;"></div>
-          </div>
-          <div style="font-size:11px;color:var(--text-muted);">${qinAdvice[qin].split('；')[0]}</div>
-        </div>`;
-      });
-      html += '</div>';
-      return { html, counts: qinCounts };
-    }
-
-    function calculateDaYun(baZi, gender) {
-      const yearStemIndex = heavenlyStems.indexOf(baZi.year.stem);
-      const isYangYear = yearStemIndex % 2 === 0;
-      const isMale = gender === 'male';
-      const forward = (isYangYear && isMale) || (!isYangYear && !isMale);
-
-      const birthdateStr = document.getElementById('birthdate')?.value;
-      const birthhour = parseInt(document.getElementById('birthhour')?.value || '0');
-      const startAge = calculateStartAgePrecise(birthdateStr, birthhour, forward);
-      const currentYear = new Date().getFullYear();
-      const birthYear = parseInt(birthdateStr?.split('-')[0] || currentYear);
-      const age = currentYear - birthYear;
-      let html = '';
-
-      for (let i = 0; i < 8; i++) {
-        let sIdx = heavenlyStems.indexOf(baZi.month.stem);
-        let bIdx = earthlyBranches.indexOf(baZi.month.branch);
-        for (let j = 0; j <= i; j++) {
-          sIdx = forward ? (sIdx + 1) % 10 : (sIdx - 1 + 10) % 10;
-          bIdx = forward ? (bIdx + 1) % 12 : (bIdx - 1 + 12) % 12;
-        }
-
-        const dsName = heavenlyStems[sIdx];
-        const dbName = earthlyBranches[bIdx];
-        const ageStart = startAge + i * 10;
-        const ageEnd = ageStart + 9;
-        const isCurrent = age >= ageStart && age <= ageEnd;
-        const luckLevel = evaluateDaYunLuck(dsName, dbName, baZi);
-
-        html += `<div style="display:flex;align-items:center;padding:10px;margin-bottom:6px;background:${isCurrent ? 'rgba(99,102,241,0.2)' : 'rgba(0,0,0,0.15)'};border-radius:8px;border-left:4px solid ${isCurrent ? '#818cf8' : '#4b5563'};">
-          <div style="min-width:70px;">
-            <div style="font-weight:700;font-size:16px;color:${isCurrent ? '#818cf8' : '#e5e7eb'};">${dsName}${dbName}</div>
-            <div style="font-size:11px;color:var(--text-muted);">${ageStart}-${ageEnd}岁</div>
-          </div>
-          <div style="flex:1;margin-left:12px;">
-            <div style="font-size:12px;">${wuxingMap[dsName]}运 · ${luckLevel.text}</div>
-            <div style="font-size:11px;color:var(--text-muted);">${luckLevel.detail}</div>
-          </div>
-          <div style="font-size:18px;">${isCurrent ? '📍' : ''}</div>
-        </div>`;
-      }
-
-      return { html, startAge, forward };
-    }
-
-    function calculateStartAgePrecise(birthdateStr, birthhour, forward) {
-      if (!birthdateStr) return 3;
-
-      try {
-        const [year, month, day] = birthdateStr.split('-').map(Number);
-        const solar = Solar.fromYmdHms(year, month, day, birthhour, 0, 0);
-        const lunar = solar.getLunar();
-
-        let targetJieQi;
-        if (forward) {
-          targetJieQi = lunar.getNextJie();
-        } else {
-          targetJieQi = lunar.getPrevJie();
-        }
-
-        if (targetJieQi) {
-          const targetSolar = targetJieQi.getSolar();
-          const birthDate = new Date(year, month - 1, day);
-          const targetDate = new Date(targetSolar.getYear(), targetSolar.getMonth() - 1, targetSolar.getDay());
-          const diffDays = Math.abs(Math.floor((targetDate.getTime() - birthDate.getTime()) / (1000 * 60 * 60 * 24)));
-          const startAge = Math.round(diffDays / 3);
-          return Math.max(1, Math.min(startAge, 10));
-        }
-      } catch (e) {
-        console.warn('计算起运年龄失败，使用默认值:', e);
-      }
-
-      return 3;
-    }
-
-    function evaluateDaYunLuck(stem, branch, baZi) {
-      const dayElement = wuxingMap[baZi.day.stem];
-      const stemEl = wuxingMap[stem];
-      const branchEl = getWuxingOfBranch(branch);
-      const strengths = { '木': 0, '火': 0, '土': 0, '金': 0, '水': 0 };
-      [baZi.year, baZi.month, baZi.day, baZi.hour].forEach(p => {
-        const e = wuxingMap[p.stem];
-        if (e) strengths[e]++;
-      });
-      const isStrong = strengths[dayElement] >= 2;
-      let score = 0;
-      if (isStrong) {
-        if (stemEl === getKeBy(dayElement) || branchEl === getKeBy(dayElement)) score += 2;
-        else if (stemEl === dayElement) score -= 1;
-      } else {
-        if (stemEl === dayElement || stemEl === getShengBy(dayElement)) score += 2;
-        else if (stemEl === getKe(dayElement)) score -= 2;
-      }
-      if (score >= 2) return { text: '✨ 吉运', detail: '运势较佳，宜积极进取' };
-      if (score >= 1) return { text: '🌟 平吉', detail: '运势平稳，稳步发展' };
-      if (score <= -1) return { text: '⚠️ 需防', detail: '运势波动，谨慎行事' };
-      return { text: '➡️ 平稳', detail: '运势一般，守成为上' };
-    }
-
-    function analyzeGeJu(baZi) {
-      const monthBranch = baZi.month.branch;
-      const dayStem = baZi.day.stem;
-      const table = shiShenTable[dayStem];
-      const monthShiShen = table[baZi.month.stem];
-
-      const geJuList = [
-        { name: '正官格', condition: monthShiShen === '正官', desc: '为人端正，有管理才能，利仕途' },
-        { name: '七杀格', condition: monthShiShen === '七杀', desc: '刚毅果断，有魄力，宜武职' },
-        { name: '正财格', condition: monthShiShen === '正财', desc: '勤劳节俭，善于理财，财源稳定' },
-        { name: '偏财格', condition: monthShiShen === '偏财', desc: '慷慨大方，善于经营，意外之财' },
-        { name: '正印格', condition: monthShiShen === '正印', desc: '仁慈宽厚，聪明好学，利学业' },
-        { name: '食神格', condition: monthShiShen === '食神', desc: '温良恭俭，多才艺，有口福' },
-        { name: '伤官格', condition: monthShiShen === '伤官', desc: '聪明傲慢，才华横溢，宜技艺' },
-        { name: '建禄格', condition: baZi.day.stem === baZi.day.branch.substring(0, 1), desc: '日主得地，根基稳固，自立自强' }
-      ];
-
-      const matched = geJuList.find(g => g.condition) || { name: '杂气格', desc: '命局复杂，需综合分析各柱力量' };
-      return matched;
-    }
-
-    function getNayinInfo(baZi) {
-      const nayinData = {
-        '甲子': '海中金', '乙丑': '海中金', '丙寅': '炉中火', '丁卯': '炉中火', '戊辰': '大林木', '己巳': '大林木',
-        '庚午': '路旁土', '辛未': '路旁土', '壬申': '剑锋金', '癸酉': '剑锋金', '甲戌': '山头火', '乙亥': '山头火',
-        '丙子': '涧下水', '丁丑': '涧下水', '戊寅': '城头土', '己卯': '城头土', '庚辰': '白蜡金', '辛巳': '白蜡金',
-        '壬午': '杨柳木', '癸未': '杨柳木', '甲申': '泉中水', '乙酉': '泉中水', '丙戌': '屋上土', '丁亥': '屋上土',
-        '戊子': '霹雳火', '己丑': '霹雳火', '庚寅': '松柏木', '辛卯': '松柏木', '壬辰': '长流水', '癸巳': '长流水',
-        '甲午': '砂石金', '乙未': '砂石金', '丙申': '山下火', '丁酉': '山下火', '戊戌': '平地木', '己亥': '平地木'
-      };
-      const pairs = [
-        baZi.day.stem + baZi.day.branch,
-        baZi.year.stem + baZi.year.branch,
-        baZi.month.stem + baZi.month.branch,
-        baZi.hour.stem + baZi.hour.branch
-      ];
-      return pairs.map(p => `${p}:${nayinData[p] || '?'}`).join(' | ');
-    }
-
-    function analyzeWuxingStrength(baZi) {
-      const monthWxStrength = {
-        '寅': { '木': 1.0 }, '卯': { '木': 1.0 }, '辰': { '土': 0.8, '木': 0.4 }, '巳': { '火': 1.0 },
-        '午': { '火': 1.0 }, '未': { '土': 0.8, '火': 0.4 }, '申': { '金': 1.0 }, '酉': { '金': 1.0 },
-        '戌': { '土': 0.8, '金': 0.4 }, '亥': { '水': 1.0 }, '子': { '水': 1.0 }, '丑': { '土': 0.8, '水': 0.4 }
-      };
-      const dayEl = wuxingMap[baZi.day.stem];
-      const monthBonus = monthWxStrength[baZi.month.branch] || {};
-      const strengths = { '木': 0, '火': 0, '土': 0, '金': 0, '水': 0 };
-      [baZi.year, baZi.month, baZi.day, baZi.hour].forEach((p, idx) => {
-        const el = wuxingMap[p.stem];
-        if (el) strengths[el] += (idx === 1 ? 1.5 : 1.0);
-      });
-      Object.keys(monthBonus).forEach(k => { strengths[k] = (strengths[k] || 0) * (1 + monthBonus[k]); });
-      const score = strengths[dayEl] || 0;
-      const level = score >= 4 ? '身旺' : score >= 2.5 ? '中和偏旺' : score >= 1.5 ? '中和' : score >= 0.8 ? '中和偏弱' : '身弱';
-      const explanations = {
-        '身旺': `日主${baZi.day.stem}(${dayEl})力量充足（得分${score.toFixed(1)}），月令${baZi.month.branch}亦助其势。宜行克泄耗之运，以平衡命局。`,
-        '中和偏旺': `日主${baZi.day.stem}(${dayEl})力量略强（得分${score.toFixed(1)}），整体较为均衡。可适度发挥，不宜过度。`,
-        '中和': `日主${baZi.day.stem}(${dayEl})力量适中（得分${score.toFixed(1)}），阴阳调和。可进可退，运势平稳。`,
-        '中和偏弱': `日主${baZi.day.stem}(${dayEl})力量稍弱（得分${score.toFixed(1)}），需借助生扶之力。宜行印比之运。`,
-        '身弱': `日主${baZi.day.stem}(${dayEl})力量不足（得分${score.toFixed(1)}），月令不助。急需印星生扶、比劫帮身。`
-      };
-      return { level, score, explanation: explanations[level], strengths };
-    }
-
-    function getWuxingOfBranch(branch) {
-      const map = { '子': '水', '丑': '土', '寅': '木', '卯': '木', '辰': '土', '巳': '火', '午': '火', '未': '土', '申': '金', '酉': '金', '戌': '土', '亥': '水' };
-      return map[branch] || '';
-    }
-
-    function getSheng(el) { const m = { '木': '火', '火': '土', '土': '金', '金': '水', '水': '木' }; return m[el]; }
-    function getKe(el) { const m = { '木': '土', '火': '金', '土': '水', '金': '木', '水': '火' }; return m[el]; }
-    function getShengBy(el) { const m = { '木': '水', '火': '木', '土': '火', '金': '土', '水': '金' }; return m[el]; }
-    function getKeBy(el) { const m = { '木': '金', '火': '水', '土': '木', '金': '火', '水': '土' }; return m[el]; }
-
-    const ragKnowledgeBase = [
-      { source: '《渊海子平》', content: '论命之法，先看日干强弱，次看月令得失，再看用神喜忌。日干旺则宜克泄耗，日干弱则宜生助扶。用神有力则命好，用神无力则命差。', tags: ['论命', '用神'] },
-      { source: '《三命通会》', content: '甲木天干作首排，原无枝叶少根荄。欲知甲木荣枯候，大要根深土厚栽。甲木为栋梁之木，纯阳之木，体本坚固，参天之势。', tags: ['甲木', '天干'] },
-      { source: '《渊海子平》', content: '十神者，比肩、劫财、食神、伤官、偏财、正财、七杀、正官、偏印、正印也。以日干为主，看其余七干与日干之生克关系而定。', tags: ['十神'] },
-      { source: '《三命通会》', content: '丙火明明一太阳，原从正大立纲常。普照万物功难掩，却怕阴云遮日光。丙火为太阳之火，纯阳之火，光耀四方。', tags: ['丙火', '天干'] },
-      { source: '《渊海子平》', content: '大运以月柱起，阳男阴女顺行，阴男阳女逆行。每步大运管十年，依次推排。起运之法，三日为一年。', tags: ['大运', '起运'] },
-      { source: '《三命通会》', content: '身强者，日干得令得地得势也。得令者，月令生扶日干也；得地者，日干在四柱地支有根也。身强宜克宜泄宜耗。', tags: ['身强', '身弱'] },
-      { source: '《周易》', content: '乾：元亨利贞。初九：潜龙勿用。九二：见龙在田，利见大人。九三：君子终日乾乾，夕惕若厉，无咎。', tags: ['乾卦'] },
-      { source: '《周易·系辞》', content: '一阴一阳之谓道。继之者善也，成之者性也。仁者见之谓之仁，知者见之谓之知。', tags: ['阴阳', '道'] },
-      { source: '《渊海子平》', content: '正官格者，月令正官透出或本气正官是也。正官喜财印相随，忌伤官破格。为人端正，有管理才能。', tags: ['正官格', '格局'] },
-      { source: '《三命通会》', content: '壬水汪洋并百川，漫天盖地浪滔天。偏喜东南归大海，只愁西北作深渊。壬水为大海之水，纯阳之水，奔流不息。', tags: ['壬水', '天干'] },
-      { source: '《渊海子平》', content: '五行相生：木生火，火生土，土生金，金生水，水生木。五行相克：木克土，土克水，水克火，火克金，金克木。', tags: ['五行生克'] },
-      { source: '《三命通会》', content: '庚金顽钝性偏刚，火制成功土水乡。富贵东南因劫去，资财西北禄盈箱。庚金为斧钺之金，纯阳之金，刚健肃杀。', tags: ['庚金', '天干'] }
-    ];
-
-    function getRagQuotes(baZi) {
-      const dayStem = baZi.day.stem;
-      const dayEl = wuxingMap[dayStem];
-      const monthSS = shiShenTable[dayStem]?.[baZi.month.stem] || '';
-      const keywords = [dayStem, dayEl, monthSS, baZi.day.branch].filter(Boolean);
-      const scored = ragKnowledgeBase.map(entry => {
-        let s = 0;
-        keywords.forEach(k => { if (entry.content.includes(k) || entry.tags.some(t => t.includes(k))) s++; });
-        return { entry, score: s };
-      }).filter(s => s.score > 0).sort((a, b) => b.score - a.score).slice(0, 3);
-
-      if (scored.length === 0) return '<p style="font-size:13px;color:var(--text-muted);">暂未匹配到相关经典条目。</p>';
-      return scored.map(s =>
-        `<blockquote style="background:rgba(0,0,0,0.2);border-left:3px solid #8b5cf6;padding:10px 14px;margin:8px 0;border-radius:0 8px 8px 0;font-size:13px;line-height:1.7;">
-          <div style="color:#8b5cf6;font-size:11px;margin-bottom:4px;">— ${s.entry.source}</div>
-          <div style="color:#d8b4fe;">${s.entry.content}</div>
-        </blockquote>`
-      ).join('');
-    }
-
-    function generateComprehensiveAdvice(baZi, shiShen, daYun, wxStrength) {
-      const dayEl = wuxingMap[baZi.day.stem];
-      const isStrong = wxStrength.level.includes('旺');
-      const dominantSS = shiShen.dominant[0];
-
-      const adviceItems = [];
-      if (isStrong) {
-        adviceItems.push(`【五行调候】您日主${baZi.day.stem}属${dayEl}，当前<strong>偏旺</strong>。生活中宜多接触<strong>${getKe(dayEl)}</strong>、<strong>${getSheng(getKe(dayEl))}</strong>属性的事物（方位/颜色/行业）来平衡命局。`);
-      } else {
-        adviceItems.push(`【五行补益】您日主${baZi.day.stem}属${dayEl}，当前<strong>偏弱</strong>。宜借助<strong>${getShengBy(dayEl)}</strong>、<strong>${dayEl}</strong>之力增强自身。`);
-      }
-
-      const ssMeaning = shiShenMeanings[dominantSS] || { good: '性格特质明显', bad: '' };
-      const badAdvice = ssMeaning.bad ? '需注意避免：' + ssMeaning.bad : '';
-      adviceItems.push('【十神导向】主导十神为「' + dominantSS + '」，' + ssMeaning.good + '。' + badAdvice);
-
-      const luckyDir = getLuckyDirection(baZi.day.stem);
-      const luckyColor = getLuckyColor(baZi.day.stem);
-      adviceItems.push(`【趋吉避凶】有利方位：${luckyDir} · 有利颜色：${luckyColor} · 有利数字：${getLuckyNumber(baZi.day.stem)}`);
-
-      return '<ul style="padding-left:18px;margin:0;">' + adviceItems.map(a => `<li style="margin:6px 0;font-size:13px;line-height:1.7;color:var(--text-secondary);">${a}</li>`).join('') + '</ul>';
-    }
-
-    function getLuckyDirection(dayStem) {
-      const dirs = {
-        '甲': '东方、东南方', '乙': '东方、东南方',
-        '丙': '南方', '丁': '南方',
-        '戊': '中央、东北方', '己': '中央、西南方',
-        '庚': '西方、西北方', '辛': '西方',
-        '壬': '北方', '癸': '北方'
-      };
-      return dirs[dayStem] || '根据命盘具体分析';
-    }
-
-    function getLuckyColor(dayStem) {
-      const colors = {
-        '甲': '绿色、青色', '乙': '绿色、青色',
-        '丙': '红色、紫色', '丁': '红色、粉色',
-        '戊': '黄色、棕色', '己': '黄色、米色',
-        '庚': '白色、银色', '辛': '白色、金色',
-        '壬': '黑色、蓝色', '癸': '黑色、深蓝色'
-      };
-      return colors[dayStem] || '根据命盘具体分析';
-    }
-
-    function getLuckyNumber(dayStem) {
-      const nums = {
-        '甲': '3、8', '乙': '3、8',
-        '丙': '2、7', '丁': '2、7',
-        '戊': '5、10', '己': '5、10',
-        '庚': '4、9', '辛': '4、9',
-        '壬': '1、6', '癸': '1、6'
-      };
-      return nums[dayStem] || '根据命盘具体分析';
-    }
-
-    function getLuckyElement(dayStem) {
-      const els = {
-        '甲': '水、木', '乙': '水、木',
-        '丙': '木、火', '丁': '木、火',
-        '戊': '火、土', '己': '火、土',
-        '庚': '土、金', '辛': '土、金',
-        '壬': '金、水', '癸': '金、水'
-      };
-      return els[dayStem] || '根据命盘具体分析';
-    }
-
-    function getUnluckyElement(dayStem) {
-      const luckyEls = {
-        '甲': '金', '乙': '金',
-        '丙': '水', '丁': '水',
-        '戊': '木', '己': '木',
-        '庚': '火', '辛': '火',
-        '壬': '土', '癸': '土'
-      };
-      return luckyEls[dayStem] || '根据命盘具体分析';
-    }
-  </script>
+  <!-- History Panel -->
+  <div class="history-panel" id="history-panel">
+    <h3>
+      <span>占卜历史</span>
+      <button class="history-close" id="history-close" aria-label="关闭历史记录">×</button>
+    </h3>
+    <div id="history-list"></div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="loading-spinner"></div>
+    <div class="loading-text">推演中...</div>
+  </div>
+
+  <script type="module" src="app.js"></script>
 </body>
 </html>
