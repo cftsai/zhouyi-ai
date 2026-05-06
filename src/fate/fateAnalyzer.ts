@@ -60,6 +60,13 @@ const monthWuxingStrength: Record<string, Record<string, number>> = {
   '丑': { '木': 0.1, '火': 0.1, '土': 0.8, '金': 0.3, '水': 0.4 }
 };
 
+const zhiCangGan: Record<string, string[]> = {
+  '子': ['癸'], '丑': ['己', '癸', '辛'], '寅': ['甲', '丙', '戊'],
+  '卯': ['乙'], '辰': ['戊', '乙', '癸'], '巳': ['丙', '庚', '戊'],
+  '午': ['丁', '己'], '未': ['己', '丁', '乙'], '申': ['庚', '壬', '戊'],
+  '酉': ['辛'], '戌': ['戊', '辛', '丁'], '亥': ['壬', '甲']
+};
+
 function calculateWuxingStrength(baZiInfo: BaZiInfo): Record<string, number> {
   const { baZi } = baZiInfo;
   const monthBranch = baZi.month.branch.name;
@@ -68,21 +75,35 @@ function calculateWuxingStrength(baZiInfo: BaZiInfo): Record<string, number> {
   const strength: Record<string, number> = { '木': 0, '火': 0, '土': 0, '金': 0, '水': 0 };
 
   const allStemsAndBranches = [
-    { name: baZi.year.stem.name, type: 'stem' },
-    { name: baZi.year.branch.name, type: 'branch' },
-    { name: baZi.month.stem.name, type: 'stem' },
-    { name: baZi.month.branch.name, type: 'branch' },
-    { name: baZi.day.stem.name, type: 'stem' },
-    { name: baZi.day.branch.name, type: 'branch' },
-    { name: baZi.hour.stem.name, type: 'stem' },
-    { name: baZi.hour.branch.name, type: 'branch' }
+    { name: baZi.year.stem.name, type: 'stem' as const },
+    { name: baZi.year.branch.name, type: 'branch' as const },
+    { name: baZi.month.stem.name, type: 'stem' as const },
+    { name: baZi.month.branch.name, type: 'branch' as const },
+    { name: baZi.day.stem.name, type: 'stem' as const },
+    { name: baZi.day.branch.name, type: 'branch' as const },
+    { name: baZi.hour.stem.name, type: 'stem' as const },
+    { name: baZi.hour.branch.name, type: 'branch' as const }
   ];
 
+  const hiddenStemWeights = [1.0, 0.5, 0.3];
+
   allStemsAndBranches.forEach(item => {
-    const wx = item.type === 'stem' ? (wuxingMap[item.name] || '') : (getWuxingOfBranch(item.name));
-    if (wx) {
-      const baseWeight = (item.name === baZi.month.stem.name || item.name === baZi.month.branch.name) ? 1.5 : 1.0;
-      strength[wx] = (strength[wx] || 0) + baseWeight;
+    if (item.type === 'stem') {
+      const wx = wuxingMap[item.name] || '';
+      if (wx) {
+        const weight = (item.name === baZi.month.stem.name) ? 1.5 : 1.0;
+        strength[wx] = (strength[wx] || 0) + weight;
+      }
+    } else {
+      const hiddenStems = zhiCangGan[item.name] || [];
+      const monthMultiplier = (item.name === baZi.month.branch.name) ? 1.5 : 1.0;
+      hiddenStems.forEach((stem, idx) => {
+        const wx = wuxingMap[stem];
+        if (wx) {
+          const weight = (hiddenStemWeights[idx] || 0) * monthMultiplier;
+          strength[wx] = (strength[wx] || 0) + weight;
+        }
+      });
     }
   });
 
@@ -149,6 +170,8 @@ export function analyzeShiShen(baZiInfo: BaZiInfo): ShiShenAnalysis {
   const { baZi } = baZiInfo;
   const dayStem = baZi.day.stem.name;
   const shiShenList: ShiShenInfo[] = [];
+  const branchShiShenList: ShiShenInfo[] = [];
+  const shiShenCount: Record<string, number> = {};
 
   // 十神分析基于日干与其他三柱天干的关系，日干本身不计算十神
   const positions = ['year', 'month', 'hour'] as const;
@@ -163,30 +186,39 @@ export function analyzeShiShen(baZiInfo: BaZiInfo): ShiShenAnalysis {
       element,
       yinYang,
       position,
-      strength: 'medium'
+      strength: 'medium',
+      source: 'stem'
     });
+    shiShenCount[shiShenType] = (shiShenCount[shiShenType] || 0) + 1;
   });
 
+  // 地支藏干十神
   const branchPositions = ['year', 'month', 'day', 'hour'] as const;
-  const branchShiShen: { position: string; branchName: string; hiddenStems: string[]; shiShenTypes: string[] }[] = [];
-  const zhiCangGan: Record<string, string[]> = {
-    '子': ['癸'], '丑': ['己', '癸', '辛'], '寅': ['甲', '丙', '戊'],
-    '卯': ['乙'], '辰': ['戊', '乙', '癸'], '巳': ['丙', '庚', '戊'],
-    '午': ['丁', '己'], '未': ['己', '丁', '乙'], '申': ['庚', '壬', '戊'],
-    '酉': ['辛'], '戌': ['戊', '辛', '丁'], '亥': ['壬', '甲']
-  };
+  const hiddenWeights = [0.3, 0.2, 0.1];
 
   branchPositions.forEach(position => {
     const branchName = baZi[position].branch.name;
     const hiddenStems = zhiCangGan[branchName] || [];
-    const shiShenTypes = hiddenStems.map(stem => shiShenTable[dayStem]?.[stem] || '');
-    branchShiShen.push({ position, branchName, hiddenStems, shiShenTypes });
-  });
+    hiddenStems.forEach((stem, idx) => {
+      const shiShenType = shiShenTable[dayStem]?.[stem] || '';
+      if (!shiShenType) return;
+      const element = wuxingMap[stem] || '';
+      const yinYang = getYinyangOfStem(stem);
 
-  const shiShenCount: Record<string, number> = {};
-  shiShenList.forEach(s => { shiShenCount[s.type] = (shiShenCount[s.type] || 0) + 1; });
-  branchShiShen.forEach(bs => {
-    bs.shiShenTypes.forEach(type => { shiShenCount[type] = (shiShenCount[type] || 0) + 0.5; });
+      const info: ShiShenInfo = {
+        type: shiShenType,
+        element,
+        yinYang,
+        position,
+        strength: 'medium',
+        source: 'hidden',
+        hiddenStemName: stem
+      };
+      branchShiShenList.push(info);
+
+      const weight = hiddenWeights[idx] || 0;
+      shiShenCount[shiShenType] = (shiShenCount[shiShenType] || 0) + weight;
+    });
   });
 
   const dominantShiShen = Object.entries(shiShenCount)
@@ -194,9 +226,11 @@ export function analyzeShiShen(baZiInfo: BaZiInfo): ShiShenAnalysis {
     .slice(0, 3)
     .map(([type]) => type as any);
 
-  const analysis = `十神分布：${shiShenList.map(s => `${s.position}柱${s.type}`).join('、')}。主导十神：${dominantShiShen.join('、')}。六亲：${shiShenList.map(s => `${s.type}→${liuQinMap[s.type] || ''}`).join('、')}。`;
+  const stemPart = shiShenList.map(s => `${s.position}柱${s.type}`).join('、');
+  const branchPart = branchShiShenList.map(s => `${s.position}支藏${s.hiddenStemName}→${s.type}`).join('、');
+  const analysis = `十神分布：${stemPart}。地支藏干十神：${branchPart}。主导十神：${dominantShiShen.join('、')}。`;
 
-  return { shiShenList, dominantShiShen, analysis };
+  return { shiShenList, branchShiShenList, dominantShiShen, shiShenCount, analysis };
 }
 
 function calculateDaYunList(baZiInfo: BaZiInfo, gender: 'male' | 'female'): DaYun[] {

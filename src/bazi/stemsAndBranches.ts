@@ -95,23 +95,19 @@ function getEightChar(year: number, month: number, day: number, hour: number, mi
 }
 
 function getYearStem(year: number): HeavenlyStem {
-  const index = ((year - 4) % 10 + 10) % 10;
+  const index = ((year - 1984) % 10 + 10) % 10;
   return heavenlyStems[index];
 }
 
 function getYearBranch(year: number): EarthlyBranch {
-  const index = ((year - 4) % 12 + 12) % 12;
+  const index = ((year - 1984) % 12 + 12) % 12;
   return earthlyBranches[index];
 }
 
-function getYearStemBranch(year: number, month: number, day: number, hour: number = 0, minute: number = 0, second: number = 0): { stem: HeavenlyStem; branch: EarthlyBranch } {
-  const eightChar = getEightChar(year, month, day, hour, minute, second);
-  const yearGanZhi = eightChar.getYear();
-  const stemName = yearGanZhi.charAt(0);
-  const branchName = yearGanZhi.charAt(1);
+function getYearStemBranch(year: number, _month?: number, _day?: number, _hour?: number, _minute?: number, _second?: number): { stem: HeavenlyStem; branch: EarthlyBranch } {
   return {
-    stem: stemNameToObject(stemName),
-    branch: branchNameToObject(branchName)
+    stem: getYearStem(year),
+    branch: getYearBranch(year)
   };
 }
 

@@ -180,14 +180,18 @@ export interface ShiShenInfo {
   type: string;
   element: string;
   yinYang: string;
-  position: 'year' | 'month' | 'hour';
+  position: 'year' | 'month' | 'day' | 'hour';
   strength: 'strong' | 'medium' | 'weak';
+  source?: 'stem' | 'hidden';
+  hiddenStemName?: string;
 }
 
 export interface ShiShenAnalysis {
   shiShenList: ShiShenInfo[];
   dominantShiShen: string[];
   analysis: string;
+  shiShenCount?: Record<string, number>;
+  branchShiShenList?: ShiShenInfo[];
 }
 
 export interface DaYun {
@@ -253,6 +257,7 @@ export interface ZhouyiHexagram {
   meaning: string;
   lines?: HexagramLine[];
   changingLines?: number[];
+  transformedHexagram?: ZhouyiHexagram;
 }
 
 export interface HexagramLine {

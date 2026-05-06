@@ -1,27 +1,22 @@
 import { SolarDate, LunarDate, BaZi, BaZiInfo } from '../interfaces';
 import { solarToLunar } from './lunarConverter';
-import { Solar } from 'lunar-javascript';
-import { getWuxingOfStem, getWuxingOfBranch, getYinyangOfStem, getNayin, stemNameToObject, branchNameToObject } from './stemsAndBranches';
+import { getYearStemBranch, getMonthStemBranch, getDayStemBranch, getHourStemBranch, getWuxingOfStem, getWuxingOfBranch, getYinyangOfStem, getNayin, stemNameToObject, branchNameToObject } from './stemsAndBranches';
 
 export function calculateBaZi(solarDate: SolarDate): BaZiInfo {
   const { year, month, day, hour, minute, second } = solarDate;
 
   const lunarDate = solarToLunar(solarDate);
 
-  const solar = Solar.fromYmdHms(year, month, day, hour, minute || 0, second || 0);
-  const lunar = solar.getLunar();
-  const eightChar = lunar.getEightChar();
-
-  const yearGanZhi = eightChar.getYear();
-  const monthGanZhi = eightChar.getMonth();
-  const dayGanZhi = eightChar.getDay();
-  const hourGanZhi = eightChar.getTime();
+  const yearPillar = getYearStemBranch(year, month, day, hour, minute || 0, second || 0);
+  const monthPillar = getMonthStemBranch(year, month, day, hour, minute || 0, second || 0);
+  const dayPillar = getDayStemBranch(year, month, day);
+  const hourPillar = getHourStemBranch(dayPillar.stem, hour, minute || 0);
 
   const baZi: BaZi = {
-    year: { stem: stemNameToObject(yearGanZhi.charAt(0)), branch: branchNameToObject(yearGanZhi.charAt(1)) },
-    month: { stem: stemNameToObject(monthGanZhi.charAt(0)), branch: branchNameToObject(monthGanZhi.charAt(1)) },
-    day: { stem: stemNameToObject(dayGanZhi.charAt(0)), branch: branchNameToObject(dayGanZhi.charAt(1)) },
-    hour: { stem: stemNameToObject(hourGanZhi.charAt(0)), branch: branchNameToObject(hourGanZhi.charAt(1)) }
+    year: yearPillar,
+    month: monthPillar,
+    day: dayPillar,
+    hour: hourPillar
   };
 
   const wuxing = {
